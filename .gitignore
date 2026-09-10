@@ -1,0 +1,17 @@
+# Local and generated files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+
+# AWS and local credentials
+.aws/
+*.pem
+*.key
+*.p12
+credentials
+
+# Generated release files
+dist/
+build/
