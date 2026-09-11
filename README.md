@@ -40,6 +40,8 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 6. CloudFormation stackを作成します。
 7. EC2画面の`Connect`から`Session Manager`を選びます。SSH keyは使用しません。
 
+教員が学生と同じ手順を試す場合は、[2026 Student trial guide](./2026/STUDENT_TRIAL.md)を使用します。
+
 ## License
 
 ライセンスは公開前に確定します。現時点では、明示的な利用許諾はありません。
