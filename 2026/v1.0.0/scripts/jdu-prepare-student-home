@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+student_user="${1:-ssm-user}"
+if [[ "$student_user" != "ssm-user" ]]; then
+  printf 'ERROR Unsupported student user: %s\n' "$student_user" >&2
+  exit 2
+fi
+
+if ! getent passwd "$student_user" >/dev/null; then
+  exit 0
+fi
+
+student_home="$(getent passwd "$student_user" | awk -F: '{print $6}')"
+student_group="$(id -gn "$student_user")"
+if [[ "$student_home" != "/home/ssm-user" ]]; then
+  printf 'ERROR Unexpected home for %s: %s\n' "$student_user" "$student_home" >&2
+  exit 2
+fi
+
+workspace="$student_home/jdu-lab"
+install -d -o "$student_user" -g "$student_group" -m 0750 \
+  "$workspace" \
+  "$workspace/m0" \
+  "$workspace/m1" \
+  "$workspace/results"
+chown -R "$student_user:$student_group" "$workspace"
+find "$workspace" -type d -exec chmod u+rwx,go-rwx {} +
+
+printf 'Prepared %s for %s\n' "$workspace" "$student_user"

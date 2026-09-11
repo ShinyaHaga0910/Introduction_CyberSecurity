@@ -14,6 +14,7 @@ Status: Draft / local acceptance tests passed / Learner Lab verification pending
 | `scripts/check-aws-environment.sh` | AWS全体構成のread-only受入checker |
 | `scripts/jdu-fixture` | 課題を未完成の初期状態へ戻すscript |
 | `scripts/jdu-labcheck` | 学生の課題状態を確認するscript。v1.0.0ではM0とM1のみ実装 |
+| `scripts/jdu-prepare-student-home` | `ssm-user`作成後にhome配下の課題directoryとownerを初期化 |
 | `tests/run-tests.sh` | templateとAWS checkerのlocal test |
 | `SHA256SUMS` | 配布物のchecksum |
 
@@ -29,6 +30,8 @@ bash install.sh --region us-east-1
 ### Ubuntuへの接続
 
 AWS ConsoleでEC2 instanceを選択する。`Connect`、`Session Manager`、`Connect`の順に選択する。Security Groupのinbound ruleとSSH keyは不要である。
+
+Session Managerが最初の接続時に`ssm-user`を作成すると、systemd path unitが`/home/ssm-user/jdu-lab`を作成する。課題directoryは`ssm-user`所有で、学生は`sudo`なしで書き込める。
 
 ### 課題の開始と確認
 

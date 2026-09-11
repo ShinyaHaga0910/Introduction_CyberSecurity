@@ -146,7 +146,7 @@
         ],
         "UserData": {
           "Fn::Base64": {
-            "Fn::Sub": "#!/bin/bash\nset -eu\ncurl -fsSL --retry 5 --retry-delay 5 https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/${LabVersion}/scripts/setup-instance.sh -o /tmp/jdu-setup-instance.sh\nprintf '%s  %s\\n' 'ba9763f94cc97a9159c8645ca0a15368c7c9e047e09ab6d64aac0f666622de2c' '/tmp/jdu-setup-instance.sh' | sha256sum --check --status\nchmod 0755 /tmp/jdu-setup-instance.sh\n/tmp/jdu-setup-instance.sh ${LabVersion}\n"
+            "Fn::Sub": "#!/bin/bash\nset -eu\ncurl -fsSL --retry 5 --retry-delay 5 https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/${LabVersion}/scripts/setup-instance.sh -o /tmp/jdu-setup-instance.sh\nprintf '%s  %s\\n' '935a895771c8f10eacf81194cc31982803a3ca79a838d556416b9ecba2a56408' '/tmp/jdu-setup-instance.sh' | sha256sum --check --status\nchmod 0755 /tmp/jdu-setup-instance.sh\n/tmp/jdu-setup-instance.sh ${LabVersion}\n"
           }
         },
         "Tags": [

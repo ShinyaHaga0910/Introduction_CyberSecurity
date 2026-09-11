@@ -11,6 +11,7 @@ for script in \
   "$root_dir/scripts/setup-instance.sh" \
   "$root_dir/scripts/jdu-fixture" \
   "$root_dir/scripts/jdu-labcheck" \
+  "$root_dir/scripts/jdu-prepare-student-home" \
   "$root_dir/tests/mock-bin/aws"; do
   bash -n "$script"
 done
@@ -21,6 +22,13 @@ printf '%s\n' 'PASS shell syntax'
   sha256sum --check SHA256SUMS >/dev/null
 )
 printf '%s\n' 'PASS published checksums'
+
+fixture_home="$(mktemp -d)"
+trap 'rm -rf -- "$fixture_home"' EXIT
+HOME="$fixture_home" bash "$root_dir/scripts/jdu-fixture" reset M0 >/dev/null
+[[ -d "$fixture_home/jdu-lab/m0" && -w "$fixture_home/jdu-lab/m0" ]]
+[[ "$(stat -c '%U' "$fixture_home/jdu-lab/m0")" == "$(id -un)" ]]
+printf '%s\n' 'PASS M0 workspace is writable and owned by the current student user'
 
 python3 - "$root_dir/cloudformation/lab-environment.json" <<'PY'
 import json

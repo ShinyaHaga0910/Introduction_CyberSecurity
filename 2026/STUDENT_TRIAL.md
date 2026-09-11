@@ -53,6 +53,15 @@ command -v jdu-labcheck
 
 `v1.0.0`と二つのcommand pathが表示されることを確認する。
 
+課題directoryのownerと書込み権限も確認する。
+
+```bash
+ls -ld "$HOME" "$HOME/jdu-lab" "$HOME/jdu-lab/m0"
+test -w "$HOME/jdu-lab/m0" && echo PASS_WRITABLE || echo FAIL_NOT_WRITABLE
+```
+
+`ssm-user`がownerで、`PASS_WRITABLE`と表示されることを確認する。課題fileの作成に`sudo`は使わない。
+
 ## 5. Mission 0を学生として試す
 
 課題を初期状態にする。

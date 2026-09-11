@@ -15,6 +15,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
     └── scripts/
         ├── setup-instance.sh
         ├── check-aws-environment.sh
+        ├── jdu-prepare-student-home
         ├── jdu-fixture
         └── jdu-labcheck
 ```

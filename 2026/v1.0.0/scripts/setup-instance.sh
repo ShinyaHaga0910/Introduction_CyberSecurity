@@ -14,6 +14,7 @@ install -d -m 0755 /var/lib/jdu-lab/progress /etc/jdu-lab
 curl -fsSL --retry 5 --retry-delay 5 "$BASE_URL/SHA256SUMS" -o /tmp/jdu-SHA256SUMS
 curl -fsSL --retry 5 --retry-delay 5 "$BASE_URL/scripts/jdu-labcheck" -o /opt/jdu-lab/bin/jdu-labcheck
 curl -fsSL --retry 5 --retry-delay 5 "$BASE_URL/scripts/jdu-fixture" -o /opt/jdu-lab/bin/jdu-fixture
+curl -fsSL --retry 5 --retry-delay 5 "$BASE_URL/scripts/jdu-prepare-student-home" -o /opt/jdu-lab/bin/jdu-prepare-student-home
 
 verify_download() {
   local published_path="$1" local_path="$2" expected
@@ -23,11 +24,41 @@ verify_download() {
 }
 verify_download scripts/jdu-labcheck /opt/jdu-lab/bin/jdu-labcheck
 verify_download scripts/jdu-fixture /opt/jdu-lab/bin/jdu-fixture
+verify_download scripts/jdu-prepare-student-home /opt/jdu-lab/bin/jdu-prepare-student-home
 rm -f -- /tmp/jdu-SHA256SUMS
 
-chmod 0755 /opt/jdu-lab/bin/jdu-labcheck /opt/jdu-lab/bin/jdu-fixture
+chmod 0755 /opt/jdu-lab/bin/jdu-labcheck /opt/jdu-lab/bin/jdu-fixture /opt/jdu-lab/bin/jdu-prepare-student-home
 ln -sfn /opt/jdu-lab/bin/jdu-labcheck /usr/local/bin/jdu-labcheck
 ln -sfn /opt/jdu-lab/bin/jdu-fixture /usr/local/bin/jdu-fixture
+ln -sfn /opt/jdu-lab/bin/jdu-prepare-student-home /usr/local/sbin/jdu-prepare-student-home
+
+cat > /etc/systemd/system/jdu-student-home.service <<'UNIT'
+[Unit]
+Description=Prepare the JDU workspace for the Session Manager student user
+ConditionPathExists=/home/ssm-user
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/jdu-prepare-student-home ssm-user
+UNIT
+
+cat > /etc/systemd/system/jdu-student-home.path <<'UNIT'
+[Unit]
+Description=Watch for the Session Manager student home
+
+[Path]
+PathExists=/home/ssm-user
+Unit=jdu-student-home.service
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+
+systemctl daemon-reload
+systemctl enable --now jdu-student-home.path
+if getent passwd ssm-user >/dev/null; then
+  /usr/local/sbin/jdu-prepare-student-home ssm-user
+fi
 
 printf '%s\n' 'mode=training' 'course=Introduction_CyberSecurity' > /opt/jdu-lab/fixtures/m1/source/config/app.conf
 printf '%s\n' \
