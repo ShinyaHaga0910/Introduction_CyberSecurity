@@ -8,17 +8,20 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 2026/
 └── v1.0.0/
     ├── README.md
-    ├── bootstrap.sh
-    ├── template.yaml
+    ├── install.sh
+    ├── cloudformation/
+    │   └── lab-environment.json
     ├── SHA256SUMS
     └── scripts/
-        ├── setup.sh
+        ├── setup-instance.sh
+        ├── check-aws-environment.sh
+        ├── jdu-fixture
         └── jdu-labcheck
 ```
 
 ## Release status
 
-準備中です。`2026/v1.0.0` の実行ファイルは、AWS Academy Learner Labでの検証後に公開します。
+ローカル自動試験済みのdraftです。AWS Academy Learner Lab実機での受入試験は未完了です。
 
 ## Version policy
 
@@ -32,9 +35,10 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 1. AWS Academy Learner Labへログインします。
 2. `Start Lab`を押します。
 3. AWS CloudShellを開きます。
-4. 指定された`bootstrap.sh`をダウンロードします。
+4. 指定された`install.sh`をダウンロードします。
 5. checksumを確認します。
 6. CloudFormation stackを作成します。
+7. EC2画面の`Connect`から`Session Manager`を選びます。SSH keyは使用しません。
 
 ## License
 

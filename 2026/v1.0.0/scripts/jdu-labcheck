@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -u
+
+PASS_COUNT=0
+NOT_READY_COUNT=0
+FAIL_COUNT=0
+ERROR_COUNT=0
+
+pass() { PASS_COUNT=$((PASS_COUNT + 1)); printf 'PASS      %-12s %s\n' "$1" "$2"; }
+not_ready() { NOT_READY_COUNT=$((NOT_READY_COUNT + 1)); printf 'NOT_READY %-12s %s\n' "$1" "$2"; }
+fail() { FAIL_COUNT=$((FAIL_COUNT + 1)); printf 'FAIL      %-12s %s\n' "$1" "$2"; }
+error() { ERROR_COUNT=$((ERROR_COUNT + 1)); printf 'ERROR     %-12s %s\n' "$1" "$2"; }
+
+finish() {
+  printf 'Summary: %d PASS, %d NOT_READY, %d FAIL, %d ERROR\n' "$PASS_COUNT" "$NOT_READY_COUNT" "$FAIL_COUNT" "$ERROR_COUNT"
+  if ((ERROR_COUNT > 0)); then exit 2; fi
+  if ((NOT_READY_COUNT > 0 || FAIL_COUNT > 0)); then exit 1; fi
+  exit 0
+}
+
+read_env_value() {
+  local file="$1" key="$2"
+  [[ -f "$file" ]] || return 1
+  sed -n "s/^${key}=//p" "$file" | tail -n 1
+}
+
+check_m0() {
+  local evidence="$HOME/jdu-lab/m0/observation.env"
+  local os_id os_version expected actual
+  os_id="$(. /etc/os-release && printf '%s' "$ID")"
+  os_version="$(. /etc/os-release && printf '%s' "$VERSION_ID")"
+
+  [[ "$os_id" == ubuntu ]] && pass M0-ENV-01 'OS is Ubuntu' || fail M0-ENV-01 "Expected Ubuntu; observed $os_id"
+  [[ "$os_version" == 24.04 ]] && pass M0-ENV-02 'OS version is 24.04 LTS' || fail M0-ENV-02 "Expected 24.04; observed $os_version"
+  [[ -x /usr/local/bin/jdu-labcheck && -f /etc/jdu-lab/version ]] && pass M0-ENV-03 'Lab files are installed' || error M0-ENV-03 'Lab installation is incomplete'
+
+  if [[ ! -f "$evidence" ]]; then
+    not_ready M0-OBS-01 'Create ~/jdu-lab/m0/observation.env from live observations'
+    return
+  fi
+
+  for item in \
+    "OS_ID:$os_id" \
+    "OS_VERSION_ID:$os_version" \
+    "KERNEL_RELEASE:$(uname -r)" \
+    "PID1_COMM:$(cat /proc/1/comm)" \
+    "USER_NAME:$(id -un)" \
+    "HOST_NAME:$(hostname)"; do
+    key="${item%%:*}"; expected="${item#*:}"
+    actual="$(read_env_value "$evidence" "$key" 2>/dev/null || true)"
+    if [[ -z "$actual" ]]; then
+      not_ready M0-OBS-01 "Missing field: $key"
+    elif [[ "$actual" == "$expected" ]]; then
+      pass M0-OBS-01 "$key matches the live system"
+    else
+      fail M0-OBS-01 "$key does not match the live system"
+    fi
+  done
+}
+
+check_m1() {
+  local base="$HOME/jdu-lab/m1/case01" expected_log actual_log evidence
+  [[ -d "$base/config" && -d "$base/logs" && -d "$base/notes" ]] && pass M1-FS-01 'Required directories exist' || not_ready M1-FS-01 'Build case01/config, case01/logs, and case01/notes'
+  [[ -f "$base/config/app.conf" && -f "$base/logs/incident.log" ]] && pass M1-FS-02 'Required files are placed' || not_ready M1-FS-02 'Place the required files'
+
+  if [[ -f "$base/logs/incident.log" ]]; then
+    expected_log="$(sha256sum /opt/jdu-lab/fixtures/m1/source/logs/incident.log | awk '{print $1}')"
+    actual_log="$(sha256sum "$base/logs/incident.log" | awk '{print $1}')"
+    [[ "$actual_log" == "$expected_log" ]] && pass M1-FS-03 'Source log content is preserved' || fail M1-FS-03 'incident.log content was changed'
+  else
+    not_ready M1-FS-03 'incident.log is not ready'
+  fi
+
+  evidence="$base/notes/errors.txt"
+  if [[ ! -f "$evidence" ]]; then
+    not_ready M1-TXT-01 'Create notes/errors.txt with the ERROR lines and line numbers'
+  elif diff -u <(grep -n 'ERROR' /opt/jdu-lab/fixtures/m1/source/logs/incident.log) "$evidence" >/dev/null 2>&1; then
+    pass M1-TXT-01 'ERROR lines and line numbers are correct'
+  else
+    fail M1-TXT-01 'notes/errors.txt does not match the source log'
+  fi
+}
+
+if [[ "${1:-}" == "mission" ]]; then mission="${2:-}"; else mission="${1:-}"; fi
+mission="${mission^^}"
+case "$mission" in
+  M0) check_m0 ;;
+  M1) check_m1 ;;
+  M2|M3|M4|M5|M6|M7) error "$mission" 'Checker is not implemented in v1.0.0' ;;
+  *) printf '%s\n' 'Usage: jdu-labcheck mission M0|M1' >&2; exit 2 ;;
+esac
+finish
