@@ -7,7 +7,8 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 ```text
 2026/
 ├── v1.0.0/
-└── v1.1.0/
+├── v1.1.0/
+└── v1.2.0/
     ├── README.md
     ├── install.sh
     ├── cloudformation/
@@ -23,7 +24,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 ## Release status
 
-ローカル自動試験済みのdraftです。AWS Academy Learner Lab実機での受入試験は未完了です。
+`v1.2.0`はM0～M7の8課題を実装し、ローカル自動試験済みのdraftです。AWS Academy Learner Lab実機での全Mission受入試験は未完了です。
 
 ## Version policy
 
@@ -37,11 +38,12 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 1. AWS Academy Learner Labへログインします。
 2. `Start Lab`を押します。
 3. AWS CloudShellを開きます。
-4. 指定された`install.sh`をダウンロードします。
+4. `2026/v1.2.0/install.sh`をダウンロードします。
 5. checksumを確認します。
 6. CloudFormation stackを作成します。
 7. `install.sh`がCloudShell専用SSH鍵と接続設定を作成します。
 8. `ssh jdu-ubuntu`で、Session Manager経由でUbuntuへ接続します。
+9. `MISSION_GUIDE.md`の要件に従い、M0～M7を自分の速度で進めます。
 
 Security Groupのinbound ruleは0件のままです。SSHのTCP 22をInternetへ公開しません。秘密鍵はCloudShellから持ち出しません。
 
