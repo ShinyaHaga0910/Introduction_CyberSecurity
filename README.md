@@ -6,7 +6,8 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 ```text
 2026/
-└── v1.0.0/
+├── v1.0.0/
+└── v1.1.0/
     ├── README.md
     ├── install.sh
     ├── cloudformation/
@@ -39,7 +40,10 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 4. 指定された`install.sh`をダウンロードします。
 5. checksumを確認します。
 6. CloudFormation stackを作成します。
-7. EC2画面の`Connect`から`Session Manager`を選びます。SSH keyは使用しません。
+7. `install.sh`がCloudShell専用SSH鍵と接続設定を作成します。
+8. `ssh jdu-ubuntu`で、Session Manager経由でUbuntuへ接続します。
+
+Security Groupのinbound ruleは0件のままです。SSHのTCP 22をInternetへ公開しません。秘密鍵はCloudShellから持ち出しません。
 
 教員が学生と同じ手順を試す場合は、[2026 Student trial guide](./2026/STUDENT_TRIAL.md)を使用します。
 

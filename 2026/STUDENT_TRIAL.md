@@ -1,6 +1,6 @@
 # Student trial guide
 
-対象version: `v1.0.0` draft  
+対象version: `v1.1.0` draft
 対象範囲: AWS環境構築、Session Manager接続、Mission 0、Mission 1
 
 このguideは、教員が学生と同じ操作を試すためのものである。M2からM7はまだ実装されていない。
@@ -17,29 +17,30 @@
 CloudShellで次を実行する。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.0.0/install.sh
+curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.1.0/install.sh
 bash install.sh --region us-east-1
 ```
 
 最後に次が表示されれば、AWS全体checkerは合格である。
 
 ```text
-Required checks: 18 PASS, 0 FAIL, 0 ERROR
+Required checks: 22 PASS, 0 FAIL, 0 ERROR
 PASS The AWS lab environment is ready.
 ```
 
 `LabInstanceProfile`に関するerrorが出た場合は、その画面を保存する。Learner Lab固有の権限制限を確認する必要がある。
 
-## 3. Session Managerで接続する
+## 3. CloudShellからSSHで接続する
 
-1. AWS Consoleで`EC2`を開く。
-2. `Instances`を開く。
-3. Nameが`jdu-intro-cybersecurity-2026-ubuntu`のinstanceを選ぶ。
-4. `Connect`を押す。
-5. `Session Manager`を選ぶ。
-6. `Connect`を押す。
+CloudShellで次を実行する。
 
-SSH key、password、TCP 22は使わない。
+```bash
+ssh jdu-ubuntu
+```
+
+`ssm-user`のpromptになれば成功である。SSH keyはCloudShell内にだけ保存される。接続はSession Managerのtunnelを通る。Security GroupのTCP 22 inbound ruleは追加しない。
+
+SSHで接続できない場合の予備経路として、AWS ConsoleのEC2画面から`Connect`、`Session Manager`、`Connect`を選択できる。
 
 ## 4. 配置状態を確認する
 
@@ -51,7 +52,7 @@ command -v jdu-fixture
 command -v jdu-labcheck
 ```
 
-`v1.0.0`と二つのcommand pathが表示されることを確認する。
+`v1.1.0`と二つのcommand pathが表示されることを確認する。
 
 課題directoryのownerと書込み権限も確認する。
 
@@ -152,7 +153,7 @@ jdu-labcheck mission M1
 - Region。
 - CloudFormation stack status。
 - AWS checkerのPASS、FAIL、ERROR件数。
-- Session Managerで接続できたか。
+- CloudShellから`ssh jdu-ubuntu`で接続できたか。
 - M0のreset直後と完成後の結果。
 - M1のreset直後と完成後の結果。
 - errorがある場合は、秘密情報を除いたerror message。
