@@ -1,9 +1,9 @@
 # Student trial guide
 
-対象version: `v1.2.4` draft
+対象version: `v1.2.5` draft
 対象範囲: AWS環境構築、Session Manager SSH接続、Mission 0～7
 
-このguideは、教員が学生と同じ操作を試すためのものである。Missionの詳細要件は`v1.2.4/MISSION_GUIDE.md`を使う。
+このguideは、教員が学生と同じ操作を試すためのものである。Missionの詳細要件は`v1.2.5/MISSION_GUIDE.md`を使う。
 
 ## 1. Learner Labを開始する
 
@@ -17,7 +17,7 @@
 CloudShellで次を実行する。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.4/install.sh
+curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.5/install.sh
 bash install.sh --region us-east-1
 ```
 
@@ -52,7 +52,7 @@ command -v jdu-fixture
 command -v jdu-labcheck
 ```
 
-`v1.2.4`と二つのcommand pathが表示されることを確認する。
+`v1.2.5`と二つのcommand pathが表示されることを確認する。
 
 課題directoryのownerと書込み権限も確認する。
 
@@ -153,7 +153,7 @@ jdu-labcheck mission M1
 学生用要件を確認する。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.4/MISSION_GUIDE.md -o ~/jdu-lab/MISSION_GUIDE.md
+curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.5/MISSION_GUIDE.md -o ~/jdu-lab/MISSION_GUIDE.md
 ```
 
 各Missionで、次を確認する。
