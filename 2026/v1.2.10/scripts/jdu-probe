@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -u
+
+student_user="$(id -un)"
+student_home="$HOME"
+checked_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+usage() {
+  printf '%s\n' 'Usage: jdu-probe list | jdu-probe run M6-UNREGISTERED-KEY'
+}
+
+record_probe() {
+  local mission="$1" probe_id="$2" exit_code="$3" matched="$4" output_file
+  output_file="$student_home/jdu-lab/${mission,,}/probes.env"
+  install -d -m 0750 "$(dirname "$output_file")"
+  {
+    printf 'PROBE_ID=%s\n' "$probe_id"
+    printf 'EXIT_CODE=%s\n' "$exit_code"
+    printf 'EXPECTED_MATCH=%s\n' "$matched"
+    printf 'CHECKED_AT_UTC=%s\n' "$checked_at"
+  } > "$output_file"
+  chmod 0600 "$output_file"
+}
+
+probe_m6() {
+  local temporary_directory private_key marker="$student_home/jdu-lab/m6/unexpected-success" ssh_exit
+  if ! systemctl is-active --quiet ssh.service || [[ ! -s "$student_home/.ssh/authorized_keys" ]]; then
+    printf '%s\n' 'NOT_READY SSH service and the registered public key must be ready first.'
+    record_probe M6 M6-UNREGISTERED-KEY 125 false
+    return 1
+  fi
+  temporary_directory="$(mktemp -d)"
+  private_key="$temporary_directory/unregistered"
+  ssh-keygen -q -t ed25519 -N '' -f "$private_key"
+  rm -f -- "$marker"
+  ssh -i "$private_key" -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=5 \
+    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    "$student_user@127.0.0.1" "touch '$marker'" >/dev/null 2>&1
+  ssh_exit=$?
+  if ((ssh_exit == 255)) && [[ ! -e "$marker" ]]; then
+    record_probe M6 M6-UNREGISTERED-KEY "$ssh_exit" true
+    rm -rf -- "$temporary_directory"
+    printf '%s\n' 'PASS M6-UNREGISTERED-KEY: authentication was rejected and the remote command did not run.'
+    return 0
+  fi
+  rm -f -- "$marker"
+  rm -rf -- "$temporary_directory"
+  record_probe M6 M6-UNREGISTERED-KEY "$ssh_exit" false
+  printf '%s\n' 'FAIL M6-UNREGISTERED-KEY: inspect key registration and authentication behavior.'
+  return 1
+}
+
+case "${1:-}" in
+  list)
+    printf '%s\n' M6-UNREGISTERED-KEY
+    ;;
+  run)
+    case "${2:-}" in
+      M6-UNREGISTERED-KEY) probe_m6 ;;
+      *) usage >&2; exit 2 ;;
+    esac
+    ;;
+  *) usage >&2; exit 2 ;;
+esac
