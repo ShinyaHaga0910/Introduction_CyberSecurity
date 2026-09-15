@@ -16,7 +16,8 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 ├── v1.2.5/
 ├── v1.2.6/
 ├── v1.2.7/
-└── v1.2.8/
+├── v1.2.8/
+└── v1.2.9/
     ├── README.md
     ├── install.sh
     ├── cloudformation/
@@ -32,7 +33,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 ## Release status
 
-`v1.2.8`が現在の推奨版です。M0～M7の8課題を実装し、学生向け結果をPASS/FAILとclear数に統一しています。M3は提出fileを廃止し、`process2`だけの停止と`cmatrix`のinstallを現在状態から直接確認します。ローカル自動試験済みですが、AWS Academy Learner Lab実機での全Mission受入試験は未完了です。
+`v1.2.9`が現在の推奨版です。M0～M7の8課題を実装し、学生向け結果をPASS/FAILとclear数に統一しています。M3に加え、M4も提出fileを廃止し、systemd serviceとprocessの現在状態を直接確認します。ローカル自動試験済みですが、AWS Academy Learner Lab実機での全Mission受入試験は未完了です。
 
 ## Version policy
 
@@ -46,7 +47,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 1. AWS Academy Learner Labへログインします。
 2. `Start Lab`を押します。
 3. AWS CloudShellを開きます。
-4. `2026/v1.2.8/install.sh`をダウンロードします。
+4. `2026/v1.2.9/install.sh`をダウンロードします。
 5. checksumを確認します。
 6. CloudFormation stackを作成します。
 7. `install.sh`がCloudShell専用SSH鍵と接続設定を作成します。
