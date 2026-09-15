@@ -1,9 +1,9 @@
 # Student trial guide
 
-対象version: `v1.2.7` draft
+対象version: `v1.2.8` draft
 対象範囲: AWS環境構築、Session Manager SSH接続、Mission 0～7
 
-このguideは、教員が学生と同じ操作を試すためのものである。Missionの詳細要件は`v1.2.7/MISSION_GUIDE.md`を使う。
+このguideは、教員が学生と同じ操作を試すためのものである。Missionの詳細要件は`v1.2.8/MISSION_GUIDE.md`を使う。
 
 ## 1. Learner Labを開始する
 
@@ -17,7 +17,7 @@
 CloudShellで次を実行する。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.7/install.sh
+curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.8/install.sh
 bash install.sh --region us-east-1
 ```
 
@@ -52,7 +52,7 @@ command -v jdu-fixture
 command -v jdu-labcheck
 ```
 
-`v1.2.7`と二つのcommand pathが表示されることを確認する。
+`v1.2.8`と二つのcommand pathが表示されることを確認する。
 
 課題directoryのownerと書込み権限も確認する。
 
@@ -72,7 +72,7 @@ jdu-fixture reset M0
 jdu-labcheck mission M0
 ```
 
-この時点では`M0-OBS-01`が`NOT_READY`でなければならない。
+この時点では6問すべてが`FAIL`でなければならない。
 
 ### 要件
 
@@ -110,7 +110,7 @@ jdu-fixture reset M1
 jdu-labcheck mission M1
 ```
 
-最初は`case01`がないため、`NOT_READY`にならなければならない。
+最初は`case01`がないため、全体が不合格にならなければならない。
 
 ### 要件
 
@@ -128,7 +128,7 @@ jdu-labcheck mission M1
 ```
 
 - `app.conf`と`incident.log`の内容を変更しない。
-- `errors.txt`には、`incident.log`の`ERROR`行だけを行番号付きで保存する。
+- `errors.txt`には、`incident.log`の`ERROR`行だけを元の内容のまま保存する。行番号は付けない。
 - `recent.txt`には、`incident.log`の最後の5行を保存する。
 - 元の`inbox`は削除しない。
 
@@ -153,7 +153,7 @@ jdu-labcheck mission M1
 学生用要件を確認する。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.7/MISSION_GUIDE.md -o ~/jdu-lab/MISSION_GUIDE.md
+curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.8/MISSION_GUIDE.md -o ~/jdu-lab/MISSION_GUIDE.md
 ```
 
 各Missionで、次を確認する。
