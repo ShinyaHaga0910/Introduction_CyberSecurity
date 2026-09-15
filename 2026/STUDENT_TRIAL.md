@@ -1,9 +1,9 @@
 # Student trial guide
 
-対象version: `v1.2.9` draft
+対象version: `v1.2.11` draft
 対象範囲: AWS環境構築、Session Manager SSH接続、Mission 0～7
 
-このguideは、教員が学生と同じ操作を試すためのものである。Missionの詳細要件は`v1.2.9/MISSION_GUIDE.md`を使う。
+このguideは、教員が学生と同じ操作を試すためのものである。Missionの詳細要件は`v1.2.11/MISSION_GUIDE.md`を使う。
 
 ## 1. Learner Labを開始する
 
@@ -17,7 +17,7 @@
 CloudShellで次を実行する。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.9/install.sh
+curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.11/install.sh
 bash install.sh --region us-east-1
 ```
 
@@ -52,7 +52,7 @@ command -v jdu-fixture
 command -v jdu-labcheck
 ```
 
-`v1.2.9`と二つのcommand pathが表示されることを確認する。
+`v1.2.11`と二つのcommand pathが表示されることを確認する。
 
 課題directoryのownerと書込み権限も確認する。
 
@@ -153,7 +153,7 @@ jdu-labcheck mission M1
 学生用要件を確認する。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.9/MISSION_GUIDE.md -o ~/jdu-lab/MISSION_GUIDE.md
+curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.2.11/MISSION_GUIDE.md -o ~/jdu-lab/MISSION_GUIDE.md
 ```
 
 各Missionで、次を確認する。
@@ -161,7 +161,7 @@ curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSe
 1. `jdu-fixture reset MISSION_ID`直後は終了code 1である。
 2. 一部だけ完成した状態では終了code 1である。
 3. 誤った状態は該当checkが`FAIL`になる。
-4. M2、M5、M6は、正試験なしでは負試験が合格しない。
+4. M2とM5はLabCheck、M6はCloudCheckが正試験と負試験を直接確認する。
 5. 完成状態では全required checkが`PASS`になり、終了code 0になる。
 6. 完成状態で2回実行しても、2回とも合格する。
 
@@ -182,7 +182,7 @@ jdu-labcheck final
 - M0のreset直後と完成後の結果。
 - M1のreset直後と完成後の結果。
 - M2～M7のreset直後、完成後、再checkの結果。
-- M2、M5、M6の負試験結果。
+- M2、M5のLabCheck負試験結果と、M6のCloudCheck未登録key試験結果。
 - errorがある場合は、秘密情報を除いたerror message。
 
 AWS credential、session token、private情報は保存しない。
