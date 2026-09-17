@@ -1,0 +1,107 @@
+import hashlib
+import importlib.util
+import json
+import os
+import sys
+import types
+from urllib.parse import parse_qs, urlparse
+
+
+class ConditionalCheckFailedException(Exception):
+    pass
+
+
+class FakeDDB:
+    exceptions = types.SimpleNamespace(ConditionalCheckFailedException=ConditionalCheckFailedException)
+
+    def __init__(self):
+        self.items = {}
+
+    def put_item(self, TableName, Item):
+        self.items[Item["pk"]["S"]] = Item
+
+    def get_item(self, TableName, Key, ConsistentRead=False):
+        item = self.items.get(Key["pk"]["S"])
+        return {"Item": item} if item else {}
+
+    def scan(self, **kwargs):
+        return {"Items": [item for key, item in self.items.items() if key.startswith("SERVER#")]}
+
+    def update_item(self, TableName, Key, UpdateExpression, ExpressionAttributeValues, ExpressionAttributeNames=None, ConditionExpression=None):
+        key = Key["pk"]["S"]
+        item = self.items.get(key)
+        if ConditionExpression and item and item["tokenHash"] != ExpressionAttributeValues[":tokenHash"]:
+            raise ConditionalCheckFailedException()
+        if item is None:
+            item = {"pk": {"S": key}, "missions": {"M": {}}}
+            self.items[key] = item
+        if ExpressionAttributeNames and "#mission" in ExpressionAttributeNames:
+            item["missions"]["M"][ExpressionAttributeNames["#mission"]] = ExpressionAttributeValues[":mission"]
+        for name, value in ExpressionAttributeValues.items():
+            field = name[1:]
+            if field not in {"mission", "empty"}:
+                item[field] = value
+
+
+fake_ddb = FakeDDB()
+fake_boto3 = types.ModuleType("boto3")
+fake_boto3.client = lambda name: fake_ddb
+sys.modules["boto3"] = fake_boto3
+
+admin_key = "a" * 64
+registration_key = "r" * 64
+os.environ.update(
+    TABLE_NAME="test-table",
+    ADMIN_KEY_HASH=hashlib.sha256(admin_key.encode()).hexdigest(),
+    REGISTRATION_KEY_HASH=hashlib.sha256(registration_key.encode()).hexdigest(),
+    SESSION_TTL_SECONDS="1800",
+)
+
+source_path = sys.argv[1]
+spec = importlib.util.spec_from_file_location("progress_app", source_path)
+app = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(app)
+
+
+def event(route, body=None, headers=None, query=None):
+    return {
+        "routeKey": route,
+        "body": json.dumps(body) if body is not None else None,
+        "headers": headers or {},
+        "queryStringParameters": query,
+        "requestContext": {"domainName": "abc.execute-api.us-east-1.amazonaws.com", "stage": "$default"},
+    }
+
+
+server_id = "srv-0123456789abcdef"
+server_token = "t" * 64
+register_body = {
+    "server_id": server_id,
+    "server_token": server_token,
+    "hostname": "ip-10-20-10-10",
+    "account_id": "123456789012",
+    "instance_id": "i-0123456789abcdef0",
+    "lab_version": "v1.4.1",
+}
+assert app.handler(event("POST /register", register_body), None)["statusCode"] == 401
+registered = app.handler(event("POST /register", register_body, {"X-JDU-Registration-Key": registration_key}), None)
+assert registered["statusCode"] == 200
+
+submit_body = dict(register_body)
+submit_body.pop("server_token")
+submit_body.update(mission="M3", passed=1, total=2)
+assert app.handler(event("POST /submit", submit_body, {"Authorization": "Bearer wrong"}), None)["statusCode"] == 401
+submitted = app.handler(event("POST /submit", submit_body, {"Authorization": f"Bearer {server_token}"}), None)
+assert submitted["statusCode"] == 200
+
+session_response = app.handler(event("POST /admin/session", {}, {"X-JDU-Admin-Key": admin_key}), None)
+assert session_response["statusCode"] == 200
+session_url = json.loads(session_response["body"])["url"]
+session_token = parse_qs(urlparse(session_url).query)["session"][0]
+dashboard = app.handler(event("GET /dashboard", query={"session": session_token}), None)
+assert dashboard["statusCode"] == 200
+assert server_id in dashboard["body"]
+assert "1/2" in dashboard["body"]
+assert "学生名・メールアドレスは保存しません" in dashboard["body"]
+assert app.handler(event("GET /health"), None)["statusCode"] == 200
+print("PASS progress backend registration, authentication, submission, session, and dashboard")
