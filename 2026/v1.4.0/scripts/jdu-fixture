@@ -1,0 +1,176 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+usage() {
+  printf '%s\n' 'Usage: jdu-reset M0|M1|M2|M3|M4|M5|M6|M7|all'
+}
+
+if [[ "${1:-}" == reset ]]; then
+  requested_mission="${2:-}"
+else
+  requested_mission="${1:-}"
+fi
+if [[ -z "$requested_mission" ]]; then
+  usage >&2
+  exit 2
+fi
+
+if ((EUID != 0)); then
+  exec sudo -n -- "$0" "$@"
+fi
+
+mission="${requested_mission^^}"
+student_user="${JDU_STUDENT_USER:-${SUDO_USER:-ssm-user}}"
+if [[ "$student_user" == root ]] || ! getent passwd "$student_user" >/dev/null; then
+  student_user=ssm-user
+fi
+student_home="$(getent passwd "$student_user" | awk -F: '{print $6}')"
+student_group="$(id -gn "$student_user")"
+workspace="$student_home/jdu-lab"
+
+case "$workspace" in
+  /home/*/jdu-lab) ;;
+  *) printf 'ERROR Unsafe student workspace: %s\n' "$workspace" >&2; exit 2 ;;
+esac
+
+prepare_home_directory() {
+  local mission_id="$1"
+  local directory="$workspace/${mission_id,,}"
+  install -d -o "$student_user" -g "$student_group" -m 0750 "$directory"
+  find "$directory" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+}
+
+ensure_account() {
+  local user_name="$1" shell_name="${2:-/usr/sbin/nologin}"
+  if ! getent passwd "$user_name" >/dev/null; then
+    useradd --create-home --shell "$shell_name" "$user_name"
+  fi
+}
+
+reset_m0() {
+  prepare_home_directory M0
+  printf '%s\n' 'M0 reset complete. observation.env is intentionally absent.'
+}
+
+reset_m1() {
+  prepare_home_directory M1
+  install -d -o "$student_user" -g "$student_group" -m 0750 "$workspace/m1/inbox"
+  cp -a /opt/jdu-lab/fixtures/m1/source/. "$workspace/m1/inbox/"
+  install -d -o "$student_user" -g "$student_group" -m 0750 "$workspace/m1/case01/staging"
+  printf '%s\n' 'temporary configuration copy' > "$workspace/m1/case01/staging/app.conf.tmp"
+  printf '%s\n' 'temporary log copy' > "$workspace/m1/case01/staging/incident.log.tmp"
+  chown -R "$student_user:$student_group" "$workspace/m1"
+  chmod -R u+rwX,go-rwx "$workspace/m1"
+  printf '%s\n' 'M1 reset complete. case01 is incomplete and contains temporary files.'
+}
+
+reset_m2() {
+  prepare_home_directory M2
+  getent group ops >/dev/null || groupadd ops
+  ensure_account jduops /bin/bash
+  ensure_account jduviewer /bin/bash
+  gpasswd -d jduops ops >/dev/null 2>&1 || true
+  gpasswd -d jduviewer ops >/dev/null 2>&1 || true
+  install -d -o root -g root -m 0755 /srv/jdu-share
+  find /srv/jdu-share -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+  printf '%s\n' 'This file must remain readable to the viewer.' > /srv/jdu-share/README.txt
+  chown root:root /srv/jdu-share/README.txt
+  chmod 0600 /srv/jdu-share/README.txt
+  printf '%s\n' 'M2 reset complete. Users exist; membership, directory permissions, and sample-file permissions are intentionally unfinished.'
+}
+
+stop_m3_workers() {
+  local unit
+  for unit in \
+    jdu-m3-process1.service jdu-m3-process2.service jdu-m3-process3.service \
+    jdu-m3-target.service jdu-m3-decoy-a.service jdu-m3-decoy-b.service; do
+    systemctl stop "$unit" >/dev/null 2>&1 || true
+    systemctl reset-failed "$unit" >/dev/null 2>&1 || true
+  done
+}
+
+start_m3_worker() {
+  local unit_name="$1" user_name="$2" token="$3"
+  systemd-run --quiet --unit "$unit_name" --property "User=$user_name" \
+    /opt/jdu-lab/bin/jdu-worker "$token"
+}
+
+reset_m3() {
+  prepare_home_directory M3
+  ensure_account jduworker
+  if dpkg-query -W -f='${Status}' cmatrix 2>/dev/null | grep -Fxq 'install ok installed'; then
+    DEBIAN_FRONTEND=noninteractive apt-get remove -y -qq cmatrix >/dev/null
+  fi
+  stop_m3_workers
+  rm -rf -- /run/jdu-lab/m3
+  start_m3_worker jdu-m3-process1 jduworker process1
+  start_m3_worker jdu-m3-process2 jduworker process2
+  start_m3_worker jdu-m3-process3 jduworker process3
+  sleep 1
+  printf '%s\n' 'M3 reset complete. process1, process2, and process3 are running; process2 must be stopped and cmatrix is intentionally absent.'
+}
+
+restore_status_unit() {
+  install -o root -g root -m 0644 /opt/jdu-lab/fixtures/m4/jdu-status.service /etc/systemd/system/jdu-status.service
+  rm -rf -- /etc/systemd/system/jdu-status.service.d
+  systemctl daemon-reload
+}
+
+reset_m4() {
+  prepare_home_directory M4
+  systemctl disable --now jdu-status.service >/dev/null 2>&1 || true
+  restore_status_unit
+  printf '%s\n' 'M4 reset complete. jdu-status.service is loaded, inactive, and disabled.'
+}
+
+reset_m5() {
+  prepare_home_directory M5
+  ensure_account jduweb
+  systemctl disable --now jdu-web.service >/dev/null 2>&1 || true
+  install -d -o root -g root -m 0755 /srv/jdu-web
+  cp /etc/jdu-lab/web-marker /srv/jdu-web/index.txt
+  chown root:root /srv/jdu-web/index.txt
+  chmod 0644 /srv/jdu-web/index.txt
+  install -o root -g root -m 0644 /opt/jdu-lab/fixtures/m5/jdu-web.service /etc/systemd/system/jdu-web.service
+  rm -rf -- /etc/systemd/system/jdu-web.service.d
+  systemctl daemon-reload
+  printf '%s\n' 'M5 reset complete. jdu-web.service is loaded, inactive, and disabled; no student request exists.'
+}
+
+reset_m6() {
+  prepare_home_directory M6
+  rm -f -- "$workspace/m6/remote-success.env" "$workspace/m6/probes.env" \
+    "$workspace/m6/unexpected-success" "$workspace/m6/unexpected-success-check" \
+    "$workspace/m6/upload.txt" "$workspace/m6/remote-result.txt"
+  systemctl enable --now ssh.service >/dev/null
+  printf '%s\n' 'M6 reset complete. SSH remains available; the transferred file and remote-command result are intentionally absent.'
+}
+
+reset_m7() {
+  prepare_home_directory M7
+  getent group finalops >/dev/null || groupadd finalops
+  ensure_account jdufinal
+  ensure_account jduwriter /bin/bash
+  ensure_account jduviewer /bin/bash
+  usermod -aG finalops jdufinal
+  gpasswd -d jduwriter finalops >/dev/null 2>&1 || true
+  gpasswd -d jduviewer finalops >/dev/null 2>&1 || true
+  systemctl disable --now jdu-final.service >/dev/null 2>&1 || true
+  rm -rf -- /etc/systemd/system/jdu-final.service.d /srv/jdu-final
+  install -o root -g root -m 0644 /opt/jdu-lab/fixtures/m7/jdu-final.service /etc/systemd/system/jdu-final.service
+  systemctl daemon-reload
+  printf '%s\n' 'M7 reset complete. The teacher unit is loaded, inactive, and disabled; content, writer membership, and permissions are intentionally unfinished.'
+}
+
+case "$mission" in
+  M0) reset_m0 ;;
+  M1) reset_m1 ;;
+  M2) reset_m2 ;;
+  M3) reset_m3 ;;
+  M4) reset_m4 ;;
+  M5) reset_m5 ;;
+  M6) reset_m6 ;;
+  M7) reset_m7 ;;
+  ALL) reset_m0; reset_m1; reset_m2; reset_m3; reset_m4; reset_m5; reset_m6; reset_m7 ;;
+  *) printf 'ERROR Unknown Mission: %s\n' "$mission" >&2; usage >&2; exit 2 ;;
+esac

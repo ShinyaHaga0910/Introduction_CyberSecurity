@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -u
+export LC_ALL=C
+
+alias_name="${JDU_SSH_ALIAS:-jdu-ubuntu}"
+workspace="${JDU_M6_WORKSPACE:-$HOME/jdu-lab/m6}"
+pass_count=0
+fail_count=0
+
+pass() { pass_count=$((pass_count + 1)); printf 'PASS      %-14s %s\n' "$1" "$2"; }
+fail() { fail_count=$((fail_count + 1)); printf 'FAIL      %-14s %s\n' "$1" "$2"; }
+finish() {
+  local total=$((pass_count + fail_count))
+  printf '\nRESULT    %d / %d checks cleared\n' "$pass_count" "$total"
+  printf 'PASS      %d\n' "$pass_count"
+  printf 'FAIL      %d\n' "$fail_count"
+  ((fail_count == 0))
+}
+
+mission="${2:-${1:-}}"
+mission="${mission^^}"
+if [[ "$mission" != M6 ]]; then
+  printf '%s\n' 'Usage: jdu-check M6' >&2
+  exit 2
+fi
+
+printf '%s\n' 'Mission M6 CloudShell side (4 tasks)'
+
+local_source="$workspace/local-source.txt"
+local_hash=''
+if [[ -f "$local_source" ]] && grep -Fqx 'JDU SSH transfer test' "$local_source" && [[ "$(wc -l < "$local_source")" -eq 1 ]]; then
+  local_hash="$(sha256sum "$local_source" | awk '{print $1}')"
+  pass M6-LOCAL-01 'CloudShell source has the required one-line content'
+else
+  fail M6-LOCAL-01 'Create local-source.txt with the required one-line content'
+fi
+
+remote_upload_output="$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$alias_name" 'sha256sum ~/jdu-lab/m6/upload.txt' 2>/dev/null || true)"
+remote_upload_hash="$(awk '{print $1}' <<<"$remote_upload_output")"
+if [[ -n "$local_hash" && "$remote_upload_hash" == "$local_hash" ]]; then
+  pass M6-XFER-01 'Ubuntu upload.txt matches the CloudShell source'
+else
+  fail M6-XFER-01 'Transfer local-source.txt to Ubuntu as upload.txt'
+fi
+
+remote_expected="$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$alias_name" 'printf "REMOTE_USER=%s\nREMOTE_HOST=%s\nREMOTE_PATH=%s\n" "$(id -un)" "$(hostname)" "$HOME"' 2>/dev/null || true)"
+remote_actual="$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$alias_name" 'cat ~/jdu-lab/m6/remote-result.txt' 2>/dev/null || true)"
+if [[ -n "$remote_expected" && "$remote_actual" == "$remote_expected" ]]; then
+  pass M6-REMOTE-01 'Ubuntu remote-result.txt records the live remote identity'
+else
+  fail M6-REMOTE-01 'Create remote-result.txt by running a command through SSH'
+fi
+
+downloaded_result="$workspace/downloaded-result.txt"
+downloaded_hash=''
+if [[ -f "$downloaded_result" ]]; then
+  downloaded_hash="$(sha256sum "$downloaded_result" | awk '{print $1}')"
+fi
+remote_result_output="$(ssh -o BatchMode=yes -o ConnectTimeout=15 "$alias_name" 'sha256sum ~/jdu-lab/m6/remote-result.txt' 2>/dev/null || true)"
+remote_result_hash="$(awk '{print $1}' <<<"$remote_result_output")"
+if [[ -n "$downloaded_hash" && "$remote_result_hash" == "$downloaded_hash" ]]; then
+  pass M6-XFER-02 'CloudShell download matches the Ubuntu result'
+else
+  fail M6-XFER-02 'Download remote-result.txt to downloaded-result.txt'
+fi
+
+finish
