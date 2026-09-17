@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -u
+
+[[ "${1:-}" == -n ]] && shift
+
+if [[ "${1:-}" == ss ]]; then
+  printf '%s\n' 'LISTEN 0 5 127.0.0.1:8080 0.0.0.0:* users:(("python3",pid=4242,fd=3))'
+  exit 0
+fi
+
+if [[ "${1:-}" == journalctl ]]; then
+  if [[ -f "${M5_TEST_STATE:?}" ]]; then
+    printf '%s\n' 'REQUEST path=/m5-check'
+  fi
+  exit 0
+fi
+
+if [[ "${1:-}" == -u && "${2:-}" == jduapp && "${3:-}" == -- && "${4:-}" == test && "${5:-}" == -r ]]; then
+  exit 0
+fi
+
+exit 1

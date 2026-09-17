@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -u
+
+case "${1:-}" in
+  -y)
+    printf '%s\n' 'ssh-ed25519 AAAAM6TEST'
+    ;;
+  -lf)
+    printf '%s\n' '256 SHA256:M6TEST m6-test (ED25519)'
+    ;;
+  -F)
+    grep -Fq "${2:-}" "${4:-/dev/null}"
+    ;;
+  -q)
+    output=''
+    while (($# > 0)); do
+      if [[ "$1" == -f ]]; then output="${2:-}"; break; fi
+      shift
+    done
+    : > "${output:?}"
+    printf '%s\n' 'ssh-ed25519 AAAAM6NEGATIVE' > "$output.pub"
+    ;;
+  *)
+    exit 2
+    ;;
+esac

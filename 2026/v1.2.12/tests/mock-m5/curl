@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -u
+
+output_file=''
+url=''
+while (($# > 0)); do
+  case "$1" in
+    -o) output_file="${2:-}"; shift 2 ;;
+    --max-time|-w) shift 2 ;;
+    -*) shift ;;
+    *) url="$1"; shift ;;
+  esac
+done
+
+case "$url" in
+  http://127.0.0.1:8080/m5-check)
+    : > "${M5_TEST_STATE:?}"
+    printf '%s\n' JDU-M5-TEST
+    ;;
+  http://127.0.0.1:8080/)
+    if [[ -n "$output_file" ]]; then
+      printf '%s\n' JDU-M5-TEST > "$output_file"
+    else
+      printf '%s\n' JDU-M5-TEST
+    fi
+    printf '%s' 200
+    ;;
+  http://127.0.0.1:18080/)
+    exit 7
+    ;;
+  *)
+    exit 22
+    ;;
+esac
