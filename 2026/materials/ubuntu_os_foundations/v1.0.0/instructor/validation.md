@@ -1,0 +1,56 @@
+# 制作・検証記録
+
+更新: 2026-09-18。
+
+## 内容検査
+
+- [x] 13章のMarkdownが存在する。
+- [x] OS、history、interface、file、text、identity、permission、process、package、service、socket/HTTP/log、SSH、統合を説明した。
+- [x] CPU・memory・storageの役割を説明し、内部algorithmは対象外にした。
+- [x] UnixからLinuxへsource継承の実線を引かず、macOS/WindowsをLinux系にしていない。
+- [x] GUI/CLI、terminal/shell、program/process、package/service、service/socketを本文と図で区別した。
+- [x] P1～P6とM0～M7を公開Lab v1.5.0から内容同一で教材へ接続した。
+- [x] coverage上でP27、M39、M6 Ubuntu 2 / CloudShell 4を確認した。
+- [x] command早見表に用途、必要option、危険、確認方法を記載した。
+
+## 図検査
+
+- [x] 本文参照19点のPNGを生成した。
+- [x] 19点すべてに専用の問いがあり、無関係な図を代用していない。
+- [x] contact sheetで全図を目視した。
+- [x] A4 PDF内の実寸で全図を確認した。
+
+## 変換・PDF検査
+
+- [x] HTMLへ13章・図・表・codeが欠落なく変換される。
+- [x] A4縦PDFを4冊生成した。
+- [x] PDF text抽出で章・P/M・早見表を照合した。
+- [x] 全78ページをPNG化し、重なり、切れ、空白、図の縮小を確認した。
+- [x] page count、A4寸法、font埋込み、header/footer/page numberを確認した。
+
+## 出力結果
+
+| 冊子 | ページ | 文字抽出 | 図 | A4 | 目視 |
+|---|---:|---:|---:|---|---|
+| 教科書 | 51 | 52,277文字 | 19 | PASS | PASS |
+| 完全手順P1～P6 | 11 | 8,219文字 | 0 | PASS | PASS |
+| 自力課題M0～M7 | 9 | 9,019文字 | 0 | PASS | PASS |
+| 用語集・コマンド早見表 | 7 | 5,461文字 | 0 | PASS | PASS |
+
+- Antigravity CLI 1.2.6の`gemini-3.8-flash-high`で、13章、用語集、図中文字、READMEの日本語を校閲した。
+- 実行用bashコードブロックは校閲前後で完全一致した。
+- 図生成コードはPython構文木を比較し、表示文字列以外のロジック、座標、数値、保存名が一致した。
+- 13章、本文参照19図、HTML内画像19点に参照切れなし。
+- P冊子とM冊子は公開Lab v1.5.0の原文とSHA-256が一致した。
+- P27判定、M39判定、M6 Ubuntu 2件／CloudShell 4件をcoverageで照合した。
+- HTML/PDFのcodeにHTML entityが文字として残っていない。
+- 日本語本文フォントはPDFへ埋め込まれている。
+- 公開Lab repositoryはcommit `8a1cc4c353f8e757f186de5a89adec939d7058fa`のままで、作業treeはcleanである。
+
+## 実機・教育検査
+
+- [ ] 新規Ubuntu 24.04 LabでP1～P6を通し実行する。
+- [ ] nanoの導入状態と表示を現行imageで確認する。
+- [ ] 学生による試読を行い、未定義語、停止点、誤解を記録する。
+
+上記3項目は静的検証では代替しない。教材制作は完了だが、授業投入前の実機・学生検証として残す。

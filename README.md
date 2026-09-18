@@ -38,6 +38,14 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 `v1.5.0`が現在の推奨版です。完全手順付き演習P1～P6と、自力課題M0～M7を実装しています。M0には練習問題を設けません。M7は統合課題のため、対応するP7を設けません。P6とM6はUbuntu側2件とCloudShell側4件を別々に記録します。ローカル自動試験済みですが、AWS Academy Learner Lab実機での全受入試験は未完了です。
 
+## Course materials
+
+Ubuntu・OS基礎の図解教科書と生成元は、Labのversion directoryから分離して管理します。
+
+- [Ubuntu・OS基礎教材 v1.0.0](./2026/materials/ubuntu_os_foundations/v1.0.0/README.md)
+
+教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
+
 ## Version policy
 
 - 授業では、`main`ではなく固定したversionのURLを使用します。
