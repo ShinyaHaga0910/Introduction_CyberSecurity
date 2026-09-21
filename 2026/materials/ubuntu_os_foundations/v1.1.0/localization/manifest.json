@@ -1,0 +1,32 @@
+{
+  "course": "ubuntu_os_foundations",
+  "source_language": "en",
+  "source_status": "planned",
+  "version": "1.1.0",
+  "languages": {
+    "en": { "role": "canonical_source", "status": "planned" },
+    "ja": { "role": "translation", "status": "reviewed_before_english_source" },
+    "uz": { "role": "translation", "status": "planned" },
+    "ru": { "role": "translation", "status": "planned" }
+  },
+  "chapters": [
+    { "id": "ch01", "file": "textbook/01-os-and-system.md" },
+    { "id": "ch02", "file": "textbook/02-unix-linux-os-history.md" },
+    { "id": "ch03", "file": "textbook/03-interfaces-and-shell.md" },
+    { "id": "ch04", "file": "textbook/04-files-paths-editor.md" },
+    { "id": "ch05", "file": "textbook/05-text-and-streams.md" },
+    { "id": "ch06", "file": "textbook/06-users-groups-sessions.md" },
+    { "id": "ch07", "file": "textbook/07-permissions-and-sharing.md" },
+    { "id": "ch08", "file": "textbook/08-processes-and-signals.md" },
+    { "id": "ch09", "file": "textbook/09-packages-and-apt.md" },
+    { "id": "ch10", "file": "textbook/10-services-and-systemd.md" },
+    { "id": "ch11", "file": "textbook/11-sockets-http-and-logs.md" },
+    { "id": "ch12", "file": "textbook/12-ssh-and-file-transfer.md" },
+    { "id": "ch13", "file": "textbook/13-integrated-system.md" }
+  ],
+  "supplements": [
+    { "id": "practice", "file": "practice.md" },
+    { "id": "missions", "file": "missions.md" },
+    { "id": "reference", "file": "reference.md" }
+  ]
+}
