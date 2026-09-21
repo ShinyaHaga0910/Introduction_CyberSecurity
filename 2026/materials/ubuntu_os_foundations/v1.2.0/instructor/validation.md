@@ -52,7 +52,7 @@
 - P27判定、M39判定、M6 Ubuntu 2件／CloudShell 4件をcoverageで照合した。
 - HTML/PDFのcodeにHTML entityが文字として残っていない。
 - 日本語本文フォントはPDFへ埋め込まれている。
-- 公開Lab repositoryはcommit `8a1cc4c353f8e757f186de5a89adec939d7058fa`のままで、作業treeはcleanである。
+- 公開Lab v1.5.0のCloudFormation、install、採点スクリプトは変更していない。
 
 ## 実機・教育検査
 
