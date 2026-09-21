@@ -42,10 +42,11 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 オペレーティングシステムとLinuxの基本操作に関する教科書と生成元は、Labのversion directoryから分離して管理します。
 
-- [教材 v1.1.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.1.0/README.md)
+- [教材 v1.2.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.2.0/README.md)
+- [教材 v1.1.0](./2026/materials/ubuntu_os_foundations/v1.1.0/README.md)
 - [教材 v1.0.0](./2026/materials/ubuntu_os_foundations/v1.0.0/README.md)
 
-教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
+教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。v1.2.0では、現行図21点をD2、Typst、Freezeで再設計し、旧版PNG 21点も保持しています。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
 
 ## Version policy
 
