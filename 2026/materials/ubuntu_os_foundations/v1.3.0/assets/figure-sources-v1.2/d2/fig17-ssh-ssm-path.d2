@@ -1,0 +1,20 @@
+...@theme
+
+grid-rows: 2
+grid-gap: 24
+
+pc: 学生PCのブラウザ { class: identity }
+
+aws: AWS環境 {
+  class: boundary
+  grid-columns: 4
+  cloudshell: CloudShell\nAWS認証後に起動 { class: os }
+  ssh: SSHクライアント\n秘密鍵で認証 { class: app }
+  ssm: Session Manager\n転送経路 { class: identity }
+  ubuntu: 非公開Ubuntuサーバー\nsshd + 公開鍵 { class: app }
+  cloudshell -> ssh
+  ssh -> ssm
+  ssm -> ubuntu
+}
+
+pc -> aws.cloudshell

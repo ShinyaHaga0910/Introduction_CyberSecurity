@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1219 322"><svg class="d2-2255677842 d2-svg" width="1219" height="322" viewBox="-25 -26 1219 322"><rect x="-25" y="-26" width="1219" height="322" rx="0" fill="#FFFFFF" stroke-width="0" /><style type="text/css"><![CDATA[
+.d2-2255677842 .text-bold {
+	font-family: "NotoSansJP";
+}
+
+.d2-2255677842 .text-italic {
+	font-family: "NotoSansJP";
+}
+
+.d2-2255677842 .text-mono {
+	font-family: "d2-2255677842-font-mono";
+}
+
+.d2-2255677842 .text-mono-bold {
+	font-family: "d2-2255677842-font-mono-bold";
+}
+]]></style><style type="text/css"><![CDATA[.shape {
+  shape-rendering: geometricPrecision;
+  stroke-linejoin: round;
+}
+.connection {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.blend {
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+		.d2-2255677842 .fill-N2{fill:#676C7E;}
+		.d2-2255677842 .fill-B1{fill:#0D32B2;}
+		.d2-2255677842 .stroke-B1{stroke:#0D32B2;}
+		.d2-2255677842 .stroke-B2{stroke:#0D32B2;}.appendix text.text{fill:#0A0F25}.md{--color-fg-default:#0A0F25;--color-fg-muted:#676C7E;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#0D32B2;--color-border-muted:#0D32B2;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0D32B2;--color-accent-emphasis:#0D32B2;--color-attention-subtle:#676C7E;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}]]></style><g class="bG9jYWw= boundary"><g class="shape" ><rect x="57" y="12" width="317" height="189" rx="10" stroke="#173B65" fill="#FAFBFD" style="stroke-width:3;" /></g><text x="215.5" y="41" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px"><tspan x="215.5" dy="0">CloudShell</tspan><tspan x="215.5" dy="26.5">ローカル側</tspan></text></g><g class="cmVtb3Rl boundary"><g class="shape" ><rect x="637" y="12" width="475" height="189" rx="10" stroke="#173B65" fill="#FAFBFD" style="stroke-width:3;" /></g><text x="874.5" y="41" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px"><tspan x="874.5" dy="0">Ubuntuサーバー</tspan><tspan x="874.5" dy="26.5">リモート側</tspan></text></g><g class="bG9jYWwuZmlsZQ== key"><g class="shape" ><rect x="107" y="75" width="217" height="76" rx="10" stroke="#173B65" fill="#FFFFFF" style="stroke-width:2;" /></g><text x="215.5" y="121.5" fill="#172033" class="text-mono-bold" style="text-anchor:middle;font-size:24px">~/upload.txt</text></g><g class="cmVtb3RlLmZpbGU= key"><g class="shape" ><rect x="687" y="75" width="375" height="76" rx="10" stroke="#173B65" fill="#FFFFFF" style="stroke-width:2;" /></g><text x="874.5" y="121.5" fill="#172033" class="text-mono-bold" style="text-anchor:middle;font-size:24px">~/jdu-lab/m6/upload.txt</text></g><g class="KGxvY2FsLmZpbGUgLSZndDsgcmVtb3RlLmZpbGUpWzBd"><marker id="mk-d2-2255677842-3488378134" markerWidth="10" markerHeight="12" refX="7" refY="6" viewBox="0 0 10 12" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 10,6 0,12" fill="#0D32B2" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 326 113 L 683 113" stroke="#0D32B2" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-2255677842-3488378134)" mask="url(#d2-2255677842)" /><text x="505.5" y="111" fill="#676C7E" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px"><tspan x="505.5" dy="0">upload</tspan><tspan x="505.5" dy="18.5">scp local remote:</tspan></text></g><g class="KHJlbW90ZS5maWxlIC0mZ3Q7IGxvY2FsLmZpbGUpWzBd"><path d="M 1064 113 L 1147 113 S 1157 113 1157 123 L 1157 231 S 1157 241 1147 241 L 22 241 S 12 241 12 231 L 12 123 S 12 113 22 113 L 103 113" stroke="#0D32B2" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-2255677842-3488378134)" mask="url(#d2-2255677842)" /><text x="584.5" y="239" fill="#676C7E" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px"><tspan x="584.5" dy="0">download</tspan><tspan x="584.5" dy="18.5">scp remote: local</tspan></text></g><mask id="d2-2255677842" maskUnits="userSpaceOnUse" x="-25" y="-26" width="1219" height="322">
+<rect x="-25" y="-26" width="1219" height="322" fill="white"></rect>
+<rect x="447" y="95" width="117" height="37" fill="black"></rect>
+<rect x="526" y="223" width="117" height="37" fill="black"></rect>
+</mask></svg></svg>
