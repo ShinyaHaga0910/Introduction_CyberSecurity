@@ -1,0 +1,49 @@
+...@theme
+
+grid-columns: 3
+grid-gap: 30
+
+unix_like: Unix系・Unix互換系 {
+  class: boundary
+  direction: down
+
+  unix: 歴史上のUnix { class: hardware }
+
+  bsd: BSD系 { class: app }
+  darwin: Darwin { class: os }
+  macos: macOS { class: identity }
+
+  gnu: GNUツール群\nBash・coreutils { class: app }
+  linux: Linuxカーネル\n独立実装 { class: os }
+  distros: Linuxディストリビューション {
+    class: boundary
+    grid-columns: 3
+
+    ubuntu: Ubuntu { class: identity }
+    debian: Debian { class: identity }
+    fedora: Fedora { class: identity }
+  }
+
+  unix -> bsd: 派生
+  bsd -> darwin: 技術基盤
+  darwin -> macos
+
+  unix -> gnu: 互換環境の目標 { style.stroke-dash: 4 }
+  unix -> linux: 設計上の影響 { style.stroke-dash: 4 }
+  gnu -> distros: ユーザー空間の主要な道具
+  linux -> distros: カーネル
+}
+
+separate: 別のOS系統\nコマンド体系・パス・\n管理方法は異なる { class: warning }
+
+windows_family: Windows NT系 {
+  class: boundary
+  direction: down
+
+  nt: Windows NTカーネル { class: neutral }
+  windows: Windows { class: identity }
+  shells: cmd.exe・PowerShell\nWindowsのシェル { class: app }
+
+  nt -> windows
+  windows -> shells
+}
