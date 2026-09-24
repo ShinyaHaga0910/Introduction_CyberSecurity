@@ -1,0 +1,41 @@
+...@theme
+
+grid-columns: 2
+grid-gap: 30
+
+files: 保存された設定とデータ {
+  class: boundary
+  grid-rows: 3
+  identity: ユーザー・グループ { class: identity }
+  permission: 所有者・権限 { class: os }
+  content: 公開コンテンツ { class: neutral }
+  identity -> permission
+  permission -> content
+}
+
+runtime: 実行中の仕組み {
+  class: boundary
+  grid-rows: 3
+  unit: unitファイル { class: neutral }
+  systemd: systemd { class: os }
+  process: サービスプロセス { class: app }
+  unit -> systemd
+  systemd -> process
+}
+
+communication: 通信 {
+  class: boundary
+  grid-rows: 2
+  client: HTTPクライアント { class: identity }
+  socket: 待ち受けソケット { class: hardware }
+  client -> socket
+}
+
+observation: 観測 {
+  class: boundary
+  journal: journalログ { class: neutral }
+}
+
+runtime.process -> files.content
+runtime.process -> communication.socket
+runtime.process -> observation.journal
