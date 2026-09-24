@@ -1,0 +1,39 @@
+...@theme
+
+grid-rows: 2
+grid-gap: 26
+
+os: OS {
+  class: boundary
+  grid-rows: 2
+  grid-gap: 12
+
+  user_space: ユーザー空間 {
+    class: os
+    grid-columns: 3
+    gui: GUI関連プログラム { class: identity }
+    cli: CLI関連プログラム { class: identity }
+    programs: アプリケーション・サービス { class: app }
+  }
+
+  kernel_space: カーネル空間 {
+    class: os
+    grid-columns: 5
+    process: プロセス管理 { class: base }
+    memory: メモリ管理 { class: base }
+    files: ファイル管理 { class: base }
+    permissions: 権限管理 { class: base }
+    network: ネットワーク管理 { class: base }
+  }
+}
+
+hardware: ハードウェア {
+  class: hardware
+  grid-columns: 4
+  cpu: CPU { class: hardware }
+  memory: メモリ { class: hardware }
+  storage: 記憶装置 { class: hardware }
+  network: ネットワーク装置 { class: hardware }
+}
+
+os.kernel_space -> hardware: 制御
