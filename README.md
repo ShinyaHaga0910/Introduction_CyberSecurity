@@ -42,7 +42,8 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 オペレーティングシステムとLinuxの基本操作に関する教科書と生成元は、Labのversion directoryから分離して管理します。
 
-- [教材 v1.13.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.13.0/README.md)
+- [教材 v1.14.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.14.0/README.md)
+- [教材 v1.13.0](./2026/materials/ubuntu_os_foundations/v1.13.0/README.md)
 - [教材 v1.12.0](./2026/materials/ubuntu_os_foundations/v1.12.0/README.md)
 - [教材 v1.11.0](./2026/materials/ubuntu_os_foundations/v1.11.0/README.md)
 - [教材 v1.10.0](./2026/materials/ubuntu_os_foundations/v1.10.0/README.md)
@@ -57,7 +58,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 - [教材 v1.1.0](./2026/materials/ubuntu_os_foundations/v1.1.0/README.md)
 - [教材 v1.0.0](./2026/materials/ubuntu_os_foundations/v1.0.0/README.md)
 
-教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。v1.13.0では、第12章をSSHの一般的な解説に再構成し、鍵、接続経路、遠隔実行、SCP、転送後の確認と章末5問の答えを整えました。現行図21点と旧版PNG 21点も保持しています。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
+教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。v1.14.0では、教科書の第13章を廃止し、12章と短い巻末まとめに整理しました。M7の自力課題はそのまま維持し、手順付きP7は追加していません。本文使用図20点に加え、旧fig19と旧版PNGを保持しています。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
 
 ## Version policy
 
