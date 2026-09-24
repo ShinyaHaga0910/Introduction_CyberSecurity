@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1425 391"><svg class="d2-1991468204 d2-svg" width="1425" height="391" viewBox="-38 -37 1425 391"><rect x="-38" y="-37" width="1425" height="391" rx="0" fill="#FFFFFF" stroke-width="0" /><style type="text/css"><![CDATA[
+.d2-1991468204 .text-bold {
+	font-family: "NotoSansJP";
+}
+]]></style><style type="text/css"><![CDATA[.shape {
+  shape-rendering: geometricPrecision;
+  stroke-linejoin: round;
+}
+.connection {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.blend {
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+		.d2-1991468204 .fill-B1{fill:#0D32B2;}
+		.d2-1991468204 .stroke-B1{stroke:#0D32B2;}
+		.d2-1991468204 .stroke-B2{stroke:#0D32B2;}.appendix text.text{fill:#0A0F25}.md{--color-fg-default:#0A0F25;--color-fg-muted:#676C7E;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#0D32B2;--color-border-muted:#0D32B2;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0D32B2;--color-accent-emphasis:#0D32B2;--color-attention-subtle:#676C7E;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}]]></style><g class="cGM= identity"><g class="shape" ><rect x="0" y="0" width="1349" height="74" rx="10" stroke="#6941A5" fill="#F0E8FF" style="stroke-width:2;" /></g><text x="674.5" y="46.5" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px">学生PCのブラウザ</text></g><g class="YXdz boundary"><g class="shape" ><rect x="0" y="98" width="1349" height="218" rx="10" stroke="#173B65" fill="#FAFBFD" style="stroke-width:3;" /></g><text x="674.5" y="127" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px">AWS環境</text></g><g class="YXdzLmNsb3Vkc2hlbGw= os"><g class="shape" ><rect x="60" y="158" width="276" height="98" rx="10" stroke="#2563A6" fill="#E8F1FF" style="stroke-width:2;" /></g><text x="198" y="204.5" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px"><tspan x="198" dy="0">CloudShell</tspan><tspan x="198" dy="26.5">AWS認証後に起動</tspan></text></g><g class="YXdzLnNzaA== app"><g class="shape" ><rect x="376" y="158" width="271" height="98" rx="10" stroke="#23834D" fill="#E5F5EA" style="stroke-width:2;" /></g><text x="511.5" y="204.5" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px"><tspan x="511.5" dy="0">SSHクライアント</tspan><tspan x="511.5" dy="26.5">秘密鍵で認証</tspan></text></g><g class="YXdzLnNzbQ== identity"><g class="shape" ><rect x="687" y="158" width="224" height="98" rx="10" stroke="#6941A5" fill="#F0E8FF" style="stroke-width:2;" /></g><text x="799" y="204.5" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px"><tspan x="799" dy="0">Session Manager</tspan><tspan x="799" dy="26.5">転送経路</tspan></text></g><g class="YXdzLnVidW50dQ== app"><g class="shape" ><rect x="951" y="158" width="338" height="98" rx="10" stroke="#23834D" fill="#E5F5EA" style="stroke-width:2;" /></g><text x="1120" y="204.5" fill="#172033" class="text-bold" style="text-anchor:middle;font-size:24px"><tspan x="1120" dy="0">非公開Ubuntuサーバー</tspan><tspan x="1120" dy="26.5">sshd + 公開鍵</tspan></text></g><g class="YXdzLihjbG91ZHNoZWxsIC0mZ3Q7IHNzaClbMF0="><marker id="mk-d2-1991468204-3488378134" markerWidth="10" markerHeight="12" refX="7" refY="6" viewBox="0 0 10 12" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 10,6 0,12" fill="#0D32B2" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 337.5 207 L 372.5 207" stroke="#0D32B2" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-1991468204-3488378134)" mask="url(#d2-1991468204)" /></g><g class="YXdzLihzc2ggLSZndDsgc3NtKVswXQ=="><path d="M 649 207 L 683 207" stroke="#0D32B2" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-1991468204-3488378134)" mask="url(#d2-1991468204)" /></g><g class="YXdzLihzc20gLSZndDsgdWJ1bnR1KVswXQ=="><path d="M 913 207 L 947 207" stroke="#0D32B2" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-1991468204-3488378134)" mask="url(#d2-1991468204)" /></g><g class="KHBjIC0mZ3Q7IGF3cy5jbG91ZHNoZWxsKVswXQ=="><path d="M 569.115795 74.670649 L 338.768411 156.658701" stroke="#0D32B2" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-1991468204-3488378134)" mask="url(#d2-1991468204)" /></g><mask id="d2-1991468204" maskUnits="userSpaceOnUse" x="-38" y="-37" width="1425" height="391">
+<rect x="-38" y="-37" width="1425" height="391" fill="white"></rect>
+
+</mask></svg></svg>
