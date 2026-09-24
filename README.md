@@ -42,7 +42,8 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 オペレーティングシステムとLinuxの基本操作に関する教科書と生成元は、Labのversion directoryから分離して管理します。
 
-- [教材 v1.9.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.9.0/README.md)
+- [教材 v1.10.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.10.0/README.md)
+- [教材 v1.9.0](./2026/materials/ubuntu_os_foundations/v1.9.0/README.md)
 - [教材 v1.8.0](./2026/materials/ubuntu_os_foundations/v1.8.0/README.md)
 - [教材 v1.7.0](./2026/materials/ubuntu_os_foundations/v1.7.0/README.md)
 - [教材 v1.6.0](./2026/materials/ubuntu_os_foundations/v1.6.0/README.md)
@@ -53,7 +54,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 - [教材 v1.1.0](./2026/materials/ubuntu_os_foundations/v1.1.0/README.md)
 - [教材 v1.0.0](./2026/materials/ubuntu_os_foundations/v1.0.0/README.md)
 
-教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。v1.9.0では、第8章から課題固有の警告と手順の節を除き、プロセスを観察する例と章末3問の答えを整えました。現行図21点と旧版PNG 21点も保持しています。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
+教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。v1.10.0では、第9章の`apt upgrade`禁止文と不要な節を削除し、更新操作の説明と章末3問の答えを整えました。現行図21点と旧版PNG 21点も保持しています。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
 
 ## Version policy
 
