@@ -1,0 +1,17 @@
+...@theme
+
+direction: right
+
+systemd: systemd { class: os }
+process: Webサービスのプロセス { class: app }
+socket: 待ち受けソケット\nIPアドレス + ポート { class: hardware }
+client: クライアント\ncurl { class: identity }
+content: 公開ファイル { class: neutral }
+journal: journalログ { class: neutral }
+
+systemd -> process: 起動・監視
+process -> socket: 作成して待ち受け
+client -> socket: HTTP要求
+socket -> process: 接続を渡す
+process -> content: 読み取る
+process -> journal: 記録する
