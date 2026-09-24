@@ -1,0 +1,24 @@
+...@theme
+
+direction: right
+
+user: 利用者 { class: identity }
+
+gui: GUI {
+  class: boundary
+  window: ウィンドウ・ボタン { class: identity }
+  app: アプリケーション { class: app }
+  window -> app: 操作
+}
+
+cli: CLI {
+  class: boundary
+  terminal: ターミナル { class: neutral }
+  shell: シェル { class: os }
+  command: コマンド { class: app }
+  terminal -> shell: 文字列
+  shell -> command: 解釈して起動
+}
+
+user -> gui
+user -> cli

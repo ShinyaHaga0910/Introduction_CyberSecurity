@@ -1,0 +1,57 @@
+# 教材の再生成
+
+このディレクトリのMarkdownと生成プログラムから、図、HTML、A4 PDFを再生成できる。
+
+## 必要環境
+
+- Python 3.11以降
+- `requirements.txt`に記載したPython package
+- D2 0.9以降
+- Typst 0.15以降
+- Freeze 0.2以降
+- Noto Sans JPとNoto Serif JPのTrueType font
+
+Windowsの標準配置では、次のfontを使用する。
+
+```text
+C:\Windows\Fonts\NotoSansJP-VF.ttf
+C:\Windows\Fonts\NotoSerifJP-VF.ttf
+```
+
+別の場所へ導入した場合は、環境変数でTrueType font fileを指定する。
+
+```powershell
+$env:JDU_FONT_SANS='C:\path\to\NotoSansJP-Regular.ttf'
+$env:JDU_FONT_SERIF='C:\path\to\NotoSerifJP-Regular.ttf'
+```
+
+Linuxでは同じ名前の環境変数をexportする。
+
+## 生成順序
+
+repositoryの教材version directoryで実行する。
+
+```bash
+python -m pip install -r requirements.txt
+powershell -ExecutionPolicy Bypass -File build/build_diagrams.ps1
+python build/build_materials.py
+```
+
+図の生成先は`assets/figures/`である。HTMLとPDFの生成先は`output/html/`、`output/pdf/`である。出力file名には`_ja`などのlanguage codeを付ける。将来の英語、ウズベク語、ロシア語も同じ規則を使用する。
+
+現行図はSVGである。PDF生成時には、同じ生成元から作る高解像度PNGを使用し、日本語の字体と配置を固定する。旧版のPNG 21点は比較と復元のために同じ`assets/figures/`へ保持するが、現行本文からは参照しない。
+
+## 正本と生成物
+
+- 内容の正本: `docs/<language-code>/`
+- 現行図の生成元: `assets/figure-sources-v1.2/`
+- 現行図の一括生成: `build/build_diagrams.ps1`
+- 旧版PNGの生成元: `build/generate_figures.py`
+- HTML/PDF生成元: `build/build_materials.py`
+- 訳語管理: `localization/terminology.csv`
+- 制作状態: `localization/manifest.json`
+- `output/`は配布用生成物であり、本文修正は`docs/`へ行う。
+
+## 検証
+
+生成後はPDFを全ページ画像化し、文字切れ、図の分断、矢印と文字の重なり、コード欠落、表の重なり、空白ページを確認する。SVGが21点、旧版PNGが21点あることも確認する。P/M本文を変更していない場合は、公開Lab v1.5.0とのhash一致も確認する。

@@ -1,0 +1,36 @@
+...@theme
+
+grid-columns: 3
+grid-gap: 30
+
+inputs: 比較する情報 {
+  class: boundary
+  grid-rows: 2
+  process: プロセスのUIDとGID群 { class: identity }
+  file: ファイルの所有者UID・GID・mode { class: neutral }
+}
+
+spacer1: "" { style.opacity: 0; width: 120; height: 60 }
+
+selection: 使用するpermission classを1つ選ぶ {
+  class: boundary
+  grid-rows: 3
+  owner: UIDが一致 → 所有者 u { class: os }
+  group: UID不一致・GID一致 → グループ g { class: os }
+  other: どちらも不一致 → その他 o { class: os }
+}
+
+spacer2: "" { style.opacity: 0; width: 120; height: 60 }
+
+check: 選ばれた欄の\nr / w / xを確認 { class: hardware }
+results: 判定結果 {
+  class: boundary
+  grid-rows: 2
+  allow: 必要な権限あり → 許可 { class: app }
+  deny: 必要な権限なし → 拒否 { class: warning }
+}
+
+inputs -> selection: 順番に比較
+selection -> check
+check -> results.allow: あり
+check -> results.deny: なし
