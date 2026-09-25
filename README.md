@@ -1,6 +1,6 @@
-# Introduction to CyberSecurity — 2026
+# OS-Linux-Control — 2026
 
-Japan Digital Universityのサイバーセキュリティ授業で使用する公開教材と実習環境です。担当教員の個人GitHubアカウントで管理します。
+Japan Digital UniversityのOS・Linux基礎を学ぶ公開教材と実習環境です。2026年度は[Introduction-CyberSecurity](https://github.com/ShinyaHaga0910/Introduction-CyberSecurity)という統合科目の前半で使用し、2027年度以降は独立した科目の教材として使えるように管理します。担当教員の個人GitHubアカウントで管理します。
 
 ## 2026年度の入口
 

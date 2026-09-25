@@ -8,7 +8,7 @@ It creates an API Gateway HTTPS endpoint, one Lambda function, and one DynamoDB 
 
 ```bash
 curl -fsSL \
-  https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.0.0/teacher/install-teacher.sh \
+  https://raw.githubusercontent.com/ShinyaHaga0910/OS-Linux-Control/main/2026/v1.0.0/teacher/install-teacher.sh \
   -o /tmp/jdu-install-teacher.sh
 bash /tmp/jdu-install-teacher.sh --region us-east-1
 ```

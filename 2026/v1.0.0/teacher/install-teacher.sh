@@ -5,7 +5,7 @@ VERSION="v1.0.0"
 STACK_NAME="jdu-linux-progress-2026-v140"
 ROLE_NAME="LabRole"
 REGION="${AWS_REGION:-${AWS_DEFAULT_REGION:-}}"
-BASE_URL="https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/${VERSION}"
+BASE_URL="https://raw.githubusercontent.com/ShinyaHaga0910/OS-Linux-Control/main/2026/${VERSION}"
 state_dir="${JDU_TEACHER_STATE_DIR:-$HOME/.jdu-teacher}"
 DEFAULT_REGISTRATION_KEY="c3bde59c59075843251914a28ce6006d7d912b39023c05ab7deb720259c30c0f"
 

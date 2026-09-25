@@ -1,4 +1,4 @@
-# Introduction CyberSecurity Lab 2026 v1.0.0
+# OS-Linux-Control Lab 2026 v1.0.0
 
 Status: First distribution candidate / local acceptance tests passed / Learner Lab verification pending
 
@@ -9,7 +9,7 @@ Status: First distribution candidate / local acceptance tests passed / Learner L
 Learner Labを開始し、CloudShellで実行します。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.0.0/install.sh
+curl -fsSLO https://raw.githubusercontent.com/ShinyaHaga0910/OS-Linux-Control/main/2026/v1.0.0/install.sh
 bash install.sh --region us-east-1
 ```
 
@@ -47,7 +47,7 @@ P6とM6はUbuntuとCloudShellで別々に`jdu-check`を実行します。Dashboa
 今回のP1判定修正は、新しくCloudFormationから作る環境には自動で入ります。すでに作成したUbuntu環境では、`ssm-user`として接続し、判定スクリプトだけを更新できます。演習成果物のresetは不要です。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.0.0/scripts/jdu-labcheck -o /tmp/jdu-labcheck-v1.0.0
+curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/OS-Linux-Control/main/2026/v1.0.0/scripts/jdu-labcheck -o /tmp/jdu-labcheck-v1.0.0
 printf '%s  %s\n' '266ea663d86fd7480d5a8853e72d94717fa16e879afd54b82ec6ffdcf71719b4' '/tmp/jdu-labcheck-v1.0.0' | sha256sum --check
 sudo install -o root -g root -m 0755 /tmp/jdu-labcheck-v1.0.0 /opt/jdu-lab/bin/jdu-labcheck
 jdu-check P1
@@ -77,7 +77,7 @@ jdu-check P1
 学生環境より先に教員のCloudShellで構築します。詳細は[teacher/README.md](teacher/README.md)を参照してください。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.0.0/teacher/install-teacher.sh -o /tmp/jdu-install-teacher.sh
+curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/OS-Linux-Control/main/2026/v1.0.0/teacher/install-teacher.sh -o /tmp/jdu-install-teacher.sh
 bash /tmp/jdu-install-teacher.sh --region us-east-1
 ```
 

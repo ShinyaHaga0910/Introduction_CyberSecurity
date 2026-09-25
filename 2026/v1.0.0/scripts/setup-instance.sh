@@ -7,7 +7,7 @@ case "$VERSION" in
   *) printf 'ERROR Unsupported lab version: %s\n' "$VERSION" >&2; exit 2 ;;
 esac
 
-BASE_URL="${JDU_BASE_URL:-https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/${VERSION}}"
+BASE_URL="${JDU_BASE_URL:-https://raw.githubusercontent.com/ShinyaHaga0910/OS-Linux-Control/main/2026/${VERSION}}"
 install -d -m 0755 /opt/jdu-lab/bin /opt/jdu-lab/fixtures/m1/source/config /opt/jdu-lab/fixtures/m1/source/logs /opt/jdu-lab/fixtures/m1/source/notes
 install -d -m 0755 /opt/jdu-lab/fixtures/m3 /opt/jdu-lab/fixtures/m4 /opt/jdu-lab/fixtures/m5 /opt/jdu-lab/fixtures/m7
 install -d -m 0755 /opt/jdu-lab/fixtures/p1/source/config /opt/jdu-lab/fixtures/p1/source/logs /opt/jdu-lab/fixtures/p1/source/notes
