@@ -47,11 +47,10 @@ CPU・メモリ・保存領域の役割とOSがそれらを管理する理由は
 
 ## 設計と検証
 
-- [制作仕様](./design/2026-09-18_ubuntu_os_materials_production_spec.md)
-- [章・節別設計](./design/2026-09-18_ubuntu_os_materials_storyboard.md)
-- [演習と知識の対応](./design/2026-09-18_ubuntu_os_textbook_exercise_map.md)
-- [一次資料・確認記録](./design/2026-09-18_ubuntu_os_textbook_sources.md)
+- [教材全体の制作方針](../../../../COURSE_POLICY.md)
 - [演習対応表](./instructor/coverage.md)
+- [図台帳](./instructor/figure-register.md)
+- [一次資料・確認記録](./instructor/source-register.md)
 - [制作・検証記録](./instructor/validation.md)
 
 MarkdownからHTML・PDFへの変換、A4寸法、文字抽出、フォント埋め込み、章末解答の改ページ、P/M本文と公開Labの一致を静的に確認します。実機での新規構築・全演習通し実行・学生試読は別の受入作業です。

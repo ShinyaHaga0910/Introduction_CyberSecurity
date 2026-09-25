@@ -1,7 +1,7 @@
 # English source edition
 
-Status: planned.
+Status: planned; no English textbook files exist yet.
 
-This directory will contain the canonical English source for the Ubuntu and OS Foundations textbook. The Japanese, Uzbek, and Russian editions will be translated from this source after technical review.
+The current source edition is Japanese (`docs/ja/`). An English edition may become the translation source after it has been written and technically reviewed. Until that decision is made, do not describe English as the existing canonical source or translate the other editions from this empty directory.
 
 Use the same filenames and chapter order as `docs/ja/`. Preserve commands, paths, identifiers, figure IDs, check IDs, and source URLs exactly across languages.

@@ -1,8 +1,8 @@
-# Ubuntu・OS図解教科書の一次資料と確認記録
+# 一次資料と確認記録
 
 初回確認日: 2026-09-18。追加確認日: 第2章 2026-09-21・2026-09-24、第6・8・9・10・11・12章 2026-09-24。本文取得ができた資料と、取得できなかった候補を区別する。
 
-本書は資料の翻訳集ではなく、演習に必要な知識を説明する独自教材である。文章・説明図は独自に作成し、歴史写真は再利用条件を確認して出典を明記する。引用が必要なら出典と引用範囲を明示する。長い転載や公開資料の丸ごとの言い換えはしない。
+本書は資料の翻訳集ではなく、演習に必要な知識を説明する独自教材である。文章・説明図は独自に作成し、歴史写真は再利用条件を確認して出典を明記する。引用が必要なら出典と引用範囲を明示する。長い転載や公開資料の丸ごとの言い換えはしない。このファイルは確認の記録であり、現行の制作指示はリポジトリ直下の`COURSE_POLICY.md`を参照する。
 
 ## 1. 本文を確認した資料
 
@@ -39,7 +39,7 @@
 
 ## 2. 取得できなかった候補と次工程
 
-| 候補 | 2026-09-18の結果 | Solの対応 |
+| 候補 | 2026-09-18の結果 | 次回確認時の対応 |
 | --- | --- | --- |
 | [GNU history](https://www.gnu.org/gnu/gnu-history.html)、[Linux and GNU](https://www.gnu.org/gnu/linux-and-gnu.html) | 取得timeout | GNU userlandとLinux kernelの関係を執筆する際に再取得。失敗時は別の一次資料を探し、確認済み扱いしない |
 | [systemd.service v255](https://www.freedesktop.org/software/systemd/man/255/systemd.service.html)、latestのsystemd関連manual | HTTP 403 | Ubuntu 24.04実機の`man systemd.service`、`man systemctl`を優先。必要ならsystemdの該当版公式source中のmanualを参照 |
