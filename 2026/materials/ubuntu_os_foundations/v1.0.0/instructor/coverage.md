@@ -1,6 +1,6 @@
 # 教科書・演習・採点対応表
 
-基準: 公開Lab v1.5.0、commit `8a1cc4c353f8e757f186de5a89adec939d7058fa`。確認日: 2026-09-18。
+基準: 公開Lab v1.0.0。確認日: 2026-09-25。教材の版番号整理に際して採点条件は変更していない。
 
 | 対象 | 本文章 | 完全練習 | 自力課題 | 採点数 | 教材で説明する判定根拠 |
 | --- | --- | --- | --- | ---: | --- |
@@ -12,7 +12,7 @@
 | 5 | 6、7、10、11 | P5 | M5 | P4 / M4 | loopback socketとPID、HTTP/permission、current log、closed port |
 | 6 Ubuntu | 5、12 | P6 | M6 | P2 / M2 | upload内容・owner・644、remote値 |
 | 6 CloudShell | 5、12 | P6 | M6 | P4 / M4 | local source、upload hash、remote値、download hash |
-| 7 | 6、7、10、11、13 | なし | M7 | 6 | file、writer/viewer、service、socket、HTTP、journal |
+| 7 | 6、7、10、11 | なし | M7 | 6 | file、writer/viewer、service、socket、HTTP、journal |
 
 合計: P1～P6は27判定、M0～M7は39判定。M6はUbuntu 2件とCloudShell 4件を分ける。
 
@@ -33,4 +33,3 @@
 - checker自身のHTTP requestもlogを作る。
 - permission probeはcheckerが別userで実行するため、学生自身の失敗体験の証明ではない。
 - M6は実行環境ごとにcheckerが異なる。Dashboardの二欄を合算して完了とする。
-

@@ -5,6 +5,7 @@ body { max-width: 174mm; margin: 0 auto; font-family: 'Noto Sans JP','Yu Gothic'
 h1 { color:#174E84; border-bottom:3px solid #79A9D7; padding-bottom:3mm; page-break-before:always; }
 h1:first-of-type { page-break-before:auto; }
 h2 { color:#245E9A; margin-top:9mm; border-left:4px solid #4A90C2; padding-left:3mm; }
+@media print { h2.chapter-answers { break-before: page; page-break-before: always; } }
 h3 { color:#315E79; margin-top:6mm; }
 p { text-align:justify; }
 code { font-family: Consolas,'Noto Sans Mono',monospace; background:#EEF2F7; padding:0 1mm; }
@@ -18,7 +19,7 @@ blockquote { background:#EEF4FB; border-left:4px solid #4A90C2; padding:3mm; }
 .cover h1 { page-break-before:auto; font-size:26pt; border:0; }
 .meta { color:#526079; }
 </style></head><body>
-<section class='cover'><h1>Ubuntu・OS基礎 完全練習</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-18</p></section>
+<section class='cover'><h1>Ubuntu・OS基礎 完全練習</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-25</p></section>
 <h1>Ubuntu and OS Foundations — 完全手順付き演習</h1>
 <p>対象: Guided Practice P1～P6</p>
 <p>環境: Ubuntu Server 24.04 LTS</p>
@@ -151,6 +152,7 @@ id -un
 jdu-check P2</code></pre>
 <p>全6件がPASSになったら、M2へ進む。</p>
 <h2>P3 Processとpackage</h2>
+<p>第8章を読んだら手順1～4でプロセスを確認・停止する。続いて第9章を読み、手順5～6でパッケージを導入する。両方を終えてから<code>jdu-check P3</code>を実行する。</p>
 <h3>学ぶこと</h3>
 <ul><li>systemd serviceとprocessのPIDを対応させる。</li><li>PIDを指定してTERM signalを送る。</li><li><code>apt</code>でpackageをinstallする。</li></ul>
 <h3>手順1: 3 serviceを確認する</h3>
@@ -222,7 +224,7 @@ systemctl cat jdu-practice-web.service</code></pre>
 systemctl is-active jdu-practice-web.service</code></pre>
 <h3>手順3: Listening socketを確認する</h3>
 <pre><code>sudo ss -lntp | grep &#x27;:8181&#x27;</code></pre>
-<p><code>127.0.0.1:8181</code>を確認する。</p>
+<p><code>127.0.0.1:8181</code>を確認する。同じ出力で<code>0.0.0.0:8181</code>や<code>[::]:8181</code>の待受がないことも確認する。前者はこのホスト内からの接続だけを受け付ける。後者は全アドレスでの待受を表す。</p>
 <h3>手順4: Socket PIDとMain PIDを比較する</h3>
 <pre><code>systemctl show --property MainPID --value jdu-practice-web.service
 sudo ss -lntp | grep &#x27;:8181&#x27;</code></pre>
@@ -307,7 +309,9 @@ ssh jdu-ubuntu &#x27;sha256sum ~/jdu-lab/p6/practice-remote-result.txt&#x27;</co
 jdu-check P6</code></pre>
 <p>CloudShell側4件がPASSになったら、M6へ進む。</p>
 <h2>学習順序</h2>
-<p>次の順序を推奨する。</p>
+<p>教科書の章は授業回数と一対一ではない。理解した範囲から演習へ進み、必要なら章へ戻る。</p>
+<ul><li>第1～3章と第4章の編集の基本を読む。その後、M0で実機のOSを観察する。</li><li>第4・5章を読んでP1、M1へ進む。</li><li>第6・7章を読んでP2、M2へ進む。</li><li>第8章を読んでP3手順1～4を行う。第9章を読んでP3手順5～6を行い、最後にM3へ進む。</li><li>第10章を読んでP4、M4へ進む。第11章を読んでP5、M5へ進む。</li><li>第12章を読んでP6、M6へ進む。既習の操作を組み合わせてM7へ進む。</li></ul>
+<p>演習全体では次の順序を推奨する。</p>
 <pre><code>P1 → M1 → P2 → M2 → P3 → M3 → P4 → M4
    → P5 → M5 → P6 → M6 → M7（統合課題）</code></pre>
 <p>Pはcommandを見ながら進める。M1～M6ではPのcommandを見ずに、必要なcommandを自分で選ぶ。M7では、M2、M4、M5で学んだ内容を統合する。</p>

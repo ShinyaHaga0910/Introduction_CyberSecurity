@@ -5,6 +5,7 @@ body { max-width: 174mm; margin: 0 auto; font-family: 'Noto Sans JP','Yu Gothic'
 h1 { color:#174E84; border-bottom:3px solid #79A9D7; padding-bottom:3mm; page-break-before:always; }
 h1:first-of-type { page-break-before:auto; }
 h2 { color:#245E9A; margin-top:9mm; border-left:4px solid #4A90C2; padding-left:3mm; }
+@media print { h2.chapter-answers { break-before: page; page-break-before: always; } }
 h3 { color:#315E79; margin-top:6mm; }
 p { text-align:justify; }
 code { font-family: Consolas,'Noto Sans Mono',monospace; background:#EEF2F7; padding:0 1mm; }
@@ -18,7 +19,7 @@ blockquote { background:#EEF4FB; border-left:4px solid #4A90C2; padding:3mm; }
 .cover h1 { page-break-before:auto; font-size:26pt; border:0; }
 .meta { color:#526079; }
 </style></head><body>
-<section class='cover'><h1>Ubuntu・OS基礎 自力課題</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-18</p></section>
+<section class='cover'><h1>Ubuntu・OS基礎 自力課題</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-25</p></section>
 <h1>Ubuntu and OS Foundations — 自力課題 Mission Guide</h1>
 <p>対象: Mission 0～7 環境: Ubuntu Server 24.04 LTS 進め方: 授業回ではなく、学生ごとの進度でMissionを進める。</p>
 <p>この文書は、commandを自分で選ぶ課題M0～M7である。完全なcommand手順が必要な場合は、先に[GUIDED_PRACTICE.md](GUIDED_PRACTICE.md)のP1～P6を実施する。</p>
@@ -87,6 +88,7 @@ HOST_NAME=</code></pre>
 <p>確認候補: <code>id</code>, <code>groups</code>, <code>getent passwd</code>, <code>getent group</code>, <code>stat</code>, <code>namei</code>, <code>chown</code>, <code>chmod</code>, <code>usermod</code>, <code>sudo -u</code></p>
 <p>禁止: <code>chmod 777</code></p>
 <h2>M3 Process and package</h2>
+<p>第8・9章と練習P3の両部分を終えてから取り組む。第10章では、サービスの起動と自動起動を詳しく学ぶ。</p>
 <h3>目的</h3>
 <p>Serviceとprocessを対応させる。PIDを指定してsignalを送る。Ubuntu packageを調査し、installする。</p>
 <h3>初期状態</h3>

@@ -1,11 +1,14 @@
 # 教材の再生成
 
-このディレクトリのMarkdownとPythonプログラムから、図、HTML、A4 PDFを再生成できる。
+このディレクトリのMarkdownと生成プログラムから、図、HTML、A4 PDFを再生成できる。
 
 ## 必要環境
 
 - Python 3.11以降
 - `requirements.txt`に記載したPython package
+- D2 0.9以降
+- Typst 0.15以降
+- Freeze 0.2以降
 - Noto Sans JPとNoto Serif JPのTrueType font
 
 Windowsの標準配置では、次のfontを使用する。
@@ -30,16 +33,20 @@ repositoryの教材version directoryで実行する。
 
 ```bash
 python -m pip install -r requirements.txt
-python build/generate_figures.py
+powershell -ExecutionPolicy Bypass -File build/build_diagrams.ps1
 python build/build_materials.py
 ```
 
-生成先は`assets/figures/`、`output/html/`、`output/pdf/`である。出力file名には`_ja`などのlanguage codeを付ける。将来の英語、ウズベク語、ロシア語も同じ規則を使用する。
+図の生成先は`assets/figures/`である。HTMLとPDFの生成先は`output/html/`、`output/pdf/`である。出力file名には`_ja`などのlanguage codeを付ける。将来の英語、ウズベク語、ロシア語も同じ規則を使用する。
+
+現行図はSVGである。PDF生成時には、同じ生成元から作る高解像度PNGを使用し、日本語の字体と配置を固定する。旧版のPNG 21点は比較と復元のために同じ`assets/figures/`へ保持するが、現行本文からは参照しない。
 
 ## 正本と生成物
 
 - 内容の正本: `docs/<language-code>/`
-- 共通図の生成元: `build/generate_figures.py`
+- 現行図の生成元: `assets/figure-sources-v1.2/`
+- 現行図の一括生成: `build/build_diagrams.ps1`
+- 旧版PNGの生成元: `build/generate_figures.py`
 - HTML/PDF生成元: `build/build_materials.py`
 - 訳語管理: `localization/terminology.csv`
 - 制作状態: `localization/manifest.json`
@@ -47,4 +54,4 @@ python build/build_materials.py
 
 ## 検証
 
-生成後はPDFを全ページ画像化し、文字切れ、図の分断、コード欠落、表の重なり、空白ページを確認する。P/M本文を変更していない場合は、公開Lab v1.5.0とのhash一致も確認する。
+生成後はPDFを画像化し、文字切れ、図の分断、矢印と文字の重なり、コード欠落、表の重なり、空白ページを確認する。章末解答が章末問題の次ページから始まることも確認する。SVGが21点あることを確認する。P/M本文は公開Lab v1.0.0とのhash一致も確認する。

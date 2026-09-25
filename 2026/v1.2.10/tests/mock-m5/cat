@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -u
-
-if [[ "${1:-}" == /etc/jdu-lab/status-marker ]]; then
-  printf '%s\n' JDU-M5-TEST
-  exit 0
-fi
-
-/bin/cat "$@"

@@ -23,6 +23,39 @@
       "Type": "String",
       "Default": "v1.0.0",
       "AllowedValues": ["v1.0.0"]
+    },
+    "StudentSshPublicKeyBase64": {
+      "Type": "String",
+      "AllowedPattern": "[A-Za-z0-9+/=]+",
+      "MinLength": 40,
+      "MaxLength": 1024,
+      "Description": "Base64-encoded public SSH key generated in the student's CloudShell"
+    },
+    "ProgressEndpointBase64": {
+      "Type": "String",
+      "Default": "",
+      "AllowedPattern": "[A-Za-z0-9+/=]*",
+      "MaxLength": 2048,
+      "Description": "Optional base64-encoded teacher HTTPS endpoint"
+    },
+    "ProgressRegistrationKeyBase64": {
+      "Type": "String",
+      "Default": "",
+      "NoEcho": true,
+      "AllowedPattern": "[A-Za-z0-9+/=]*",
+      "MaxLength": 1024
+    },
+    "ProgressServerId": {
+      "Type": "String",
+      "Default": "",
+      "AllowedPattern": "^$|^[A-Za-z0-9_-]{8,64}$"
+    },
+    "ProgressServerTokenBase64": {
+      "Type": "String",
+      "Default": "",
+      "NoEcho": true,
+      "AllowedPattern": "[A-Za-z0-9+/=]*",
+      "MaxLength": 1024
     }
   },
   "Resources": {
@@ -146,7 +179,7 @@
         ],
         "UserData": {
           "Fn::Base64": {
-            "Fn::Sub": "#!/bin/bash\nset -eu\ncurl -fsSL --retry 5 --retry-delay 5 https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/${LabVersion}/scripts/setup-instance.sh -o /tmp/jdu-setup-instance.sh\nprintf '%s  %s\\n' '935a895771c8f10eacf81194cc31982803a3ca79a838d556416b9ecba2a56408' '/tmp/jdu-setup-instance.sh' | sha256sum --check --status\nchmod 0755 /tmp/jdu-setup-instance.sh\n/tmp/jdu-setup-instance.sh ${LabVersion}\n"
+            "Fn::Sub": "#!/bin/bash\nset -eu\ninstall -d -m 0755 /etc/jdu-lab\nprintf '%s' '${StudentSshPublicKeyBase64}' | base64 --decode > /etc/jdu-lab/student-ssh-key.pub\nprintf 'JDU_PROGRESS_ENDPOINT_B64=%s\\nJDU_PROGRESS_SERVER_ID=%s\\nJDU_PROGRESS_SERVER_TOKEN_B64=%s\\n' '${ProgressEndpointBase64}' '${ProgressServerId}' '${ProgressServerTokenBase64}' > /etc/jdu-lab/progress.env\nprintf '%s' '${ProgressRegistrationKeyBase64}' > /etc/jdu-lab/progress-registration-key.b64\nchmod 0644 /etc/jdu-lab/student-ssh-key.pub\nchmod 0600 /etc/jdu-lab/progress.env /etc/jdu-lab/progress-registration-key.b64\ncurl -fsSL --retry 5 --retry-delay 5 https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/${LabVersion}/scripts/setup-instance.sh -o /tmp/jdu-setup-instance.sh\nprintf '%s  %s\\n' '2bee5bf952b6ec8c32522ff8a1bf0209e83594b917eb5cdfe680bfdc169d57bb' '/tmp/jdu-setup-instance.sh' | sha256sum --check --status\nchmod 0755 /tmp/jdu-setup-instance.sh\n/tmp/jdu-setup-instance.sh ${LabVersion}\n"
           }
         },
         "Tags": [
@@ -165,6 +198,7 @@
     "RouteTableId": {"Description": "Public route table", "Value": {"Ref": "PublicRouteTable"}},
     "SecurityGroupId": {"Description": "Instance security group", "Value": {"Ref": "LabSecurityGroup"}},
     "InstanceProfileName": {"Description": "Existing instance profile", "Value": {"Ref": "InstanceProfileName"}},
-    "ConnectionMethod": {"Description": "Student connection method", "Value": "AWS Systems Manager Session Manager"}
+    "ConnectionMethod": {"Description": "Student connection method", "Value": "SSH over AWS Systems Manager Session Manager"},
+    "StudentSshUser": {"Description": "Ubuntu SSH user", "Value": "ssm-user"}
   }
 }

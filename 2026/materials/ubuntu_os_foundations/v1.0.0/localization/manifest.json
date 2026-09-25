@@ -21,8 +21,10 @@
     { "id": "ch09", "file": "textbook/09-packages-and-apt.md" },
     { "id": "ch10", "file": "textbook/10-services-and-systemd.md" },
     { "id": "ch11", "file": "textbook/11-sockets-http-and-logs.md" },
-    { "id": "ch12", "file": "textbook/12-ssh-and-file-transfer.md" },
-    { "id": "ch13", "file": "textbook/13-integrated-system.md" }
+    { "id": "ch12", "file": "textbook/12-ssh-and-file-transfer.md" }
+  ],
+  "endmatter": [
+    { "id": "afterword", "file": "textbook/afterword.md" }
   ],
   "supplements": [
     { "id": "practice", "file": "practice.md" },

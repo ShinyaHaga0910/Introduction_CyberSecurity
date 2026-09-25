@@ -18,6 +18,8 @@ case "$service:$operation" in
       *"OutputKey=='RouteTableId'"*) printf '%s\n' 'rtb-0123456789abcdef0' ;;
       *"OutputKey=='SecurityGroupId'"*) printf '%s\n' 'sg-0123456789abcdef0' ;;
       *"OutputKey=='InstanceProfileName'"*) printf '%s\n' 'LabInstanceProfile' ;;
+      *"OutputKey=='ConnectionMethod'"*) printf '%s\n' 'SSH over AWS Systems Manager Session Manager' ;;
+      *"OutputKey=='StudentSshUser'"*) printf '%s\n' 'ssm-user' ;;
       *) exit 3 ;;
     esac
     ;;

@@ -1,50 +1,28 @@
-# Ubuntu・OS基礎 図解教科書
+# オペレーティングシステムとLinuxの基本操作
 
-更新: 2026-09-18。状態: **日本語版をAntigravityで校閲し、再生成・静的再検証済み。実機検証と学生試読は未実施。**
+版: **v1.0.0**。更新: 2026-09-25。日本語版の原稿、図、PDFを静的に検証済みです。AWS Academy Learner Lab実機での全演習通し試験と学生試読は未実施です。
 
-Linux未経験の学生が、演習に必要なOSの機能を理由と仕組みから学ぶA4縦の教科書である。章別Markdownを内容の正本とし、専用の説明図19点を組み込んだ。PPTXは作成していない。公開Lab v1.5.0、CloudFormation、install、採点スクリプトは変更していない。
+Linux未経験の学生が、コンピューター、OS、Linuxの機能を理由と仕組みから学ぶA4縦の教科書です。章別Markdownを本文の正本とし、説明図20点と歴史写真1点を組み込みました。PPTXは作成していません。対応する[公開Lab v1.0.0](../../../v1.0.0/README.md)の学生向け演習・課題文と整合します。
 
-## 教材
+## 教材と制作元
 
 - 教科書正本: [`docs/ja/textbook/`](./docs/ja/textbook/)
 - 完全手順P1～P6: [`docs/ja/practice.md`](./docs/ja/practice.md)
 - 自力課題M0～M7: [`docs/ja/missions.md`](./docs/ja/missions.md)
 - 用語集・コマンド早見表: [`docs/ja/reference.md`](./docs/ja/reference.md)
-- 説明図19点: [`assets/figures/`](./assets/figures/)
+- 説明図と歴史写真: [`assets/`](./assets/)
+- 図の生成元: [`assets/figure-sources-v1.2/`](./assets/figure-sources-v1.2/)
 - HTML 4冊: [`output/html/`](./output/html/)
 - A4 PDF 4冊: [`output/pdf/`](./output/pdf/)
-- 多言語化の管理: [`localization/`](./localization/)
+- PDFと図の生成プログラム: [`build/`](./build/)
 - 再生成手順: [`BUILD.md`](./BUILD.md)
+- 多言語化の管理: [`localization/`](./localization/)
 
-PDFは、教科書51ページ、練習11ページ、課題9ページ、参照資料7ページである。合計78ページである。全78ページを画像化し、文字や図の重なり、見切れ、不自然な空白、図とコードの可読性を目視で確認した。
-
-## 言語構成
-
-英語版を将来の翻訳原本とし、同じファイル名・章番号を日本語、ウズベク語、ロシア語で維持する。
-
-| 言語 | ディレクトリ | 現在の状態 |
-|---|---|---|
-| 英語 | `docs/en/` | 原本を今後作成 |
-| 日本語 | `docs/ja/` | 現行版あり。Antigravity校閲済み |
-| ウズベク語 | `docs/uz/` | 英語原本から今後翻訳 |
-| ロシア語 | `docs/ru/` | 英語原本から今後翻訳 |
-
-章ID、図ID、コマンド、パス、ユーザー名、グループ名、ユニット名、チェックIDは全言語で共通とする。訳語は[`localization/terminology.csv`](./localization/terminology.csv)、制作状態は[`localization/manifest.json`](./localization/manifest.json)で管理する。
-
-## 設計と検証
-
-1. [制作仕様](./design/2026-09-18_ubuntu_os_materials_production_spec.md)
-2. [13章の章・節別設計](./design/2026-09-18_ubuntu_os_materials_storyboard.md)
-3. [演習からの知識抽出・採点との対応](./design/2026-09-18_ubuntu_os_textbook_exercise_map.md)
-4. [一次資料・確認記録](./design/2026-09-18_ubuntu_os_textbook_sources.md)
-5. [GPT-5.6 Solへの制作手順](./design/2026-09-18_ubuntu_os_materials_sol_handoff.md)
-6. [演習対応表](./instructor/coverage.md)
-7. [制作・検証記録](./instructor/validation.md)
-8. [一次資料記録](./instructor/sources.md)
+教科書は12章と巻末まとめで構成します。章末問題の解答は次ページから掲載します。練習と課題は学生の進度に応じて使用し、章番号を授業回と1対1で対応させません。
 
 ## 章構成
 
-1. OSの役割とシステム全体
+1. コンピューターとオペレーティングシステム
 2. Unixから現在のOSへ
 3. GUI・CLI・ターミナル・シェル
 4. ファイル、ディレクトリ、パス、編集
@@ -55,15 +33,23 @@ PDFは、教科書51ページ、練習11ページ、課題9ページ、参照資
 9. パッケージと導入
 10. systemdとサービス
 11. ソケット、HTTP、ログ
-12. SSHと二つの環境
-13. OSの機能を組み合わせる
+12. SSHによる遠隔操作とファイル転送
 
-章の番号は授業回（コマ）と1対1で対応しているわけではない。演習の進度に応じて必要な章を読み、P1～P6で練習し、M0～M7の課題へ取り組む構成である。CPUやディスク内部の詳細は対象外とするが、CPU・メモリ・保存領域の役割と、OSがそれらを管理する理由は明確に説明している。
+CPU・メモリ・保存領域の役割とOSがそれらを管理する理由は説明します。CPUやディスク内部の詳細は対象外です。
 
-## 検証範囲
+## 言語構成
 
-静的に確認済みなのは、13章と19図の存在、MarkdownからHTML/PDFへの変換、A4寸法、文字抽出、フォント埋め込み、P27判定・M39判定・M6のUbuntu 2件／CloudShell 4件との対応、公開版P/M本文とのSHA-256一致である。
+英語版を将来の翻訳原本とし、同じ章ID・図IDを日本語、ウズベク語、ロシア語で維持します。現時点で完成している本文は日本語のみです。コマンド、パス、ユーザー名、グループ名、ユニット名、チェックIDは全言語で共通とし、訳語は[`localization/terminology.csv`](./localization/terminology.csv)で管理します。
 
-新規Ubuntu 24.04 LabでのP1～P6通し実行、現行イメージでのnano確認、学生試読は未実施である。これらはPDFの制作完了とは分けて扱う。
+## 設計と検証
 
-旧成果物専用の退避フォルダーは、ユーザーの指定により完全削除の対象である。削除実行はツール制限により拒否されたため、現在は削除待ちの状態である。なお、旧成果物は教材として使用しない。
+- [制作仕様](./design/2026-09-18_ubuntu_os_materials_production_spec.md)
+- [章・節別設計](./design/2026-09-18_ubuntu_os_materials_storyboard.md)
+- [演習と知識の対応](./design/2026-09-18_ubuntu_os_textbook_exercise_map.md)
+- [一次資料・確認記録](./design/2026-09-18_ubuntu_os_textbook_sources.md)
+- [演習対応表](./instructor/coverage.md)
+- [制作・検証記録](./instructor/validation.md)
+
+MarkdownからHTML・PDFへの変換、A4寸法、文字抽出、フォント埋め込み、章末解答の改ページ、P/M本文と公開Labの一致を静的に確認します。実機での新規構築・全演習通し実行・学生試読は別の受入作業です。
+
+制作途中の旧版ディレクトリは現行のGitツリーから削除しました。今後の制作途中の変更は、このディレクトリとGitのコミット履歴で管理します。

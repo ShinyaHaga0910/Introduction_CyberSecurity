@@ -1,6 +1,6 @@
-# Ubuntu・OS基礎 教科書の章・節別執筆設計
+# オペレーティングシステムとLinuxの基本操作 章・節別執筆設計
 
-改訂日: 2026-09-18  
+改訂日: 2026-09-21
 旧名は参照継続のため残すが、本書はスライドのstoryboardではない。  
 上位: [制作仕様](./2026-09-18_ubuntu_os_materials_production_spec.md)  
 対応根拠: [演習からの知識抽出](./2026-09-18_ubuntu_os_textbook_exercise_map.md)
@@ -11,22 +11,25 @@
 
 図のF番号は説明目的の識別子で、枚数ではない。一つの比較を複数画像に分けてもよい。図と説明の間に対応があることを優先する。原稿は`docs/ja/textbook/`へ章別に置く。
 
-## 01 OSの役割とシステム全体
+## 01 コンピューターとオペレーティングシステム
 
 原稿: `01-os-and-system.md`  
-問い: 「ファイルを読む」「プログラムを動かす」「複数の人が同じサーバーを使う」とき、誰が調整するのか。  
-採用理由: M0の前提、全Missionの操作対象。
+問い: コンピューターの部品、アプリケーション、OSはどのようにつながり、パソコンとサーバーは何を共有するのか。
+採用理由: OSを課題の確認項目としてではなく、コンピューター全体を動かす基盤として理解するため。
 
 ### 執筆する節
 
-- 1.1 コンピュータで仕事が行われるまで: CPUは処理、メモリは実行中の作業領域、ストレージは保存先。アプリケーションとデータを分ける。
-- 1.2 OSが必要な理由: 複数のプログラムが資源を使うこと、共通のファイル・通信機能、利用者間の保護。単なる「仲介役」で終えない。
-- 1.3 OSとカーネル: カーネル、利用者側のプログラム、ライブラリ・ツール・管理機能の役割。ユーザー空間は「一般ユーザーだけが使う場所」ではない。
-- 1.4 OSへ処理を依頼する: `cat`がファイルを開いて読む例。システムコールはプログラムからカーネルへ依頼する窓口として紹介する。API実装は扱わない。
-- 1.5 実行中の単位: プロセスと実行ユーザーを先に短く定義する。PIDは実行中の識別番号。起動したUbuntuではPID 1にsystemdがあることをM0へ接続する。詳細は8・10章。
-- 1.6 今回の環境: 学生PCのブラウザ、CloudShell、Ubuntu EC2を別の実行環境として説明。EC2は仮想的なコンピュータ。ブラウザの画面と実際の実行先を混同しない。
+- 1.1 コンピューターの構成: CPU、メモリ、ストレージ、入力装置、出力装置、ネットワークの役割を説明する。
+- 1.2 パソコンとサーバー: 基本構成は共通で、主な違いは用途、接続方法、性能、連続稼働要件であることを説明する。EC2は仮想的なコンピューターとして位置付ける。
+- 1.3 OSの管理対象: 実行、メモリとファイル、利用者と保護、通信を共通機能として説明する。
+- 1.4 GUI・CLI・コマンド: CLIとコマンドを定義してから、`cat`を一例として導入する。未定義のコマンドを突然提示しない。
+- 1.5 ユーザー空間とカーネル空間: GUI関連プログラム、CLI関連プログラム、アプリケーション、サービスはユーザー空間で動き、カーネル空間の機能を利用すると説明する。
+- 1.6 LinuxとUbuntu: Linuxを中心に説明し、Ubuntuは授業で使用するLinuxディストリビューションの一例として短く位置付ける。
+- 1.7 起動順序: ファームウェア、ブートローダー、カーネル、PID 1のsystemd、サービスプロセスという概略を説明する。プロセスとサービスを先に定義し、詳細は8・10章へ送る。
+- 1.8 ホストと識別: 一般的なホスト、ホスト名、ユーザー名、UID、GIDを説明してから、学生PC、CloudShell、Ubuntu EC2の違いへ接続する。
+- 章末確認: 問題直後に答えを置く。M0の提出項目一覧は課題冊子へ任せ、教科書本文へ重複掲載しない。
 
-必要な図: F01「OSの構成と責任分担」、F02「ファイルを読む要求と結果」。Ubuntuの範囲を囲み、カーネルとの包含関係を示す。
+必要な図: F01「パソコンとサーバーに共通する構成」、F02「ユーザー空間とカーネル空間」、F02b「電源投入からサービスまで」、F02c「ホストとユーザーの識別」。図中の副題は置かず、各キャプションは一文にする。
 
 読了時の説明: 「OSの仕事を三つ挙げ、それぞれ演習のどの操作で使うか」「カーネルとシェルの違い」。
 
@@ -163,15 +166,14 @@
 
 ### 執筆する節
 
-- 8.1 保存されたプログラムと実行中のプロセス: 実行にはメモリ等が必要。PID、実行user、作業directory、引数は実行中の状態。
-- 8.2 複数プロセス: 同じprogramから複数の実行。親子関係、foreground/backgroundの概念。serviceと背景実行を同義にしない。
-- 8.3 状態の観察: `ps -fp PID`の列、動的PID、`/proc/PID`。対象が終了すると観察結果も変わる。
-- 8.4 M3に必要なserviceの入口: systemdは起動を管理するプログラム、unit名は管理対象の名前、MainPIDは主processの番号。`systemctl status/show/list-units`を名前からPIDを探す用途に限定して先行紹介。設定全体は10章。
-- 8.5 シグナルと終了: TERMは終了要求、KILLは強制。`kill`はfile削除ではない。PIDに対するkillと名前等を条件にするpkillを区別。
-- 8.6 対象を確かめる: PID取得→psで対象確認→TERM→対象と非対象の状態確認。PIDは直前に取得し、空、0、1、非数値、不一致なら進まない。
-- 8.7 管理者による再起動: process終了後にmanagerが再起動する場合がある。本LabのM3/P3はRestart=noなので再起動しない。一般的なserviceの挙動と分ける。
+- 8.1 プログラムとプロセス: 保存された実行ファイル、実行中のプロセス、配布単位のパッケージ、管理単位のサービスを区別する。
+- 8.2 PIDと親子関係: `ps`でPID・PPID・実行user・コマンド名を観察する。PIDは動的で再利用され得る。
+- 8.3 フォアグラウンドとバックグラウンド: シェルが待機する実行と、`&`で次の入力を受け付ける実行を説明する。
+- 8.4 シグナル: TERM、KILL、INTの役割と、PID指定の`kill`と名前パターン指定の`pkill`を区別する。
+- 8.5 プロセスとファイル: プロセス終了は実行ファイルの削除ではない。systemdの`Restart=`により、サービスが再起動される場合がある。
+- 8.6 `/proc/PID`: `$$`で現在のシェルのPIDを確認し、cmdlineとcwdから実行状態を見る。
 
-必要な図: F18「一つのprogramから三つのprocess」、F19「process2へのTERMと1/3の継続」。
+現行本文の図: fig12「パッケージ・プログラム・プロセス・サービスの関係」。
 
 読了時の説明: 「PIDはなぜ固定できないか」「killしてもインストール済みprogramは残るか」。
 
@@ -183,15 +185,14 @@
 ### 執筆する節
 
 - 9.1 package: program、関連file、依存情報を管理可能な単位へまとめる。一つのpackageが複数fileを含み、package名とcommand名が常に一致するわけではない。
-- 9.2 repositoryとindex: 配布元、利用可能packageの情報、localのindexを区別。
-- 9.3 aptの役割: `show`で調査、`update`でindex更新、`install`で取得・導入。updateとupgradeも意味だけ区別。
-- 9.4 依存関係: 必要な別packageも解決されること。管理権限が必要な理由。
-- 9.5 導入を確認: version、`command -v`、`dpkg -S`、`dpkg-query -W`の対応。単に実行できるだけで提供packageの説明は終わらない。
-- 9.6 導入と起動: packageが入った状態とprocessが動く状態は別。install時にserviceが起動するpackageもあるため「絶対に起動しない」としない。
+- 9.2 repositoryとindex: 配布元とlocalのindexを区別する。`apt update`で一覧、`apt show`でpackage情報を確認し、`apt upgrade`で導入済みpackageを更新する。
+- 9.3 導入と実行: `apt install`で取得・導入する。依存関係と管理権限を説明する。package導入とprocess起動は別の状態であり、導入時にserviceが起動するpackageもある。
+- 9.4 導入を確認: version、`command -v`、`dpkg -S`、`dpkg-query -W`の対応。単に実行できるだけで提供packageの説明は終わらない。
+- 9.5 削除とクリーンアップ: `remove`、`purge`、`autoremove`の影響範囲を区別する。
 
 必要な図: F20「repository→indexとpackage取得→配置file→実行process」。`apt update`と`install`の矢印を別にする。
 
-読了時の説明: 「apt updateだけではfigletが使えるようにならない理由」「dpkg -Sで何を照会しているか」。
+読了時の説明: 「apt updateだけではcmatrixが使えるようにならない理由」「apt upgradeとapt installの違い」「dpkg -Sで何を照会しているか」。
 
 ## 10 systemdとサービス
 
@@ -219,58 +220,47 @@
 
 ### 執筆する節
 
-- 11.1 client/server: 要求する側と待つ側。同じUbuntu内でも両者は成立する。
-- 11.2 socket: processがOSの通信機能を使う窓口。programの要求に応じてkernelが管理する。service起動だけで全processにportが自動的に付くわけではない。
-- 11.3 IP address・port・protocol: 今回の待受を識別する情報。TCPは方式名まで。portを単独で「プログラム番号」と定義しない。
-- 11.4 localhost: 127.0.0.1、0.0.0.0、[::]の違い。0.0.0.0はそのホストの全IPv4 interfaceへのbindであり、Internet到達可能性の保証ではない。
-- 11.5 待受と接続: listenして待つ側とrequestする側。listenerの有無と通信成功を分ける。UDPやUnix domain socketの詳細へ展開しないが、全socketがTCP listenerではないと補足する。
-- 11.6 ssの読み方: `-l -n -t -p`、LISTEN、Local Address:Port、users/pid。実例の各欄へ注釈。sudoは他userのprocess情報確認のために必要となる場合がある。
-- 11.7 HTTP: `curl -i`、URLのhost/port/path、request、status、header、body。200とbody内容が別の確認であること。
-- 11.8 content読取: service userが親directoryを通過してfileを読める必要がある。`test -r`直後の終了値を読む。
-- 11.9 log: applicationの出力をjournalへ収集し、journalctlで読む。本Labのprogramがrequestを記録するのであり、OSがすべてのHTTPを自動記録するわけではない。
-- 11.10 起動ごとのlog: 同じURLへの繰返しrequest、再起動前後、時刻の表示。現在の起動に対応するrequestを確認する。UTC転記を要求しない。
-- 11.11 成功と失敗の比較: 稼働portと未使用port。接続失敗だけで原因を一意に決めず、ss、service状態、応答、logを対応させる。
+- 11.1 service・process・socket: systemdの管理、サービスプロセスの実行、カーネルの通信機能を分ける。
+- 11.2 protocol・IP address・port: TCPを通信方式として紹介し、127.0.0.1、0.0.0.0、[::]の待受範囲を区別する。0.0.0.0だけでInternet到達可能とはしない。
+- 11.3 ssの読み方: `-l -n -t -p`、LISTEN、Local Address:Port、users/pid。sudoは他userのprocess情報確認に必要となる場合がある。
+- 11.4 client/serverとHTTP: `curl -i`、URLのhost/port/path、request、status、header、body。接続とHTTP応答は別である。
+- 11.5 開いたportと閉じたport: 待受socketの有無を説明する。待受なしの接続拒否とタイムアウトを同一視せず、待受とHTTP応答を区別する。
+- 11.6 service userの読取権限: 親directoryを通過してfileを読める必要がある。`sudo -u`と`test -r`で確認できる。
+- 11.7 log: programの出力をjournaldが収集する場合と、`journalctl`での閲覧を説明する。記録内容はprogramの実装と設定に依存する。
+- 11.8 Webサービスの処理の流れ: unit設定、process、待受socket、client要求、HTTP応答、logの役割を一般的な例として結ぶ。
 
-必要な図: F23「processとkernel内のsocket」、F24「待受addressの範囲」、F25「ss出力の読み取り」、F26「curl→socket→service→content→response、logへの別経路」。
+本文の図: 図11-1「systemd、service process、socket、clientの関係」、図11-2「ss出力の読み取り」。
 
-読了時の説明: 「activeなのにcurlが失敗する例」「ssのPIDとMainPIDを比べる意味」「curlを二回実行したlogをどう読むか」。
+読了時の説明: 「activeなのに期待したHTTP応答を得られない例」「ssのPIDとMainPIDを比べる意味」「待受とHTTP応答が別である理由」。
 
-## 12 SSHと二つの環境
+## 12 SSHによる遠隔操作とファイル転送
 
 原稿: `12-ssh-and-file-transfer.md`  
-前提: 3～7・11章。問い: 接続すると、自分のコマンドとファイルの所在はどう変わるか。
+前提: 3～7・11章。問い: 接続元と接続先で、認証、コマンド実行、ファイルの所在はどう変わるか。
 
 ### 執筆する節
 
-- 12.1 local/remoteは視点: 今回はCloudShellをlocal、Ubuntuをremoteと呼ぶ。localという語が必ず手元PCを意味するわけではない。
-- 12.2 SSHの役割: 暗号化された通信、接続先の確認、user認証、remote command。暗号方式の数学や実装は不要。
-- 12.3 鍵と接続設定: private keyは接続元、公開鍵は接続先の許可情報に対応。ホスト鍵の接続先確認はuser認証鍵と役割が違う。`jdu-ubuntu`はHost設定名であり、必ずしもDNS名ではない。
-- 12.4 本Labの経路: CloudShell→Session Manager tunnel→Ubuntuのsshd。AWS権限とSSH user認証は別の確認。private IPへ直接届く構成やInternetの22番公開として描かない。
-- 12.5 login前後: id、hostname、pwd、home、ファイルの所在。exitでCloudShellへ戻る。sudo sshでroot側の設定を参照する問題も説明。
-- 12.6 scp: upload/downloadでsourceとdestinationが逆。colon後のpathと`~`が指すuser。転送後のowner/modeと内容を別々に確認。
-- 12.7 remote command: 外側のシェルと内側のシェル。単一引用符、二重引用符、`$HOME`、`$(...)`、`>`をどちらが解釈するか、具体例で追う。
-- 12.8 内容の一致: SHA-256をfile内容の比較に使う。filenameやownerはhashへ含まれない。hash一致だけで転送経路を証明するわけではない。
-- 12.9 二つの判定: Ubuntu側2件、CloudShell側4件、合計6件。RESULTとREPORT、送信失敗時のDashboardの古い値を区別。
+- 12.1 接続元と接続先: local/remoteは操作する人の視点で決まる。`id -un`、`hostname`、`pwd`、`exit`で実行環境を区別する。
+- 12.2 SSHが守るもの: 暗号化された通信、ホスト認証、ユーザー認証、接続後のOSのアクセス権を分ける。暗号方式の数学は不要。
+- 12.3 ユーザー鍵とホスト鍵: 秘密鍵と公開鍵の置き場所、`authorized_keys`と`known_hosts`の役割、初回接続時のホスト鍵確認を説明する。
+- 12.4 接続名と通信経路: SSH設定のホストエイリアスとDNS名を区別する。鍵による認証と接続先までの到達経路は別の条件である。
+- 12.5 対話ログインとリモートコマンド: 接続元と接続先のシェルを区別し、引用符、`$HOME`、`>`がどちらで解釈されるかを例で追う。
+- 12.6 SCPでファイルを送受信する: 転送元と転送先、アップロードとダウンロード、リモートパスの`~`を説明する。
+- 12.7 内容の一致とファイルの属性: `sha256sum`による内容比較と、`stat`による所有者・グループ・モード確認を分ける。
 
-必要な図: F27「SSH経路・鍵・二つのOS」、F28「upload/download前後のfile」、F12の展開位置図、F29「二つの結果とDashboard」。
+必要な図: fig17「接続元・接続先と二種類の鍵」、fig18「アップロード・ダウンロードの方向」。
 
-読了時の説明: 「Ubuntu内でlocalhostを指定する場合とCloudShellの場合」「鍵をコピーするだけではprivate IPへの経路ができない理由」。
+読了時の説明: 「ユーザー鍵とホスト鍵の違い」「SSH設定の別名とDNS名の違い」「鍵があっても通信経路がなければ接続できない理由」「リモート実行とSCPでファイルの所在が変わる場面」。環境固有の手順や採点方法は本文へ入れない。
 
-## 13 OSの機能を組み合わせる
+## 本書のまとめ（章番号なし）
 
-原稿: `13-integrated-system.md`  
-前提: 1～12章。問い: 一つのサービスを説明するには、どの状態を結び付ければよいか。
+原稿: `afterword.md`
+前提: 1～12章。目的: 既習のOS機能を短く振り返り、後続単元へつなぐ。
 
-### 執筆する節
-
-- 13.1 設定・実体・観察: content、owner/group/mode、service user、unit、process、socket、HTTP、journalを対応させる。
-- 13.2 M7への橋渡し: 何をどの手段で確認できるかの表と概念図。解答コマンド列は載せない。新しい課題やunit自作を追加しない。
-- 13.3 後続への接続: Nginx、BIND 9、PostgreSQLも実行user、data/config、process、通信、logで観察できる。今回の構成に全く同じ値や起動方式を適用できるとはしない。
-- 13.4 自分の言葉で説明する: 任意の概念問題と解説。追加の必須レポートにしない。
-
-必要な図: F30「file・権限・service・process・socket・logを一つの実行状態として結ぶ」。
-
-読了時の説明: 「設定fileがあること、processが動くこと、応答が正しいことの違い」。
+- ファイルの設定、サービスの稼働、通信結果は別の状態であることをまとめる。
+- Nginx、BIND 9、PostgreSQLへも、実行ユーザー・ファイル・通信・ログという共通の問いを持ち込めると示す。
+- M7の固有値、解法順序、採点方法、追加のトラブルシューティング問題は記載しない。P7も作らない。
+- 旧fig19は生成元と図を保持するが、本文からは参照しない。
 
 ## 読む順序と演習の接続
 
@@ -283,6 +273,6 @@
 | P4/M4 | 10章 | PID・user・cwdは既出として再接続 |
 | P5/M5 | 11章 | 7章の読取権限と5章の入出力を参照 |
 | P6/M6 | 12章、5.7の再確認 | 引用符・置換の説明を長文SSHの前に置く |
-| M7 | 13章 | 全手順付きP7を追加しない |
+| M7 | 6・7・10・11章の既習内容 | 全手順付きP7を追加しない |
 
 各章末に「この章の機能を使う演習」と必要な節への戻り先を置く。歴史を含む本文はいつでも読み返せる。説明直後の操作や全員同時進行を必須にしない。

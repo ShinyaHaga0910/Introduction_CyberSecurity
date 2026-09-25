@@ -17,6 +17,7 @@ from reportlab.platypus import (
     BaseDocTemplate, Frame, PageTemplate, Paragraph, Spacer, PageBreak,
     Preformatted, Image, Table, TableStyle, KeepTogether
 )
+from svglib.svglib import svg2rlg
 
 ROOT = Path(__file__).resolve().parents[1]
 TEXTBOOK = ROOT / "docs" / "ja" / "textbook"
@@ -181,6 +182,7 @@ body { max-width: 174mm; margin: 0 auto; font-family: 'Noto Sans JP','Yu Gothic'
 h1 { color:#174E84; border-bottom:3px solid #79A9D7; padding-bottom:3mm; page-break-before:always; }
 h1:first-of-type { page-break-before:auto; }
 h2 { color:#245E9A; margin-top:9mm; border-left:4px solid #4A90C2; padding-left:3mm; }
+@media print { h2.chapter-answers { break-before: page; page-break-before: always; } }
 h3 { color:#315E79; margin-top:6mm; }
 p { text-align:justify; }
 code { font-family: Consolas,'Noto Sans Mono',monospace; background:#EEF2F7; padding:0 1mm; }
@@ -198,11 +200,13 @@ blockquote { background:#EEF4FB; border-left:4px solid #4A90C2; padding:3mm; }
 
 def build_html(title: str, sources: list[Path], output: Path):
     parts = ["<!doctype html><html lang='ja'><head><meta charset='utf-8'>", f"<title>{html.escape(title)}</title><style>{CSS}</style></head><body>",
-             f"<section class='cover'><h1>{html.escape(title)}</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-18</p></section>"]
+             f"<section class='cover'><h1>{html.escape(title)}</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-25</p></section>"]
     for src in sources:
         for block in markdown_blocks(src):
             kind = block[0]
-            if kind == "h": parts.append(f"<h{block[1]}>{html_inline(block[2])}</h{block[1]}>")
+            if kind == "h":
+                answer_class = " class='chapter-answers'" if src.parent == TEXTBOOK and block[1] == 2 and block[2] == "章末解答" else ""
+                parts.append(f"<h{block[1]}{answer_class}>{html_inline(block[2])}</h{block[1]}>")
             elif kind == "p": parts.append(f"<p>{html_inline(block[1])}</p>")
             elif kind == "code": parts.append(f"<pre><code>{html.escape(block[2])}</code></pre>")
             elif kind == "img":
@@ -225,6 +229,7 @@ def build_html(title: str, sources: list[Path], output: Path):
 
 styles = getSampleStyleSheet()
 BODY = ParagraphStyle("BodyJP", fontName="NotoSerifJP", fontSize=9.3, leading=15.2, textColor=INK, spaceAfter=3.0*mm, splitLongWords=True, wordWrap="CJK")
+QUESTION = ParagraphStyle("QuestionJP", parent=BODY, keepWithNext=True)
 H1 = ParagraphStyle("H1JP", fontName="NotoSansJP", fontSize=20, leading=28, textColor=BLUE, spaceBefore=3*mm, spaceAfter=6*mm, keepWithNext=True, wordWrap="CJK")
 H2 = ParagraphStyle("H2JP", fontName="NotoSansJP", fontSize=14.5, leading=21, textColor=BLUE, spaceBefore=6*mm, spaceAfter=3*mm, keepWithNext=True, wordWrap="CJK", borderColor=colors.HexColor("#7FAAD4"), borderWidth=0, borderPadding=0)
 H3 = ParagraphStyle("H3JP", fontName="NotoSansJP", fontSize=11.5, leading=17, textColor=colors.HexColor("#315E79"), spaceBefore=4*mm, spaceAfter=2*mm, keepWithNext=True, wordWrap="CJK")
@@ -256,25 +261,35 @@ class BookDocTemplate(BaseDocTemplate):
 
 
 def cover_story(title: str, subtitle: str):
-    return [Spacer(1, 52*mm), Paragraph(title, ParagraphStyle("Cover", fontName="NotoSansJP", fontSize=27, leading=38, alignment=TA_CENTER, textColor=BLUE, wordWrap="CJK")),
-            Spacer(1, 12*mm), Paragraph(subtitle, ParagraphStyle("Sub", fontName="NotoSansJP", fontSize=13, leading=21, alignment=TA_CENTER, textColor=MUTED, wordWrap="CJK")),
-            Spacer(1, 60*mm), Paragraph("Ubuntu Server 24.04 LTS / 公開Lab v1.5.0<br/>JDU Cyber Security / 2026-09-18", ParagraphStyle("Meta", fontName="NotoSansJP", fontSize=9.5, leading=15, alignment=TA_CENTER, textColor=MUTED)), PageBreak()]
+    cover_title = title.replace("オペレーティングシステムとLinuxの基本操作", "オペレーティングシステム<br/>とLinuxの基本操作")
+    story = [Spacer(1, 52*mm), Paragraph(cover_title, ParagraphStyle("Cover", fontName="NotoSansJP", fontSize=27, leading=38, alignment=TA_CENTER, textColor=BLUE, wordWrap="CJK"))]
+    if subtitle:
+        story.extend([Spacer(1, 12*mm), Paragraph(subtitle, ParagraphStyle("Sub", fontName="NotoSansJP", fontSize=13, leading=21, alignment=TA_CENTER, textColor=MUTED, wordWrap="CJK"))])
+    story.extend([Spacer(1, 60*mm), Paragraph("Ubuntu Server 24.04 LTS / 公開Lab v1.0.0<br/>JDU Cyber Security / 2026-09-25", ParagraphStyle("Meta", fontName="NotoSansJP", fontSize=9.5, leading=15, alignment=TA_CENTER, textColor=MUTED)), PageBreak()])
+    return story
 
 
 def blocks_to_story(src: Path, pagebreak_h1=False):
     story = []
     first_h1 = True
+    question_follows = False
+    in_answers = False
     for block in markdown_blocks(src):
         kind = block[0]
         if kind == "h":
             level,text = block[1],block[2]
             if level == 1 and pagebreak_h1 and not first_h1:
                 story.append(PageBreak())
+            if src.parent == TEXTBOOK and level == 2 and text == "章末解答":
+                story.append(PageBreak())
+                in_answers = True
             if level == 1: first_h1 = False
             story.append(Paragraph(inline_md(text), {1:H1,2:H2,3:H3,4:H3}.get(level,H3)))
+            question_follows = not in_answers and level == 3 and bool(re.fullmatch(r"問\d+", text))
         elif kind == "p":
-            sty = CAP if block[1].startswith("**図") else BODY
+            sty = CAP if block[1].startswith(("**図", "**写真")) else QUESTION if question_follows else BODY
             story.append(Paragraph(inline_md(block[1]), sty))
+            question_follows = False
         elif kind == "code":
             code = block[2] or " "
             code_flow = Preformatted(code, CODE, maxLineLength=105, splitChars=" /:_-")
@@ -288,10 +303,27 @@ def blocks_to_story(src: Path, pagebreak_h1=False):
             story.extend([code_box, Spacer(1, 3*mm)])
         elif kind == "img":
             ip = (src.parent / block[2]).resolve()
-            with ImageReaderSize(ip) as (iw,ih):
-                max_w,max_h = 170*mm,105*mm
-                scale=min(max_w/iw,max_h/ih,1)
-                story.append(Image(str(ip),width=iw*scale,height=ih*scale))
+            max_w,max_h = 170*mm,105*mm
+            if ip.suffix.lower() == ".svg":
+                pdf_raster = ROOT / "assets" / "figure-sources-v1.2" / "generated" / f"{ip.stem}-pdf.png"
+                if pdf_raster.is_file():
+                    with ImageReaderSize(pdf_raster) as (iw,ih):
+                        scale=min(max_w/iw,max_h/ih,1)
+                        story.append(Image(str(pdf_raster),width=iw*scale,height=ih*scale))
+                else:
+                    drawing = svg2rlg(str(ip))
+                    if drawing is None or not drawing.width or not drawing.height:
+                        raise ValueError(f"Could not load SVG figure: {ip}")
+                    scale=min(max_w/drawing.width,max_h/drawing.height,1)
+                    drawing.scale(scale,scale)
+                    drawing.width *= scale
+                    drawing.height *= scale
+                    drawing.hAlign = "CENTER"
+                    story.append(drawing)
+            else:
+                with ImageReaderSize(ip) as (iw,ih):
+                    scale=min(max_w/iw,max_h/ih,1)
+                    story.append(Image(str(ip),width=iw*scale,height=ih*scale))
         elif kind in ("ul","ol"):
             for idx,item in enumerate(block[1],1):
                 bullet = "・" if kind == "ul" else f"{idx}."
@@ -335,7 +367,7 @@ def build_pdf(title, subtitle, sources, output, chapters=False):
 def main():
     chapters=sorted(TEXTBOOK.glob("*.md"))
     sets=[
-        ("Ubuntu・OS基礎 図解教科書","Linux未経験者のためのOS機能とUbuntu操作",chapters,"ubuntu_os_textbook_ja"),
+        ("オペレーティングシステムとLinuxの基本操作","",chapters,"ubuntu_os_textbook_ja"),
         ("Ubuntu・OS基礎 完全練習","P1～P6 ステップバイステップ",[ROOT/"docs/ja/practice.md"],"ubuntu_os_guided_practice_ja"),
         ("Ubuntu・OS基礎 自力課題","M0～M7 Mission Guide",[ROOT/"docs/ja/missions.md"],"ubuntu_os_missions_ja"),
         ("Ubuntu・OS基礎 参照資料","用語集・コマンド早見表",[ROOT/"docs/ja/reference.md"],"ubuntu_os_reference_ja"),

@@ -25,9 +25,9 @@ ExecStart=/usr/bin/python3 /srv/jdu-status/server.py
 systemctl cat jdu-status.service
 ```
 
-`systemctl cat` コマンドは、systemd がメモリ上に読み込んでいるユニットファイルの定義内容と、設定を部分上書きするドロップイン設定（drop-in）の全文を表示する。演習P4および課題M4では、教員側があらかじめ完成済みのユニットを用意している。学生自身がユニットファイルを直接編集するのではなく、ユニットの設定内容と、実際に動作しているプロセスの状態がどのように対応しているかを正確に読み取ることが目的である。
+`systemctl cat` コマンドは、ディスク上のユニットファイルと、設定を部分上書きするドロップイン設定（drop-in）の内容を表示する。ファイルの変更後に `daemon-reload` を実行していない場合、表示内容とsystemdが認識している設定は一致しないことがある。
 
-![unit、systemd、service process、kernelの関係](../../../assets/figures/fig14-systemd-service-lifecycle.png)
+![unit、systemd、service process、kernelの関係](../../../assets/figures/fig14-systemd-service-lifecycle.svg)
 
 **図10-1　ユニット（unit）は設定、systemd は管理者、サービスプロセスが実際の処理を行う構造。**
 
@@ -48,7 +48,7 @@ sudo systemctl start jdu-status.service
 sudo systemctl enable jdu-status.service
 ```
 
-実務では `enable --now` オプションによって起動と自動起動設定を同時に行うこともあるが、演習P4では両者の概念的な違いを明確に観測するため、別々に実行して確認する。
+`enable --now` オプションを使うと、起動と自動起動設定を同時に行える。
 
 ## 10.4 start、stop、restart、reload
 
@@ -57,16 +57,16 @@ sudo systemctl enable jdu-status.service
 - **restart**: サービスを一度停止させてから再度起動する。一時的な通信断（停止時間）が発生する。
 - **reload**: プロセスを停止させることなく、設定ファイルの再読み込みだけを要求する。すべてのサービスがこの機能に対応しているわけではない。
 
-なお、ユニットファイル自体の記述を変更した際に systemd 本体へ再読み込みを指示する `systemctl daemon-reload` と、サービスプロセス自身に設定を再読込させる `reload` は全く別の操作である。本演習環境ではユニットファイルの変更を行わないため、P4/M4で `daemon-reload` を実行する必要はない。
+なお、ユニットファイル自体の記述を変更した際に systemd 本体へ再読み込みを指示する `systemctl daemon-reload` と、サービスプロセス自身に設定を再読込させる `reload` は全く別の操作である。
 
-## 10.5 ステータスとMain PIDを読む
+## 10.5 ユニット設定と実プロセスを照合する
 
 ```bash
 systemctl status jdu-status.service
 systemctl show --property MainPID --value jdu-status.service
 ```
 
-`systemctl status` は、ユニットのロード状態、稼働状態（active）、Main PID、直近の関連ログなどを一覧表示する。出力行数が多い場合は自動的にページャー（`less` 互換画面）が起動するため、`q` キーを押して終了し元のシェルプロンプトへ戻る。一方、`systemctl show` は機械的な読み取りに適したプロパティ（キーと値の形式）を抽出できる。
+第8章ではMain PIDからプロセスを特定した。ここではさらに、ユニットの`User=`、`ExecStart=`、`WorkingDirectory=`と実際のプロセスを照合する。`systemctl status`はユニットのロード状態、稼働状態（active）、Main PID、直近の関連ログを表示する。出力行数が多い場合はページャーが起動するため、`q`キーで終了する。`systemctl show`は指定したプロパティの値だけを取得できる。
 
 Main PID を取得したら、稼働中の実プロセスとユニット設定が合致しているかを照合する。
 
@@ -93,19 +93,41 @@ systemd がプロセスを active（稼働中）として管理していたと�
 引数を指定せずに `systemctl status` を実行すると、システム全体の稼働サマリーやプロセスツリーが表示され、個々のユニットの詳細が必ずしも見やすく一覧化されるわけではない。目的のサービスを確認する際は、必ずユニット名を明示的に指定して実行する。
 
 ```bash
-systemctl status jdu-m3-process1.service
-systemctl list-units --type=service 'jdu-m3-*'
+systemctl status systemd-journald.service --no-pager
+systemctl list-units --type=service 'systemd-*'
 ```
 
 ユーザーがターミナルで起動したシェルプロセスなど、systemd のサービスユニット配下に属さないプロセスも多数存在する。システム全体のプロセス一覧を網羅的に確認するには `ps` コマンドを使用し、systemd の管理対象であるサービスの状態を確認するには `systemctl` コマンドを使用する、という使い分けを明確にする。
 
-## 章末確認
+## 章末問題
 
-1. ユニットファイル、systemd、サービスプロセスの3者の役割の違いを説明せよ。
-2. サービスの状態において「active かつ disabled」という組み合わせは成立し得るか。その状態が何を意味するかを含めて説明せよ。
-3. ユニットファイルに定義された `WorkingDirectory` の設定が、実際の稼働プロセスへ正しく反映されているかを `/proc` 配下の情報を用いて確認する方法を説明せよ。
+### 問1
+
+ユニットファイル、systemd、サービスプロセスの3者の役割の違いを説明せよ。
+
+### 問2
+
+サービスの状態において「active かつ disabled」という組み合わせは成立し得るか。その状態が何を意味するかを含めて説明せよ。
+
+### 問3
+
+ユニットファイルに定義された `WorkingDirectory` の設定が、実際の稼働プロセスへ正しく反映されているかを `/proc` 配下の情報を用いて確認する方法を説明せよ。
+
+## 章末解答
+
+### 問1
+
+**答え：** ユニットファイルは起動方法などの設定を記す。systemdはその設定を使ってサービスを管理する。サービスプロセスは、実際の処理を行う稼働中のプログラムである。
+
+### 問2
+
+**答え：** 成立し得る。`active`は現在動いていること、`disabled`はそのユニットの自動起動が有効化されていないことを示す。手動の`start`で起動したサービスが、その状態になり得る。
+
+### 問3
+
+**答え：** 稼働中サービスのMain PIDを`systemctl show --property MainPID --value ユニット名`で調べる。`readlink -f /proc/PID/cwd`で、そのプロセスの現在の作業ディレクトリを確認する。表示されたパスをユニットファイルの`WorkingDirectory=`と照合する。
 
 ## 参考資料
 
-- Ubuntu 24.04実機の`man systemctl`、`man systemd.service`（Web版は2026-09-18に取得できなかったため制作時に実機確認）
-- 公開Lab v1.5.0のP4/M4 unitとchecker（Lab固有値の正本）
+- Ubuntu 24.04 [systemctl(1)](https://manpages.ubuntu.com/manpages/noble/man1/systemctl.1.html)、[systemd.exec(5)](https://manpages.ubuntu.com/manpages/noble/man5/systemd.exec.5.html)、[proc_pid_cwd(5)](https://manpages.ubuntu.com/manpages/noble/man5/proc_pid_cwd.5.html)（2026-09-24確認）
+- 公開Lab v1.0.0のP4/M4 unitとchecker（Lab固有値の正本）

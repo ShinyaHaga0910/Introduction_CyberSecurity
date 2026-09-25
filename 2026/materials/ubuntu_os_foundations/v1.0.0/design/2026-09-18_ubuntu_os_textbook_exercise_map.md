@@ -1,16 +1,16 @@
 # 演習から抽出するOS知識と教科書の対応
 
-確認日: 2026-09-18。制作担当: GPT-5.6 Solへの引継ぎ資料。
+確認日: 2026-09-25。制作担当: GPT-5.6 Solへの引継ぎ資料を現行版に合わせて更新。
 
 ## 1. 正本と抽出方法
 
-公開Lab `Introduction_CyberSecurity` の `2026/v1.5.0/`、commit `8a1cc4c353f8e757f186de5a89adec939d7058fa`を基準とする。
+公開Lab `Introduction_CyberSecurity` の `2026/v1.0.0/`を基準とする。版番号整理に際して採点条件と初期状態は変更していない。
 
-- 学生要件: [MISSION_GUIDE.md](https://github.com/ShinyaHaga0910/Introduction_CyberSecurity/blob/8a1cc4c353f8e757f186de5a89adec939d7058fa/2026/v1.5.0/MISSION_GUIDE.md)
-- 練習手順: [GUIDED_PRACTICE.md](https://github.com/ShinyaHaga0910/Introduction_CyberSecurity/blob/8a1cc4c353f8e757f186de5a89adec939d7058fa/2026/v1.5.0/GUIDED_PRACTICE.md)
+- 学生要件: [MISSION_GUIDE.md](https://github.com/ShinyaHaga0910/Introduction_CyberSecurity/blob/main/2026/v1.0.0/MISSION_GUIDE.md)
+- 練習手順: [GUIDED_PRACTICE.md](https://github.com/ShinyaHaga0910/Introduction_CyberSecurity/blob/main/2026/v1.0.0/GUIDED_PRACTICE.md)
 - 判定実装: 同版の`scripts/jdu-labcheck`、`scripts/jdu-cloudcheck`。
 - 初期状態: 同版の`scripts/setup-instance.sh`、`scripts/jdu-fixture`、install、CloudFormation。
-- ローカル参照先: `C:/Users/user/Documents/JDU-public/Introduction_CyberSecurity/2026/v1.5.0/`。
+- ローカル参照先: `C:/Users/user/Documents/JDU-public/Introduction_CyberSecurity/2026/v1.0.0/`。
 
 抽出は「要求される操作 → 対象となるOSの機能 → 理解に必要な前提 → 説明する章」の順で行う。チェッカーを通す最短手順から章を作らない。判定されない概念でも、操作の意味を理解するために必要なら教える。逆に、チェッカー内部の実装をすべて学生の学習対象にはしない。
 
@@ -23,12 +23,12 @@
 | M0 | 稼働中のOS、kernel、PID 1、利用者、hostを調べて記録 | OSとkernelの違い、Ubuntuというdistribution、実行中のprocess、hostとuserの違い、端末・shell・ファイル編集 | 1～3、4の基本操作 | Ubuntuのversionとkernelのversionが違ってよい理由は何か |
 | P1/M1 | directoryを作る、copy、不要fileの削除、所有者確認、logの行を抽出 | 階層、path、現在位置、内容とmetadata、text、標準入出力、redirect、検索と末尾抽出 | 4・5 | `grep ... > errors.txt`で入力fileと出力fileの役割はどう違うか |
 | P2/M2 | groupの追加・除外、共有directoryの権限、別userで操作 | user識別、primary/supplementary group、processが持つ所属情報、認証と権限、suとsudo、file/dirのrwx、setgid、新規fileの作成 | 6・7 | directoryが2775でも既存fileのgroupが自動で変わらないのはなぜか |
-| P3/M3 A | 3個から対象processを特定して終了 | programとprocess、PID、unitとMainPIDの最小知識、signal、TERMとKILL、終了とfile削除の違い | 8（serviceの詳説は10） | programのfileを消すことと実行中processを終えることは同じか |
-| P3/M3 B | 未導入packageを導入し実行確認 | repository、index、package、依存、実行file、PATH、導入済みと起動中の違い | 9 | apt updateだけで新しいcommandを使えるとは限らないのはなぜか |
+| P3/M3 A | 3個から対象processを特定して終了 | programとprocess、PID、unitとMainPIDの最小知識、signal、TERMとKILL、終了とfile削除の違い | 8を読んでP3手順1～4（serviceの詳説は10） | programのfileを消すことと実行中processを終えることは同じか |
+| P3/M3 B | 未導入packageを導入し実行確認 | repository、index、package、依存、実行file、PATH、導入済みと起動中の違い | 9を読んでP3手順5～6。P3全体を終えてM3へ | apt updateだけで新しいcommandを使えるとは限らないのはなぜか |
 | P4/M4 | 既存serviceを起動・自動起動にして実行主体を観察 | systemd、unit、User/WorkingDirectory/ExecStart、active/enabled、設定と稼働状態 | 10 | enabledなのにinactiveという状態は矛盾するか |
 | P5/M5 | local HTTPを起動、待受IP/port/PID、読取権限、requestとlog、未使用portとの違い | kernelが提供するsocket、programが要求する待受、TCPの最小概念、loopback、client/server、HTTP、journal、終了状態 | 11 | serviceがactiveでもHTTPで必要な内容が返らないことはあるか |
 | P6/M6 | SSHでcommand実行、SCP往復、実行場所とfile内容を比較 | client/server、local/remote、SSH鍵とhost鍵、aliasとDNS、SSM tunnel、shellの引用・展開、home、owner/mode、hash | 12（引用は5） | CloudShellとUbuntuの`~/jdu-lab/m6`は同じ保存場所か |
-| M7 | 共有contentと権限、既存service、HTTP、logを組み合わせる | 6～12の関係、設定・稼働・観測の区別、証拠に基づく状態確認 | 13 | HTTPの結果から逆にfile、process、socketの関係を説明できるか |
+| M7 | 共有contentと権限、既存service、HTTP、logを組み合わせる | 6・7・10・11章の既習事項。設定・稼働・観測の区別、証拠に基づく状態確認 | 6・7・10・11 | HTTPの結果から逆にfile、process、socketの関係を説明できるか |
 
 M0に必要な「PID 1はOS起動時から動く管理process」「本環境ではsystemd」という最小説明は第1章に置く。第8・10章を先に読まないとM0が成立しない構成にしない。第4章には所有者の最小説明を置き、M1のために第6章全体の先取りを要求しない。
 

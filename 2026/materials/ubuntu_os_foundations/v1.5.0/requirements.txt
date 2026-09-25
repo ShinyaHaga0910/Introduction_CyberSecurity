@@ -1,4 +1,0 @@
-Pillow>=10.0
-reportlab>=4.0
-svglib>=2.2
-pypdf>=5.0

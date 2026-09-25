@@ -6,7 +6,7 @@
 
 Ubuntuでは主に Debian パッケージ形式（`.deb`）を採用し、それを **APT（Advanced Package Tool）** で一括管理する。APT は**リポジトリ（repository）**から利用可能な最新のパッケージ情報を取得し、必要な依存ライブラリを自動で解決しながらシステムへ導入する。インターネット上から拾ってきた素性の知れないスクリプトを不用意に root 権限で直接実行することと、公式に信頼されたリポジトリから検証済みのパッケージを導入することは、セキュリティの観点から根本的に異なる行為である。
 
-![repository、package index、package、commandの関係](../../../assets/figures/fig13-apt-flow.png)
+![repository、package index、package、commandの関係](../../../assets/figures/fig13-apt-flow.svg)
 
 **図9-1　`apt update` はインデックス（一覧情報）を更新し、`apt install` がパッケージ本体を取得・導入する流れ。**
 
@@ -17,19 +17,12 @@ Ubuntuでは主に Debian パッケージ形式（`.deb`）を採用し、それ
 ```bash
 sudo apt update
 apt show cmatrix
+sudo apt upgrade
 ```
 
-`apt update` は、リポジトリから利用可能なパッケージの一覧（インデックス）を最新状態に更新するコマンドである。これ自身は導入済みパッケージの本体を更新するコマンドではない。一方、導入済みパッケージ本体を新バージョンへ更新するコマンドは `apt upgrade` である。本演習環境では、意図しないシステム変更や演習条件の破壊を防ぐため、授業中に無関係なシステム全体のアップグレード（`apt upgrade`）を行ってはならない。
+`apt update` は、リポジトリから利用可能なパッケージの一覧（インデックス）を最新状態に更新する。これだけでは導入済みパッケージの本体は変わらない。`apt show cmatrix` では、導入前にパッケージの説明やバージョン、依存関係を確認できる。`apt upgrade` は、更新した一覧を基に、導入済みパッケージを新しいバージョンへ更新する。実行時に表示される変更内容を確認してから、継続するか判断する。これはUbuntuの新しいリリースへ切り替える操作ではない。
 
-## 9.3 導入前に情報を確認する
-
-```bash
-apt show cmatrix
-```
-
-パッケージ名、バージョン、依存関係、ダウンロードサイズ、導入後の専有サイズ、機能説明を確認する。似た名前の別パッケージを誤って導入してはならない。なお、`apt` コマンドは自動化スクリプト向けに出力形式の互換性を保証しないという警告を出す場合があるため、厳密な自動スクリプトでは `apt-get` や `apt-cache` などを使い分けるのが通例である。本演習では人間が対話的に結果を確認・学習するため、使いやすい `apt` コマンドを使用する。
-
-## 9.4 インストールと実行確認
+## 9.3 インストールと実行確認
 
 ```bash
 sudo apt install cmatrix
@@ -41,7 +34,7 @@ cmatrix
 
 パッケージがシステムに導入済みであることと、現在そのプロセスがメモリ上で動作していることは全く別の状態である。コマンドを終了させてもパッケージ自体はシステムに残り続ける。その一方で、サーバー系ソフトウェアのパッケージによっては、導入完了時にサービスプロセスを自動起動する設定になっているものもある。思い込みで判断せず、`systemctl` コマンドを用いて実際の稼働状態を確認することが重要である。
 
-## 9.5 バージョンとファイルの所属を確認する
+## 9.4 バージョンとファイルの所属を確認する
 
 ```bash
 dpkg-query -W -f='${Package} ${Version}\n' cmatrix
@@ -50,17 +43,40 @@ dpkg -S /usr/bin/cmatrix
 
 `dpkg-query` は、ローカルのパッケージデータベースから現在導入されている正確なバージョン情報を読み出す。`dpkg -S PATH` は、指定したファイルパスがどのパッケージによって提供・配置されたかを調べる。`command -v` が「シェルが実行対象として認識しているファイルパス」を答えるのに対し、`dpkg -S` は「そのファイルを管理しているパッケージの所属関係」を答えるものであり、両者は解決しようとしている問いが根本的に異なる。
 
-## 9.6 削除とクリーンアップは今回の中心ではない
+## 9.5 削除とクリーンアップ
 
-`apt remove`（本体削除）、`apt purge`（設定ファイルを含めた完全削除）、`apt autoremove`（不要になった依存パッケージの自動削除）には、それぞれ異なる影響範囲がある。本演習は指定されたパッケージを正しく導入し、その状態変化を観測することを目的としており、不要パッケージのクリーンアップは演習課題の範囲外としている。共通の演習環境や教員が用意したイメージにおいて、指示のないシステムパッケージを不用意に削除してはならない。
+`apt remove` はパッケージ本体を削除する。`apt purge` は設定ファイルも含めて削除する。`apt autoremove` は、ほかのパッケージから必要とされなくなった依存パッケージを削除する。いずれも `apt upgrade` とは異なり、削除されるものを確認してから実行する。
 
-## 章末確認
+## 章末問題
 
-1. `apt update` と `apt install` の役割の違いを、インデックス情報とパッケージ本体に着目して説明せよ。
-2. `command -v cmatrix` と `dpkg -S /usr/bin/cmatrix` がそれぞれ何を調べるコマンドであるか、その違いを説明せよ。
-3. パッケージが正常に導入（installed）されているにもかかわらず、対応するプロセスが動いていない具体的な状況を一例挙げよ。
+### 問1
+
+`apt update`、`apt upgrade`、`apt install` の役割の違いを説明せよ。
+
+### 問2
+
+`command -v cmatrix` と `dpkg -S /usr/bin/cmatrix` がそれぞれ何を調べるコマンドであるか、その違いを説明せよ。
+
+### 問3
+
+パッケージが正常に導入されていても、対応するプロセスが動いていない状況を一例挙げよ。
+
+## 章末解答
+
+### 問1
+
+**答え：** `apt update` は利用可能なパッケージの一覧を更新する。`apt upgrade` は導入済みパッケージを新しいバージョンへ更新する。`apt install` は指定したパッケージを導入する。
+
+### 問2
+
+**答え：** `command -v cmatrix` はシェルが実行するコマンドのパスを調べる。`dpkg -S /usr/bin/cmatrix` は、そのファイルを提供するパッケージを調べる。
+
+### 問3
+
+**答え：** `cmatrix` を導入したあと、起動せずにいる場合や、起動後に `Ctrl+C` で終了した場合。パッケージは残るが、`cmatrix` のプロセスは動いていない。
 
 ## 参考資料
 
-- Ubuntu Server documentation, [Install and manage packages](https://ubuntu.com/server/docs/how-to/software/package-management/)（2026-09-18確認）
+- Ubuntu Server documentation, [Install and manage packages](https://ubuntu.com/server/docs/how-to/software/package-management/)（2026-09-24確認）
+- Ubuntu Server documentation, [Managing your software](https://ubuntu.com/server/docs/tutorial/managing-software/)（2026-09-24確認）
 - Ubuntu 24.04実機の`man apt`、`man dpkg-query`、`man dpkg`（制作時に確認）

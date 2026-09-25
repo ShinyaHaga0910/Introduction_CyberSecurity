@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -u
 
-STACK_NAME="jdu-intro-cybersecurity-2026"
+STACK_NAME="jdu-intro-cybersecurity-2026-v120"
 REGION="${AWS_REGION:-${AWS_DEFAULT_REGION:-}}"
 WAIT=false
 PASS_COUNT=0
@@ -65,8 +65,10 @@ subnet_id="$(stack_output PublicSubnetId || true)"
 route_table_id="$(stack_output RouteTableId || true)"
 security_group_id="$(stack_output SecurityGroupId || true)"
 profile_name="$(stack_output InstanceProfileName || true)"
+connection_method="$(stack_output ConnectionMethod || true)"
+student_ssh_user="$(stack_output StudentSshUser || true)"
 
-for pair in "InstanceId:$instance_id" "VpcId:$vpc_id" "PublicSubnetId:$subnet_id" "RouteTableId:$route_table_id" "SecurityGroupId:$security_group_id" "InstanceProfileName:$profile_name"; do
+for pair in "InstanceId:$instance_id" "VpcId:$vpc_id" "PublicSubnetId:$subnet_id" "RouteTableId:$route_table_id" "SecurityGroupId:$security_group_id" "InstanceProfileName:$profile_name" "ConnectionMethod:$connection_method" "StudentSshUser:$student_ssh_user"; do
   label="${pair%%:*}"; value="${pair#*:}"
   if [[ -n "$value" && "$value" != "None" ]]; then pass "Stack output exists: $label"; else error "Stack output is missing: $label"; fi
 done
@@ -93,6 +95,8 @@ if ((ERROR_COUNT == 0)); then
   check_equal 'IMDSv2 tokens are required' "$http_tokens" 'required'
   if [[ "$profile_arn" == */"$profile_name" ]]; then pass 'Expected instance profile is attached'; else fail "Expected instance profile is not attached (observed ${profile_arn:-empty})"; fi
   check_equal 'Course ownership tag is present' "$course_tag" 'Introduction_CyberSecurity'
+  check_equal 'Connection method is SSH over Session Manager' "$connection_method" 'SSH over AWS Systems Manager Session Manager'
+  check_equal 'SSH user is ssm-user' "$student_ssh_user" 'ssm-user'
 
   attempts=1
   if $WAIT; then attempts=40; fi

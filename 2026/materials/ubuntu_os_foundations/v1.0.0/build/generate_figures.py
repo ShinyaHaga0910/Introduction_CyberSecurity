@@ -51,8 +51,6 @@ def canvas(title, subtitle=""):
     d = ImageDraw.Draw(im)
     d.rounded_rectangle((35, 30, W - 35, H - 30), radius=28, fill="white", outline="#D6DEEA", width=3)
     d.text((85, 65), title, font=font(54, True), fill=INK)
-    if subtitle:
-        d.text((88, 138), subtitle, font=font(29), fill=MUTED)
     return im, d
 
 
@@ -105,25 +103,78 @@ def save(im, name):
 
 
 def fig01():
-    im,d=canvas("OSがハードウェアとプログラムの間を調整する", "内部回路ではなく、共有・保護・共通機能の関係を見る")
-    boxes=[((100,240,420,390),"アプリA","シェル / コマンド",PURPLE,PURPLE_STROKE),((100,440,420,590),"アプリB","Webサービス",PURPLE,PURPLE_STROKE),((590,260,1210,680),"OS","プロセスの実行\nメモリの割当\nファイルとアクセス権\nソケットとネットワーク",BLUE,BLUE_STROKE),((1390,215,1680,340),"CPU","命令を実行",ORANGE,ORANGE_STROKE),((1390,390,1680,515),"メモリ","実行中データ",ORANGE,ORANGE_STROKE),((1390,565,1680,690),"保存領域","ファイルを保持",ORANGE,ORANGE_STROKE),((1390,740,1680,865),"ネットワーク","通信を運ぶ",ORANGE,ORANGE_STROKE)]
-    for xy,t,b,f,s in boxes: box(d,xy,t,b,f,s)
-    arrow(d,(420,315),(590,360),"依頼") ; arrow(d,(420,515),(590,560),"依頼")
-    for y in (278,453,628,803): arrow(d,(1210,470),(1390,y),"管理")
-    note(d,(105,805),"プログラム同士がハードウェアを勝手に奪い合わないよう、OSが共通の入口と保護を提供する。")
+    im,d=canvas("パソコンとサーバーに共通する構成")
+    d.rounded_rectangle((75,180,845,925),radius=28,outline=BLUE_STROKE,width=5)
+    d.text((110,195),"パソコン",font=font(42,True),fill=BLUE_STROKE)
+    box(d,(130,285,790,405),"利用者と入出力","キーボード / マウス / ディスプレイ",PURPLE,PURPLE_STROKE,title_size=31,body_size=24)
+    box(d,(130,455,790,575),"アプリケーション","ブラウザ / 文書作成 / 学習用ツール",GREEN,GREEN_STROKE,title_size=31,body_size=24)
+    box(d,(130,625,790,745),"OS","入力・実行・保存・表示を管理",BLUE,BLUE_STROKE,title_size=31,body_size=24)
+    box(d,(130,775,790,910),"ハードウェア","CPU / メモリ / ストレージ / ネットワーク",ORANGE,ORANGE_STROKE,title_size=29,body_size=20)
+    arrow(d,(460,405),(460,455)); arrow(d,(460,575),(460,625)); arrow(d,(460,745),(460,775))
+
+    d.rounded_rectangle((955,180,1725,925),radius=28,outline=GREEN_STROKE,width=5)
+    d.text((990,195),"サーバー",font=font(42,True),fill=GREEN_STROKE)
+    box(d,(1010,285,1670,405),"ネットワーク上の利用者","別のコンピューターから要求",PURPLE,PURPLE_STROKE,title_size=31,body_size=24)
+    box(d,(1010,455,1670,575),"サーバーアプリケーション","Web / データベース / DNS",GREEN,GREEN_STROKE,title_size=31,body_size=24)
+    box(d,(1010,625,1670,745),"OS","実行・保存・保護・通信を管理",BLUE,BLUE_STROKE,title_size=31,body_size=24)
+    box(d,(1010,775,1670,910),"ハードウェアまたは仮想マシン","CPU / メモリ / ストレージ / ネットワーク",ORANGE,ORANGE_STROKE,title_size=27,body_size=20)
+    arrow(d,(1340,405),(1340,455)); arrow(d,(1340,575),(1340,625)); arrow(d,(1340,745),(1340,775))
     save(im,"fig01-os-resource-map.png")
 
 
 def fig02():
-    im,d=canvas("GUIとCLIは並列の入口", "どちらから起動したプログラムも、必要に応じてカーネルへ依頼する")
-    box(d,(100,235,460,410),"GUI","ウィンドウ・ボタン\nから操作",PURPLE,PURPLE_STROKE)
-    box(d,(100,550,460,725),"CLI","ターミナルで文字入力",PURPLE,PURPLE_STROKE)
-    box(d,(650,275,1120,690),"ユーザー空間のプログラム","GUIアプリケーション\nシェル / コマンド\nサービスプロセス",BLUE,BLUE_STROKE)
-    box(d,(1320,360,1690,610),"カーネル","プロセス / ファイル\nアクセス権 / ソケット",ORANGE,ORANGE_STROKE)
-    arrow(d,(460,322),(650,385),"起動・操作"); arrow(d,(460,637),(650,585),"解釈・実行")
-    arrow(d,(1120,480),(1320,480),"システムコール")
-    note(d,(160,850),"誤解: GUI → CLI → カーネル という必須の一本道ではない。GUIアプリケーションも直接カーネル機能を利用できる。")
+    im,d=canvas("ユーザー空間とカーネル空間")
+    d.rounded_rectangle((95,170,1705,840),radius=30,outline="#7A4EAB",width=7)
+    d.text((125,185),"広い意味でのOS環境",font=font(38,True),fill="#6B2FA0")
+    d.rounded_rectangle((140,260,1660,575),radius=24,fill="#F5F0FF",outline=PURPLE_STROKE,width=4)
+    d.text((180,280),"ユーザー空間",font=font(38,True),fill=PURPLE_STROKE)
+    box(d,(190,365,610,525),"GUI関連プログラム","ウィンドウ / ボタン",PURPLE,PURPLE_STROKE,title_size=30,body_size=24)
+    box(d,(690,365,1110,525),"CLI関連プログラム","ターミナル / シェル / コマンド",BLUE,BLUE_STROKE,title_size=30,body_size=23)
+    box(d,(1190,365,1610,525),"アプリケーションとサービス","Web / DB / SSH",GREEN,GREEN_STROKE,title_size=28,body_size=24)
+    d.rounded_rectangle((140,625,1660,820),radius=24,fill=ORANGE,outline=ORANGE_STROKE,width=4)
+    d.text((180,647),"カーネル空間",font=font(38,True),fill=ORANGE_STROKE)
+    d.text((490,650),"CPU / メモリ / プロセス / ファイル / アクセス権 / ネットワーク",font=font(28),fill=INK)
+    for x in (400,900,1400): arrow(d,(x,575),(x,625),width=4)
+    d.text((750,585),"システムコール",font=font(23,True),fill="#314B6E")
+    box(d,(430,875,1370,1015),"ハードウェア","CPU / メモリ / ストレージ / 入出力装置 / ネットワーク",GRAY,GRAY_STROKE,title_size=28,body_size=20)
+    arrow(d,(900,820),(900,875),width=4)
     save(im,"fig02-user-kernel-boundary.png")
+
+
+def fig02b():
+    im,d=canvas("電源投入からサービスが動くまで")
+    stages=[
+        ((75,300,335,500),"1. ファームウェア","ハードウェアを初期化",GRAY,GRAY_STROKE),
+        ((410,300,670,500),"2. ブートローダー","カーネルを読み込む",PURPLE,PURPLE_STROKE),
+        ((745,300,1005,500),"3. Linuxカーネル","メモリ・デバイス・\nファイルを準備",ORANGE,ORANGE_STROKE),
+        ((1080,300,1340,500),"4. systemd","最初の管理プロセス\nPID 1",BLUE,BLUE_STROKE),
+        ((1415,300,1725,500),"5. サービス","SSH・Web・DB\nログ管理",GREEN,GREEN_STROKE),
+    ]
+    for xy,t,b,f,s in stages: box(d,xy,t,b,f,s,title_size=29,body_size=23)
+    for x1,x2 in ((335,410),(670,745),(1005,1080),(1340,1415)): arrow(d,(x1,400),(x2,400),width=5)
+    box(d,(1120,680,1660,850),"サービスの実体","一つ以上のプロセスが動く\n例: データベースプロセス",GREEN,GREEN_STROKE,title_size=31,body_size=26)
+    arrow(d,(1570,500),(1570,680),"起動・監視",width=5)
+    save(im,"fig02b-linux-boot-sequence.png")
+
+
+def fig02c():
+    im,d=canvas("ホストとユーザーを区別する")
+    hosts=[
+        ((80,250,520,800),"学生PC","hostname: student-pc","手元の利用者\nブラウザ\nローカルファイル",PURPLE,PURPLE_STROKE),
+        ((680,250,1120,800),"CloudShell","hostname: cloud-host","Linuxユーザー\nプロセス\nホームディレクトリ",BLUE,BLUE_STROKE),
+        ((1280,250,1720,800),"Ubuntuサーバー","hostname: ip-...","ssm-user\nサービスプロセス\nサーバーファイル",GREEN,GREEN_STROKE),
+    ]
+    for xy,title,host,body,fill,stroke in hosts:
+        x1,y1,x2,y2=xy
+        d.rounded_rectangle(xy,radius=24,fill=fill,outline=stroke,width=5)
+        d.text((x1+28,y1+25),title,font=font(35,True),fill=INK)
+        d.text((x1+28,y1+92),host,font=font(25,True),fill=stroke)
+        d.multiline_text((x1+28,y1+180),body,font=font(27),fill=INK,spacing=20)
+        d.text((x1+28,y2-90),"独立したOS環境",font=font(27,True),fill=stroke)
+    arrow(d,(520,525),(680,525),"ブラウザ",width=5)
+    arrow(d,(1120,525),(1280,525),"SSH",width=5)
+    note(d,(250,900),"ホスト名はコンピューターを識別し、ユーザー名・UID・GIDはそのホスト上の操作主体を識別する。",size=27)
+    save(im,"fig02c-host-user-identity.png")
 
 
 def fig03():
@@ -350,7 +401,7 @@ def fig19():
     save(im,"fig19-integrated-service-system.png")
 
 
-for fn in [fig01,fig02,fig03,fig04,fig05,fig06,fig07,fig08,fig09,fig10,fig11,fig12,fig13,fig14,fig15,fig16,fig17,fig18,fig19]:
+for fn in [fig01,fig02,fig02b,fig02c,fig03,fig04,fig05,fig06,fig07,fig08,fig09,fig10,fig11,fig12,fig13,fig14,fig15,fig16,fig17,fig18,fig19]:
     fn()
 
 print(f"generated {len(list(OUT.glob('fig*.png')))} figures in {OUT}")

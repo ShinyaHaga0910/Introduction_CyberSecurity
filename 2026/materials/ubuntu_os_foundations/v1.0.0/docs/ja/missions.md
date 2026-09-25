@@ -163,6 +163,8 @@ jdu-check M2
 
 ## M3 Process and package
 
+第8・9章と練習P3の両部分を終えてから取り組む。第10章では、サービスの起動と自動起動を詳しく学ぶ。
+
 ### 目的
 
 Serviceとprocessを対応させる。PIDを指定してsignalを送る。Ubuntu packageを調査し、installする。
