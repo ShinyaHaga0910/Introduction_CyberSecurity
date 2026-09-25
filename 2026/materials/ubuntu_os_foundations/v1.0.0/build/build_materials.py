@@ -184,6 +184,7 @@ h1:first-of-type { page-break-before:auto; }
 h2 { color:#245E9A; margin-top:9mm; border-left:4px solid #4A90C2; padding-left:3mm; }
 @media print { h2.chapter-answers { break-before: page; page-break-before: always; } }
 h3 { color:#315E79; margin-top:6mm; }
+h4 { color:#315E79; margin-top:4mm; margin-bottom:2mm; font-size:10.5pt; }
 p { text-align:justify; }
 code { font-family: Consolas,'Noto Sans Mono',monospace; background:#EEF2F7; padding:0 1mm; }
 pre { background:#172033; color:#F6F8FB; padding:4mm; border-radius:2mm; white-space:pre-wrap; overflow-wrap:anywhere; }
@@ -233,6 +234,7 @@ QUESTION = ParagraphStyle("QuestionJP", parent=BODY, keepWithNext=True)
 H1 = ParagraphStyle("H1JP", fontName="NotoSansJP", fontSize=20, leading=28, textColor=BLUE, spaceBefore=3*mm, spaceAfter=6*mm, keepWithNext=True, wordWrap="CJK")
 H2 = ParagraphStyle("H2JP", fontName="NotoSansJP", fontSize=14.5, leading=21, textColor=BLUE, spaceBefore=6*mm, spaceAfter=3*mm, keepWithNext=True, wordWrap="CJK", borderColor=colors.HexColor("#7FAAD4"), borderWidth=0, borderPadding=0)
 H3 = ParagraphStyle("H3JP", fontName="NotoSansJP", fontSize=11.5, leading=17, textColor=colors.HexColor("#315E79"), spaceBefore=4*mm, spaceAfter=2*mm, keepWithNext=True, wordWrap="CJK")
+H4 = ParagraphStyle("H4JP", fontName="NotoSansJP", fontSize=10.5, leading=15, textColor=colors.HexColor("#315E79"), spaceBefore=3*mm, spaceAfter=1.5*mm, keepWithNext=True, wordWrap="CJK")
 CAP = ParagraphStyle("CaptionJP", parent=BODY, fontName="NotoSansJP", fontSize=8.3, leading=12.5, textColor=MUTED, alignment=TA_CENTER, spaceBefore=1*mm, spaceAfter=4*mm)
 LIST = ParagraphStyle("ListJP", parent=BODY, leftIndent=7*mm, firstLineIndent=-4*mm, bulletIndent=1*mm, spaceAfter=1.5*mm)
 CODE = ParagraphStyle("CodeJP", fontName="NotoSansJP", fontSize=7.8, leading=11.2, textColor=INK, splitLongWords=True)
@@ -286,7 +288,7 @@ def blocks_to_story(src: Path, pagebreak_h1=False):
                 story.append(PageBreak())
                 in_answers = True
             if level == 1: first_h1 = False
-            story.append(Paragraph(inline_md(text), {1:H1,2:H2,3:H3,4:H3}.get(level,H3)))
+            story.append(Paragraph(inline_md(text), {1:H1,2:H2,3:H3,4:H4}.get(level,H3)))
             question_follows = not in_answers and level == 3 and bool(re.fullmatch(r"(?:問\d+|Вопрос\s+\d+\.?)", text))
         elif kind == "p":
             sty = CAP if block[1].startswith(("**図", "**写真", "**Рисунок", "**Фото")) or re.match(r"\*\*\d+-\d+-(?:rasm|foto)", block[1]) else QUESTION if question_follows else BODY
@@ -373,7 +375,7 @@ def main():
     chapters=sorted(TEXTBOOK.glob("*.md"))
     sets=[
         ("オペレーティングシステムとLinuxの基本操作","",chapters,"ubuntu_os_textbook_ja"),
-        ("Ubuntu・OS基礎 完全練習","P1～P6 ステップバイステップ",[ROOT/"docs/ja/practice.md"],"ubuntu_os_guided_practice_ja"),
+        ("Ubuntu・OS基礎 練習課題と解答例","P1～P6 課題と操作手順",[ROOT/"docs/ja/practice.md"],"ubuntu_os_guided_practice_ja"),
         ("Ubuntu・OS基礎 自力課題","M0～M7 Mission Guide",[ROOT/"docs/ja/missions.md"],"ubuntu_os_missions_ja"),
         ("Ubuntu・OS基礎 参照資料","用語集・コマンド早見表",[ROOT/"docs/ja/reference.md"],"ubuntu_os_reference_ja"),
     ]

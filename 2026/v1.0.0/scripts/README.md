@@ -4,7 +4,7 @@
 
 - `setup-instance.sh`: EC2 UserDataから実行する。
 - `check-aws-environment.sh`: CloudShellからAWS構成をread-onlyで確認する。
-- `jdu-fixture`: Ubuntu内の完全手順付き演習P1～P6と自力課題M0～M7をresetする。
+- `jdu-fixture`: Ubuntu内の練習課題P1～P6と自力課題M0～M7をresetする。
 - `jdu-labcheck`: Ubuntu内でP1～P6とM0～M7の状態を確認する。
 - `jdu-cloudcheck`: CloudShell側のP6またはM6成果物4件を確認し、結果を自動送信する。
 - `jdu-worker`: M3のprocess観察用program。

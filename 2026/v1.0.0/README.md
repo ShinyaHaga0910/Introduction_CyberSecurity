@@ -23,7 +23,7 @@ ssh jdu-ubuntu
 
 ## 演習と確認
 
-完全手順付きの[練習P1～P6](GUIDED_PRACTICE.md)と、[自力課題M0～M7](MISSION_GUIDE.md)があります。M0と統合課題M7には対応するPを設けていません。
+問題文と手順付き解答を載せた[練習P1～P6](GUIDED_PRACTICE.md)と、[自力課題M0～M7](MISSION_GUIDE.md)があります。M0と統合課題M7には対応するPを設けていません。
 
 ```text
 M0 → P1 → M1 → P2 → M2 → P3前半 → 第9章 → P3後半 → M3
@@ -42,6 +42,19 @@ jdu-reset M1   # 最初からやり直すときだけ
 
 P6とM6はUbuntuとCloudShellで別々に`jdu-check`を実行します。DashboardはUbuntu側2件、CloudShell側4件を分けて表示し、双方が全件PASSになったときに完了です。
 
+### 既存のUbuntu環境を使い続ける場合
+
+今回のP1判定修正は、新しくCloudFormationから作る環境には自動で入ります。すでに作成したUbuntu環境では、`ssm-user`として接続し、判定スクリプトだけを更新できます。演習成果物のresetは不要です。
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShinyaHaga0910/Introduction_CyberSecurity/main/2026/v1.0.0/scripts/jdu-labcheck -o /tmp/jdu-labcheck-v1.0.0
+printf '%s  %s\n' '266ea663d86fd7480d5a8853e72d94717fa16e879afd54b82ec6ffdcf71719b4' '/tmp/jdu-labcheck-v1.0.0' | sha256sum --check
+sudo install -o root -g root -m 0755 /tmp/jdu-labcheck-v1.0.0 /opt/jdu-lab/bin/jdu-labcheck
+jdu-check P1
+```
+
+更新するまでは、既存環境のP1所有者判定が古い条件で動きます。
+
 ## 主なファイル
 
 | ファイル | 役割 |
@@ -54,7 +67,7 @@ P6とM6はUbuntuとCloudShellで別々に`jdu-check`を実行します。Dashboa
 | `scripts/jdu-labcheck` | Ubuntu側の課題判定 |
 | `scripts/jdu-cloudcheck` | CloudShell側P6/M6の判定 |
 | `scripts/jdu-progress` | 匿名server IDと結果のHTTPS送信 |
-| `GUIDED_PRACTICE.md` | P1～P6の完全手順 |
+| `GUIDED_PRACTICE.md` | P1～P6の問題文と手順付き解答 |
 | `MISSION_GUIDE.md` | M0～M7の課題文 |
 | `tests/run-tests.sh` | ローカル受入試験 |
 | `SHA256SUMS` | 配布物のチェックサム |

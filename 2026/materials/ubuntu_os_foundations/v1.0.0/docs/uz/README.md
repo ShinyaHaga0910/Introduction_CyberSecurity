@@ -2,6 +2,8 @@
 
 Holati: barcha bo‘limlarning ChatGPT yordamida tayyorlangan tarjima qoralamasi yakunlandi. O‘zbek tilida so‘zlashuvchi mutaxassisning tahriri va talabalar bilan sinovi hali o‘tkazilmagan. Hozircha tasdiqlangan o‘quv nashri emas.
 
+Eslatma: P1–P6 mashqlarining yaponcha asl nusxasi keyin yangilandi. Ushbu o‘zbekcha `practice.md` va unga mos PDF hali yangi savol matnlarini o‘z ichiga olmaydi; ularni tarjima qilish kerak.
+
 Hozirgi tarjima manbasi `docs/ja/` katalogidagi yaponcha matndir. IT atamalari [`localization/terminology.csv`](../../localization/terminology.csv) va [uslub qo‘llanmasi](../../localization/uzbek-style-guide.md) asosida inglizcha saqlanadi. Commandlar, pathlar, identifikatorlar va tekshiruv IDlari o‘zgartirilmaydi.
 
 - [Darslik: 1–12-boblar va yakun](./textbook/)

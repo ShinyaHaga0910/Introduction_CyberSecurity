@@ -1,5 +1,5 @@
 <!doctype html><html lang='ja'><head><meta charset='utf-8'>
-<title>Ubuntu・OS基礎 完全練習</title><style>
+<title>Ubuntu・OS基礎 練習課題と解答例</title><style>
 @page { size: A4; margin: 18mm; }
 body { max-width: 174mm; margin: 0 auto; font-family: 'Noto Sans JP','Yu Gothic',sans-serif; color:#172033; line-height:1.78; font-size:10.5pt; }
 h1 { color:#174E84; border-bottom:3px solid #79A9D7; padding-bottom:3mm; page-break-before:always; }
@@ -7,6 +7,7 @@ h1:first-of-type { page-break-before:auto; }
 h2 { color:#245E9A; margin-top:9mm; border-left:4px solid #4A90C2; padding-left:3mm; }
 @media print { h2.chapter-answers { break-before: page; page-break-before: always; } }
 h3 { color:#315E79; margin-top:6mm; }
+h4 { color:#315E79; margin-top:4mm; margin-bottom:2mm; font-size:10.5pt; }
 p { text-align:justify; }
 code { font-family: Consolas,'Noto Sans Mono',monospace; background:#EEF2F7; padding:0 1mm; }
 pre { background:#172033; color:#F6F8FB; padding:4mm; border-radius:2mm; white-space:pre-wrap; overflow-wrap:anywhere; }
@@ -19,54 +20,61 @@ blockquote { background:#EEF4FB; border-left:4px solid #4A90C2; padding:3mm; }
 .cover h1 { page-break-before:auto; font-size:26pt; border:0; }
 .meta { color:#526079; }
 </style></head><body>
-<section class='cover'><h1>Ubuntu・OS基礎 完全練習</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-25</p></section>
-<h1>Ubuntu and OS Foundations — 完全手順付き演習</h1>
-<p>対象: Guided Practice P1～P6</p>
+<section class='cover'><h1>Ubuntu・OS基礎 練習課題と解答例</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-25</p></section>
+<h1>Ubuntu and OS Foundations — 練習課題と解答例</h1>
+<p>対象: 練習課題P1～P6</p>
 <p>環境: Ubuntu Server 24.04 LTS</p>
-<p>位置付け: 各Pを練習した後、同じ技能を使うMission Mを自力で解く。</p>
+<p>進め方: まず各Pの「課題」を読む。自分で試した後、「解答例」の手順で操作と考え方を確認する。同じ技能を使うMission Mは自力で解く。</p>
 <h2>0. 共通ルール</h2>
-<p>P1～P6は練習用である。M1～M6とは別のdirectory、user、group、service、portを使う。M7は統合課題であるため、対応する手順付き演習を設けない。</p>
+<p>P1～P6は練習用である。M1～M6とは別のdirectory、user、group、service、portを使う。M7は統合課題であるため、対応する練習課題を設けない。</p>
+<p>各Pには、最初に問題文、その後に解答例を置く。問題文だけを読んで解いてもよい。解答例の手順を見ながら進めてもよい。PとMの採点対象は別であり、PのPASSはMのPASSにならない。</p>
 <p>Ubuntuで次を実行する。表示が<code>ssm-user</code>であることを確認する。</p>
 <pre><code>id -un</code></pre>
 <p>別のuser名が表示された場合は、<code>exit</code>を1回実行する。もう一度確認する。</p>
 <pre><code>exit
 id -un</code></pre>
 <p>各手順では、最初に作業directoryへ移動する。移動後に<code>pwd</code>で現在地を確認する。</p>
-<p>採点は次の形で実行する。</p>
+<p>Ubuntu側の判定は、<code>ssm-user</code>で次の形で実行する。P6のCloudShell側の判定は、その環境で実行する。</p>
 <pre><code>jdu-check P1</code></pre>
+<p>判定は課題の完成状態を調べる。観察しただけの操作や途中の操作は、判定項目に含まれない場合がある。判定結果は設定済みの教員用進捗画面へ自動送信される。送信できなくても、UbuntuまたはCloudShell上のPASS/FAILは確認できる。</p>
 <p>最初からやり直す場合だけresetする。</p>
 <pre><code>jdu-reset P1</code></pre>
 <h2>P1 Shell、path、file、text</h2>
 <h3>学ぶこと</h3>
 <ul><li>Home directoryと作業directoryを区別する。</li><li>Directoryを作る。</li><li>Fileをコピーする。</li><li>Logから必要な行を保存する。</li></ul>
-<h3>手順1: Home directoryへ移動する</h3>
+<h3>課題</h3>
+<p><code>~/jdu-lab/p1/inbox</code>に設定ファイルとログがある。<code>~/jdu-lab/p1/practice01</code>は未完成で、不要な<code>.tmp</code>ファイルが残っている。次の状態に仕上げる。</p>
+<ol><li><code>practice01</code>の下に<code>config</code>、<code>logs</code>、<code>notes</code>の3つのディレクトリを作る。</li><li><code>inbox/config/training.conf</code>を<code>practice01/config/training.conf</code>へ、<code>inbox/logs/practice.log</code>を<code>practice01/logs/practice.log</code>へコピーする。元ファイルとコピーの内容を変えない。</li><li><code>practice01</code>以下の<code>.tmp</code>ファイルをすべて削除する。それ以外のファイルは消さない。</li><li>完成した<code>practice01</code>以下のディレクトリとファイルの所有者を、Ubuntuの管理ユーザー<code>ssm-user</code>にする。</li><li>コピーしたログから<code>WARN</code>を含む行だけを、行番号を付けずに<code>practice01/notes/warnings.txt</code>へ保存する。</li><li>同じログの最後の4行を、元の順序で<code>practice01/notes/recent.txt</code>へ保存する。</li></ol>
+<p>完成状態を<code>jdu-check P1</code>で判定する。6項目すべてがPASSなら終了する。</p>
+<h3>解答例（操作手順）</h3>
+<h4>手順1: Home directoryへ移動する</h4>
 <pre><code>cd ~
 pwd</code></pre>
 <p>表示が<code>/home/ssm-user</code>であることを確認する。</p>
-<h3>手順2: P1 directoryへ移動する</h3>
+<h4>手順2: P1 directoryへ移動する</h4>
 <pre><code>cd ~/jdu-lab/p1
 pwd
 tree</code></pre>
 <p><code>inbox</code>と、未完成の<code>practice01</code>を確認する。</p>
-<h3>手順3: 必要なdirectoryを作る</h3>
+<h4>手順3: 必要なdirectoryを作る</h4>
 <pre><code>cd ~/jdu-lab/p1
 mkdir -p practice01/config
 mkdir -p practice01/logs
 mkdir -p practice01/notes
 tree practice01</code></pre>
-<h3>手順4: Config fileをコピーする</h3>
+<h4>手順4: Config fileをコピーする</h4>
 <p>コピー先のdirectoryへ移動する。</p>
 <pre><code>cd ~/jdu-lab/p1/practice01/config
 pwd
 cp ../../inbox/config/training.conf .
 ls -l</code></pre>
 <p><code>.</code>は現在のdirectoryを表す。</p>
-<h3>手順5: Log fileをコピーする</h3>
+<h4>手順5: Log fileをコピーする</h4>
 <pre><code>cd ~/jdu-lab/p1/practice01/logs
 pwd
 cp ../../inbox/logs/practice.log .
 ls -l</code></pre>
-<h3>手順6: 一時fileを探して削除する</h3>
+<h4>手順6: 一時fileを探して削除する</h4>
 <p><code>practice01</code>へ移動する。</p>
 <pre><code>cd ~/jdu-lab/p1/practice01
 pwd
@@ -74,17 +82,17 @@ find . -type f -name &#x27;*.tmp&#x27; -print
 find . -type f -name &#x27;*.tmp&#x27; -delete
 find . -type f -name &#x27;*.tmp&#x27; -print</code></pre>
 <p>最後のcommandで何も表示されないことを確認する。</p>
-<h3>手順7: WARN行を保存する</h3>
+<h4>手順7: WARN行を保存する</h4>
 <p>出力先の<code>notes</code>へ移動する。</p>
 <pre><code>cd ~/jdu-lab/p1/practice01/notes
 pwd
 grep &#x27;WARN&#x27; ../logs/practice.log &gt; warnings.txt
 cat warnings.txt</code></pre>
-<h3>手順8: 最後の4行を保存する</h3>
+<h4>手順8: 最後の4行を保存する</h4>
 <pre><code>cd ~/jdu-lab/p1/practice01/notes
 tail -n 4 ../logs/practice.log &gt; recent.txt
 cat recent.txt</code></pre>
-<h3>手順9: 全体を確認する</h3>
+<h4>手順9: 全体を確認する</h4>
 <pre><code>cd ~/jdu-lab/p1
 tree practice01
 stat -c &#x27;%U:%G %a %n&#x27; practice01 practice01/config/training.conf practice01/logs/practice.log practice01/notes/warnings.txt practice01/notes/recent.txt
@@ -93,36 +101,41 @@ jdu-check P1</code></pre>
 <h2>P2 User、group、permission、setgid</h2>
 <h3>学ぶこと</h3>
 <ul><li>Primary groupとsupplementary groupを確認する。</li><li>共有directoryへgroup permissionを設定する。</li><li>setgidで新しいfileのgroupを継承する。</li></ul>
-<h3>手順1: 管理userを確認する</h3>
+<h3>課題</h3>
+<p>共有ディレクトリ<code>/srv/jdu-practice-share</code>を、書き込み担当者と閲覧担当者で使い分ける。初期状態では、<code>jdupracticeviewer</code>が補助グループ<code>practiceops</code>に入っており、書き込み担当の<code>jdupracticewriter</code>は入っていない。ディレクトリと<code>GUIDE.txt</code>の所有者・グループ・権限も未完成である。</p>
+<ol><li><code>jdupracticewriter</code>を補助グループ<code>practiceops</code>に追加し、<code>jdupracticeviewer</code>をそのグループから削除する。</li><li><code>/srv/jdu-practice-share</code>の所有者とグループを<code>root:practiceops</code>、権限を<code>2775</code>にする。新しいファイルが共有グループを引き継ぐようにする。</li><li><code>GUIDE.txt</code>の所有者とグループを<code>root:practiceops</code>、権限を<code>664</code>にする。</li><li><code>ssm-user</code>から<code>jdupracticewriter</code>へ切り替えて、共有ディレクトリに<code>writer-created.txt</code>を作る。新しいファイルのグループが<code>practiceops</code>であることを確認する。</li><li><code>ssm-user</code>に戻り、<code>jdupracticeviewer</code>へ切り替える。<code>GUIDE.txt</code>は読めるが、共有ディレクトリに新しいファイルは作れないことを確認する。</li></ol>
+<p>異なるユーザーでの操作を終えたら<code>ssm-user</code>へ戻り、<code>jdu-check P2</code>を実行する。グループ所属、ディレクトリ、ファイル、作成時のグループ継承、閲覧担当者のアクセスを計6項目で判定する。</p>
+<h3>解答例（操作手順）</h3>
+<h4>手順1: 管理userを確認する</h4>
 <pre><code>cd ~
 id -un
 id</code></pre>
-<h3>手順2: 初期groupを確認する</h3>
+<h4>手順2: 初期groupを確認する</h4>
 <pre><code>getent group practiceops
 id jdupracticewriter
 id jdupracticeviewer</code></pre>
 <p>初期状態では<code>jdupracticeviewer</code>が<code>practiceops</code>に入り、<code>jdupracticewriter</code>が入っていない。</p>
-<h3>手順3: Group membershipを修正する</h3>
+<h4>手順3: Group membershipを修正する</h4>
 <pre><code>cd ~
 sudo usermod -aG practiceops jdupracticewriter
 sudo gpasswd -d jdupracticeviewer practiceops
 getent group practiceops
 id jdupracticewriter
 id jdupracticeviewer</code></pre>
-<h3>手順4: 共有directoryを設定する</h3>
+<h4>手順4: 共有directoryを設定する</h4>
 <pre><code>cd /srv
 pwd
 sudo chown root:practiceops jdu-practice-share
 sudo chmod 2775 jdu-practice-share
 stat -c &#x27;%U:%G %a %n&#x27; jdu-practice-share</code></pre>
-<h3>手順5: GUIDE.txtを設定する</h3>
+<h4>手順5: GUIDE.txtを設定する</h4>
 <p>対象directoryへ移動する。</p>
 <pre><code>cd /srv/jdu-practice-share
 pwd
 sudo chown root:practiceops GUIDE.txt
 sudo chmod 664 GUIDE.txt
 stat -c &#x27;%U:%G %a %n&#x27; GUIDE.txt</code></pre>
-<h3>手順6: Writerへ切り替えてfileを作る</h3>
+<h4>手順6: Writerへ切り替えてfileを作る</h4>
 <pre><code>cd ~
 sudo su - jdupracticewriter
 id -un
@@ -134,7 +147,7 @@ ls -l writer-created.txt
 exit
 id -un</code></pre>
 <p>最後に<code>ssm-user</code>と表示されることを確認する。</p>
-<h3>手順7: Viewerのreadとwriteを確認する</h3>
+<h4>手順7: Viewerのreadとwriteを確認する</h4>
 <pre><code>cd ~
 sudo su - jdupracticeviewer
 id -un
@@ -146,7 +159,7 @@ touch viewer-created.txt
 exit
 id -un</code></pre>
 <p><code>cat</code>は成功する。<code>touch</code>は<code>Permission denied</code>になる。これは想定した失敗である。</p>
-<h3>手順8: 採点する</h3>
+<h4>手順8: 採点する</h4>
 <pre><code>cd ~
 id -un
 jdu-check P2</code></pre>
@@ -155,32 +168,38 @@ jdu-check P2</code></pre>
 <p>第8章を読んだら手順1～4でプロセスを確認・停止する。続いて第9章を読み、手順5～6でパッケージを導入する。両方を終えてから<code>jdu-check P3</code>を実行する。</p>
 <h3>学ぶこと</h3>
 <ul><li>systemd serviceとprocessのPIDを対応させる。</li><li>PIDを指定してTERM signalを送る。</li><li><code>apt</code>でpackageをinstallする。</li></ul>
-<h3>手順1: 3 serviceを確認する</h3>
+<h3>課題</h3>
+<p>初期状態で<code>jdu-p3-process1.service</code>、<code>jdu-p3-process2.service</code>、<code>jdu-p3-process3.service</code>が動いている。<code>figlet</code>は未インストールである。次のAとBの両方を完了する。</p>
+<p><strong>課題A - process2だけを停止する。</strong> <code>jdu-p3-process2.service</code>のMain PIDを調べ、そのPIDのプロセスを<code>ps</code>で確かめる。PIDを指定して<code>TERM</code>シグナルを送る。<code>process2</code>だけが停止し、<code>process1</code>と<code>process3</code>は動いたままにする。名前の広い条件で複数プロセスを止めたり、<code>KILL</code>シグナルを使ったりしない。</p>
+<p><strong>課題B - パッケージを導入する。</strong> <code>figlet</code>のパッケージ情報を調べ、<code>apt</code>でインストールする。コマンドを1回実行し、インストール済みのバージョンと<code>/usr/bin/figlet</code>を提供するパッケージを確認する。</p>
+<p><code>jdu-check P3</code>でAとBを各1項目、計2項目として判定する。調査時のコマンド履歴やメモは提出しない。</p>
+<h3>解答例（操作手順）</h3>
+<h4>手順1: 3 serviceを確認する</h4>
 <pre><code>cd ~
 systemctl list-units --type=service &#x27;jdu-p3-*&#x27;
 systemctl status jdu-p3-process1.service --no-pager
 systemctl status jdu-p3-process2.service --no-pager
 systemctl status jdu-p3-process3.service --no-pager</code></pre>
-<h3>手順2: Process2のMain PIDを表示する</h3>
+<h4>手順2: Process2のMain PIDを表示する</h4>
 <pre><code>systemctl show --property MainPID --value jdu-p3-process2.service</code></pre>
-<h3>手順3: PIDをshell変数へ保存する</h3>
+<h4>手順3: PIDをshell変数へ保存する</h4>
 <pre><code>P3_PID=$(systemctl show --property MainPID --value jdu-p3-process2.service)
 printf &#x27;%s\n&#x27; &quot;$P3_PID&quot;
 ps -fp &quot;$P3_PID&quot;</code></pre>
-<h3>手順4: Process2だけへTERMを送る</h3>
+<h4>手順4: Process2だけへTERMを送る</h4>
 <pre><code>sudo kill -TERM &quot;$P3_PID&quot;
 systemctl is-active jdu-p3-process1.service
 systemctl is-active jdu-p3-process2.service
 systemctl is-active jdu-p3-process3.service</code></pre>
 <p>順に<code>active</code>、<code>inactive</code>、<code>active</code>になる。</p>
-<h3>手順5: figletを調査してinstallする</h3>
+<h4>手順5: figletを調査してinstallする</h4>
 <pre><code>cd ~
 apt show figlet
 sudo apt update
 sudo apt install -y figlet
 command -v figlet
 figlet JDU</code></pre>
-<h3>手順6: Packageとcommandの対応を確認する</h3>
+<h4>手順6: Packageとcommandの対応を確認する</h4>
 <pre><code>dpkg-query -W -f=&#x27;${Status} ${Version}\n&#x27; figlet
 dpkg -S /usr/bin/figlet
 jdu-check P3</code></pre>
@@ -188,50 +207,60 @@ jdu-check P3</code></pre>
 <h2>P4 systemd service</h2>
 <h3>学ぶこと</h3>
 <ul><li>Unit fileを読む。</li><li>Activeとenabledを別々に設定する。</li><li>Main PIDと実processを対応させる。</li></ul>
-<h3>手順1: Unit fileを読む</h3>
+<h3>課題</h3>
+<p><code>jdu-practice-status.service</code>のユニットファイルは完成しているが、サービスは停止中で、自動起動も無効である。ユニットファイルを変更せずに次を行う。</p>
+<ol><li>ユニットファイルの<code>User</code>、<code>WorkingDirectory</code>、<code>ExecStart</code>を調べる。</li><li>サービスを起動し、現在の状態が<code>active</code>であることを確認する。</li><li>起動時の自動実行を有効にし、<code>enabled</code>であることを確認する。<code>active</code>と<code>enabled</code>は別の状態として調べる。</li><li>Main PIDのプロセスについて、実行ユーザー、コマンドライン、作業ディレクトリがユニットファイルと一致することを確かめる。</li></ol>
+<p><code>jdu-check P4</code>は、稼働状態、自動起動、変更されていないユニットと実プロセスの対応を計3項目で判定する。観察結果を別ファイルへ提出する必要はない。</p>
+<h3>解答例（操作手順）</h3>
+<h4>手順1: Unit fileを読む</h4>
 <pre><code>cd ~
 systemctl cat jdu-practice-status.service</code></pre>
 <p><code>User</code>、<code>WorkingDirectory</code>、<code>ExecStart</code>を確認する。</p>
-<h3>手順2: 初期状態を確認する</h3>
+<h4>手順2: 初期状態を確認する</h4>
 <pre><code>systemctl is-active jdu-practice-status.service
 systemctl is-enabled jdu-practice-status.service</code></pre>
-<h3>手順3: Serviceをstartする</h3>
+<h4>手順3: Serviceをstartする</h4>
 <pre><code>sudo systemctl start jdu-practice-status.service
 systemctl is-active jdu-practice-status.service</code></pre>
-<h3>手順4: Boot時にstartするよう設定する</h3>
+<h4>手順4: Boot時にstartするよう設定する</h4>
 <pre><code>sudo systemctl enable jdu-practice-status.service
 systemctl is-enabled jdu-practice-status.service</code></pre>
-<h3>手順5: Main PIDとprocessを確認する</h3>
+<h4>手順5: Main PIDとprocessを確認する</h4>
 <pre><code>P4_PID=$(systemctl show --property MainPID --value jdu-practice-status.service)
 printf &#x27;%s\n&#x27; &quot;$P4_PID&quot;
 ps -fp &quot;$P4_PID&quot;
 sudo cat &quot;/proc/$P4_PID/cmdline&quot; | tr &#x27;\0&#x27; &#x27; &#x27;
 printf &#x27;\n&#x27;
 sudo readlink -f &quot;/proc/$P4_PID/cwd&quot;</code></pre>
-<h3>手順6: 採点する</h3>
+<h4>手順6: 採点する</h4>
 <pre><code>cd ~
 jdu-check P4</code></pre>
 <p>全3件がPASSになったら、M4へ進む。</p>
 <h2>P5 Port、socket、HTTP、journal</h2>
 <h3>学ぶこと</h3>
 <ul><li>Service、process、listening socketを対応させる。</li><li>IP addressとportを読む。</li><li>HTTP requestがjournalへ記録されることを確認する。</li></ul>
-<h3>手順1: Unit fileを読む</h3>
+<h3>課題</h3>
+<p><code>jdu-practice-web.service</code>は停止中である。ユニットファイルを変更せず、次の一連のつながりを完成させる。</p>
+<ol><li>ユニットファイルから、実行ユーザー、公開するファイルのパス、待受IPアドレスとポート番号を調べる。サービスを起動する。</li><li><code>127.0.0.1:8181</code>で待ち受けているソケットを見つける。そのソケットのPIDがサービスのMain PIDと同じであることを確かめる。全アドレスでの待受には変更しない。</li><li><code>http://127.0.0.1:8181/</code>へリクエストを送り、HTTP 200と本文を確認する。サービスの実行ユーザーが<code>/srv/jdu-practice-web/index.txt</code>を読めることも確かめる。</li><li><code>http://127.0.0.1:8181/p5-check</code>へ自分でリクエストを送り、現在のサービスのシステムジャーナルに<code>REQUEST path=/p5-check</code>が記録される状態にする。</li><li>ポート<code>18181</code>には待受がないことを調べ、接続できる<code>8181</code>との違いを確認する。</li></ol>
+<p><code>jdu-check P5</code>は、ソケット、HTTPとファイルアクセス、指定リクエストのログ、開いているポートと閉じているポートの比較を計4項目で判定する。</p>
+<h3>解答例（操作手順）</h3>
+<h4>手順1: Unit fileを読む</h4>
 <pre><code>cd ~
 systemctl cat jdu-practice-web.service</code></pre>
 <p><code>127.0.0.1</code>、<code>8181</code>、<code>jdupracticeweb</code>、content fileのpathを確認する。</p>
-<h3>手順2: Serviceをstartする</h3>
+<h4>手順2: Serviceをstartする</h4>
 <pre><code>sudo systemctl start jdu-practice-web.service
 systemctl is-active jdu-practice-web.service</code></pre>
-<h3>手順3: Listening socketを確認する</h3>
+<h4>手順3: Listening socketを確認する</h4>
 <pre><code>sudo ss -lntp | grep &#x27;:8181&#x27;</code></pre>
 <p><code>127.0.0.1:8181</code>を確認する。同じ出力で<code>0.0.0.0:8181</code>や<code>[::]:8181</code>の待受がないことも確認する。前者はこのホスト内からの接続だけを受け付ける。後者は全アドレスでの待受を表す。</p>
-<h3>手順4: Socket PIDとMain PIDを比較する</h3>
+<h4>手順4: Socket PIDとMain PIDを比較する</h4>
 <pre><code>systemctl show --property MainPID --value jdu-practice-web.service
 sudo ss -lntp | grep &#x27;:8181&#x27;</code></pre>
 <p>2つのPIDが同じであることを確認する。</p>
-<h3>手順5: HTTP responseを確認する</h3>
+<h4>手順5: HTTP responseを確認する</h4>
 <pre><code>curl -i http://127.0.0.1:8181/</code></pre>
-<h3>手順6: Service userのread権限を確認する</h3>
+<h4>手順6: Service userのread権限を確認する</h4>
 <p>Content directoryへ移動する。</p>
 <pre><code>cd /srv/jdu-practice-web
 pwd
@@ -241,22 +270,31 @@ id jdupracticeweb
 sudo -u jdupracticeweb -- test -r index.txt
 echo $?</code></pre>
 <p>最後の値<code>0</code>はread可能を表す。</p>
-<h3>手順7: 学生用requestを送る</h3>
+<h4>手順7: 学生用requestを送る</h4>
 <pre><code>curl -i http://127.0.0.1:8181/p5-check
 sudo journalctl -u jdu-practice-web.service --no-pager -n 20</code></pre>
 <p><code>REQUEST path=/p5-check</code>を確認する。</p>
-<h3>手順8: Closed portと比較する</h3>
+<h4>手順8: Closed portと比較する</h4>
 <pre><code>curl --max-time 2 http://127.0.0.1:18181/
 sudo ss -lnt | grep &#x27;:18181&#x27;</code></pre>
 <p>どちらも成功しない。TCP 18181は待ち受けられていない。</p>
-<h3>手順9: 採点する</h3>
+<h4>手順9: 採点する</h4>
 <pre><code>cd ~
 jdu-check P5</code></pre>
 <p>全4件がPASSになったら、M5へ進む。</p>
 <h2>P6 SSH、remote command、scp</h2>
 <h3>学ぶこと</h3>
 <ul><li>CloudShellとUbuntuを区別する。</li><li><code>scp</code>でuploadとdownloadを行う。</li><li>SSH remote commandを実行する。</li></ul>
-<h3>手順1: UbuntuからCloudShellへ戻る</h3>
+<h3>課題</h3>
+<p>CloudShellを接続元、Ubuntuを接続先として作業する。SSHの接続設定と<code>jdu-ubuntu</code>という接続名は準備済みである。P6の転送ファイルはまだない。</p>
+<p>リモートで作る結果ファイルは、次の3行の形式にする。右辺は実際のコマンド出力を使い、推測して手入力しない。</p>
+<pre><code>REMOTE_USER=実際のユーザー名
+REMOTE_HOST=実際のホスト名
+REMOTE_PATH=実際のホームディレクトリ</code></pre>
+<ol><li>CloudShellの<code>~/jdu-lab/p6/practice-source.txt</code>へ、<code>JDU SSH guided transfer</code>の1行だけを書き込む。</li><li><code>scp</code>でそのファイルをUbuntuの<code>~/jdu-lab/p6/practice-upload.txt</code>へ送る。転送前後のSHA-256が同じことを確認する。</li><li>CloudShellからSSHでUbuntu上のコマンドを実行し、Ubuntuの<code>~/jdu-lab/p6/practice-remote-result.txt</code>へ、実際のリモートユーザー・ホスト名・ホームディレクトリを上の形式で保存する。</li><li>Ubuntuへ接続して<code>jdu-check P6</code>を実行する。Ubuntu側の2項目がPASSになることを確認する。</li><li>結果ファイルを<code>scp</code>でCloudShellの<code>~/jdu-lab/p6/practice-downloaded-result.txt</code>へ戻す。両側のSHA-256が同じことを確認する。</li><li>CloudShellで<code>jdu-check P6</code>を実行する。CloudShell側の4項目がPASSになることを確認する。</li></ol>
+<p>P6はUbuntu側<code>2/2</code>とCloudShell側<code>4/4</code>の両方が揃って完了する。教員用進捗画面でも両側を区別して表示する。</p>
+<h3>解答例（操作手順）</h3>
+<h4>手順1: UbuntuからCloudShellへ戻る</h4>
 <p>Ubuntuのpromptで実行する。</p>
 <pre><code>exit</code></pre>
 <p>CloudShellで現在地を確認する。</p>
@@ -264,30 +302,30 @@ jdu-check P5</code></pre>
 pwd
 id -un
 hostname</code></pre>
-<h3>手順2: CloudShell側の作業directoryを作る</h3>
+<h4>手順2: CloudShell側の作業directoryを作る</h4>
 <pre><code>mkdir -p ~/jdu-lab/p6
 cd ~/jdu-lab/p6
 pwd</code></pre>
-<h3>手順3: Upload元fileを作る</h3>
+<h4>手順3: Upload元fileを作る</h4>
 <pre><code>printf &#x27;%s\n&#x27; &#x27;JDU SSH guided transfer&#x27; &gt; practice-source.txt
 cat practice-source.txt
 sha256sum practice-source.txt</code></pre>
-<h3>手順4: Ubuntu側のdirectoryを作る</h3>
+<h4>手順4: Ubuntu側のdirectoryを作る</h4>
 <p>CloudShellで実行する。</p>
 <pre><code>ssh jdu-ubuntu &#x27;mkdir -p ~/jdu-lab/p6&#x27;</code></pre>
-<h3>手順5: Ubuntuへuploadする</h3>
+<h4>手順5: Ubuntuへuploadする</h4>
 <p>CloudShellのP6 directoryにいる状態で実行する。</p>
 <pre><code>cd ~/jdu-lab/p6
 scp practice-source.txt jdu-ubuntu:~/jdu-lab/p6/practice-upload.txt
 ssh jdu-ubuntu &#x27;sha256sum ~/jdu-lab/p6/practice-upload.txt&#x27;
 sha256sum practice-source.txt</code></pre>
 <p>2つのSHA-256が同じであることを確認する。</p>
-<h3>手順6: SSH remote commandで結果fileを作る</h3>
+<h4>手順6: SSH remote commandで結果fileを作る</h4>
 <p>CloudShellで、次の1 commandをそのまま実行する。</p>
 <pre><code>ssh jdu-ubuntu &#x27;cd ~/jdu-lab/p6 &amp;&amp; printf &quot;REMOTE_USER=%s\nREMOTE_HOST=%s\nREMOTE_PATH=%s\n&quot; &quot;$(id -un)&quot; &quot;$(hostname)&quot; &quot;$HOME&quot; &gt; practice-remote-result.txt&#x27;</code></pre>
 <p>内容をremoteで確認する。</p>
 <pre><code>ssh jdu-ubuntu &#x27;cat ~/jdu-lab/p6/practice-remote-result.txt&#x27;</code></pre>
-<h3>手順7: Ubuntu側を採点する</h3>
+<h4>手順7: Ubuntu側を採点する</h4>
 <p>Ubuntuへ接続する。</p>
 <pre><code>ssh jdu-ubuntu
 cd ~/jdu-lab/p6
@@ -296,7 +334,7 @@ ls -l
 jdu-check P6
 exit</code></pre>
 <p>Ubuntu側2件がPASSになる。</p>
-<h3>手順8: Result fileをdownloadする</h3>
+<h4>手順8: Result fileをdownloadする</h4>
 <p>CloudShellで実行する。</p>
 <pre><code>cd ~/jdu-lab/p6
 scp jdu-ubuntu:~/jdu-lab/p6/practice-remote-result.txt practice-downloaded-result.txt
@@ -304,7 +342,7 @@ cat practice-downloaded-result.txt
 sha256sum practice-downloaded-result.txt
 ssh jdu-ubuntu &#x27;sha256sum ~/jdu-lab/p6/practice-remote-result.txt&#x27;</code></pre>
 <p>2つのSHA-256が同じであることを確認する。</p>
-<h3>手順9: CloudShell側を採点する</h3>
+<h4>手順9: CloudShell側を採点する</h4>
 <pre><code>cd ~/jdu-lab/p6
 jdu-check P6</code></pre>
 <p>CloudShell側4件がPASSになったら、M6へ進む。</p>
@@ -314,5 +352,5 @@ jdu-check P6</code></pre>
 <p>演習全体では次の順序を推奨する。</p>
 <pre><code>P1 → M1 → P2 → M2 → P3 → M3 → P4 → M4
    → P5 → M5 → P6 → M6 → M7（統合課題）</code></pre>
-<p>Pはcommandを見ながら進める。M1～M6ではPのcommandを見ずに、必要なcommandを自分で選ぶ。M7では、M2、M4、M5で学んだ内容を統合する。</p>
+<p>Pは問題文だけで試してから解答例を見ることも、解答例を見ながら進めることもできる。M1～M6ではPの手順を見ずに、必要なcommandを自分で選ぶ。M7では、M2、M4、M5で学んだ内容を統合する。</p>
 </body></html>

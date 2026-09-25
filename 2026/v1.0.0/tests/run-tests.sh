@@ -86,6 +86,19 @@ for mission in P1 P2 P4 P5 P6 M1 M2 M4 M5 M6 M7; do
 done
 printf '%s\n' 'PASS guided P1-P2/P4-P6 and challenge M1-M2/M4-M7 have zero initial PASS items'
 
+p1_fixture_home="$(mktemp -d)"
+mkdir -p "$p1_fixture_home/jdu-lab/p1/practice01/staging"
+printf '%s\n' 'temporary guided file' > "$p1_fixture_home/jdu-lab/p1/practice01/staging/training.conf.tmp"
+set +e
+p1_fixture_initial="$(HOME="$p1_fixture_home" bash "$root_dir/scripts/jdu-labcheck" P1 --no-submit 2>&1)"
+p1_fixture_status=$?
+set -e
+[[ "$p1_fixture_status" -eq 1 ]]
+grep -Fxq 'RESULT    0 / 6 checks cleared' <<<"$p1_fixture_initial"
+grep -Eq '^FAIL[[:space:]]+P1-FS-04[[:space:]]+' <<<"$p1_fixture_initial"
+rm -rf -- "$p1_fixture_home"
+printf '%s\n' 'PASS P1 fixture-like initial tree does not pass the ownership check before student work'
+
 m3_test_home="$(mktemp -d)"
 mkdir -p "$m3_test_home/jdu-lab/m3"
 chmod 0755 "$root_dir/tests/mock-bin/systemctl" "$root_dir/tests/mock-bin/dpkg-query"
@@ -284,6 +297,11 @@ for practice in range(1, 7):
     assert f"reset_p{practice}()" in fixture
     assert f"check_p{practice}()" in checker
     assert f"## P{practice} " in guided
+assert guided.count("### 課題\n") == 6
+assert guided.count("### 解答例（操作手順）\n") == 6
+for practice in range(1, 7):
+    section = guided.split(f"## P{practice} ", 1)[1].split("\n## ", 1)[0]
+    assert section.index("### 課題\n") < section.index("### 解答例（操作手順）\n") < section.index("#### 手順1:")
 assert "reset_p7()" not in fixture and "check_p7()" not in checker and "## P7 " not in guided
 expected_ids = {
     "P1": {"P1-FS-01", "P1-FS-02", "P1-FS-03", "P1-FS-04", "P1-TXT-01", "P1-TXT-02"},

@@ -35,4 +35,6 @@ The fixed registration key is public by design. It cannot open the teacher dashb
 
 The table stores a random server ID, EC2 instance metadata, the latest guided P1-P6 and challenge M0-M7 scores, and timestamps. P6 and M6 store Ubuntu (2 checks) and CloudShell (4 checks) separately. The dashboard counts each complete only when both parts are complete. It does not store student names or email addresses. Use `jdu-progress id` on a student server to display its server ID.
 
+P1-P6 are checked on each student's Ubuntu instance by `jdu-check P1` through `jdu-check P6`; P6 also requires `jdu-check P6` in CloudShell. Each run submits its latest PASS count over HTTPS. The teacher stack receives and displays those results; it does not independently log in to or re-check student instances. The student CloudFormation stack already installs the guided fixtures and check scripts, so no separate teacher-side CloudFormation stack is needed for P1-P6 beyond this progress server.
+
 This is a formative progress view. It is not a tamper-proof examination system because students have administrative access to their own lab server.
