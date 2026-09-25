@@ -1,12 +1,12 @@
 {
   "course": "ubuntu_os_foundations",
-  "source_language": "en",
-  "source_status": "planned",
+  "source_language": "ja",
+  "source_status": "reviewed_current_source",
   "version": "1.0.0",
   "languages": {
-    "en": { "role": "canonical_source", "status": "planned" },
-    "ja": { "role": "translation", "status": "reviewed_before_english_source" },
-    "uz": { "role": "translation", "status": "planned" },
+    "en": { "role": "future_source", "status": "planned" },
+    "ja": { "role": "current_source", "status": "reviewed" },
+    "uz": { "role": "translation", "status": "draft_complete_pending_native_review", "method": "ChatGPT", "figures": 21, "pdfs": 4 },
     "ru": { "role": "translation", "status": "planned" }
   },
   "chapters": [

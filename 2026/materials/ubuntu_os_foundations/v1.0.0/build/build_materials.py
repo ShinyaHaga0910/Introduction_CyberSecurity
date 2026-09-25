@@ -260,12 +260,14 @@ class BookDocTemplate(BaseDocTemplate):
         canv.restoreState()
 
 
-def cover_story(title: str, subtitle: str):
+def cover_story(title: str, subtitle: str, meta: str | None = None):
     cover_title = title.replace("オペレーティングシステムとLinuxの基本操作", "オペレーティングシステム<br/>とLinuxの基本操作")
     story = [Spacer(1, 52*mm), Paragraph(cover_title, ParagraphStyle("Cover", fontName="NotoSansJP", fontSize=27, leading=38, alignment=TA_CENTER, textColor=BLUE, wordWrap="CJK"))]
     if subtitle:
         story.extend([Spacer(1, 12*mm), Paragraph(subtitle, ParagraphStyle("Sub", fontName="NotoSansJP", fontSize=13, leading=21, alignment=TA_CENTER, textColor=MUTED, wordWrap="CJK"))])
-    story.extend([Spacer(1, 60*mm), Paragraph("Ubuntu Server 24.04 LTS / 公開Lab v1.0.0<br/>JDU Cyber Security / 2026-09-25", ParagraphStyle("Meta", fontName="NotoSansJP", fontSize=9.5, leading=15, alignment=TA_CENTER, textColor=MUTED)), PageBreak()])
+    if meta is None:
+        meta = "Ubuntu Server 24.04 LTS / 公開Lab v1.0.0<br/>JDU Cyber Security / 2026-09-25"
+    story.extend([Spacer(1, 60*mm), Paragraph(meta, ParagraphStyle("Meta", fontName="NotoSansJP", fontSize=9.5, leading=15, alignment=TA_CENTER, textColor=MUTED)), PageBreak()])
     return story
 
 
@@ -280,14 +282,14 @@ def blocks_to_story(src: Path, pagebreak_h1=False):
             level,text = block[1],block[2]
             if level == 1 and pagebreak_h1 and not first_h1:
                 story.append(PageBreak())
-            if src.parent == TEXTBOOK and level == 2 and text == "章末解答":
+            if src.parent == TEXTBOOK and level == 2 and text in {"章末解答", "Bob yakunidagi javoblar"}:
                 story.append(PageBreak())
                 in_answers = True
             if level == 1: first_h1 = False
             story.append(Paragraph(inline_md(text), {1:H1,2:H2,3:H3,4:H3}.get(level,H3)))
             question_follows = not in_answers and level == 3 and bool(re.fullmatch(r"問\d+", text))
         elif kind == "p":
-            sty = CAP if block[1].startswith(("**図", "**写真")) else QUESTION if question_follows else BODY
+            sty = CAP if block[1].startswith(("**図", "**写真")) or re.match(r"\*\*\d+-\d+-(?:rasm|foto)", block[1]) else QUESTION if question_follows else BODY
             story.append(Paragraph(inline_md(block[1]), sty))
             question_follows = False
         elif kind == "code":
@@ -305,7 +307,10 @@ def blocks_to_story(src: Path, pagebreak_h1=False):
             ip = (src.parent / block[2]).resolve()
             max_w,max_h = 170*mm,105*mm
             if ip.suffix.lower() == ".svg":
-                pdf_raster = ROOT / "assets" / "figure-sources-v1.2" / "generated" / f"{ip.stem}-pdf.png"
+                if ip.parent.name == "uz":
+                    pdf_raster = ip.with_suffix(".png")
+                else:
+                    pdf_raster = ROOT / "assets" / "figure-sources-v1.2" / "generated" / f"{ip.stem}-pdf.png"
                 if pdf_raster.is_file():
                     with ImageReaderSize(pdf_raster) as (iw,ih):
                         scale=min(max_w/iw,max_h/ih,1)
@@ -326,7 +331,7 @@ def blocks_to_story(src: Path, pagebreak_h1=False):
                     story.append(Image(str(ip),width=iw*scale,height=ih*scale))
         elif kind in ("ul","ol"):
             for idx,item in enumerate(block[1],1):
-                bullet = "・" if kind == "ul" else f"{idx}."
+                bullet = "•" if kind == "ul" else f"{idx}."
                 story.append(Paragraph(f"{bullet} {inline_md(item)}", LIST))
         elif kind == "quote":
             story.append(Paragraph(inline_md(block[1]), QUOTE))
@@ -355,9 +360,9 @@ class ImageReaderSize:
     def __exit__(self,*args): return False
 
 
-def build_pdf(title, subtitle, sources, output, chapters=False):
+def build_pdf(title, subtitle, sources, output, chapters=False, meta=None):
     doc=BookDocTemplate(str(output),title,author="JDU Cyber Security",title=title,subject=subtitle)
-    story=cover_story(title,subtitle)
+    story=cover_story(title,subtitle,meta=meta)
     for index,src in enumerate(sources):
         if chapters and index>0: story.append(PageBreak())
         story.extend(blocks_to_story(src,pagebreak_h1=False))

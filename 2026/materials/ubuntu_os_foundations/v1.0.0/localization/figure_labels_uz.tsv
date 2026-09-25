@@ -1,0 +1,179 @@
+ja	uz
+BSD系	BSD oilasi
+Bash・coreutils	Bash / coreutils
+CLI関連プログラム	CLI programlari
+CPU・メモリ・ファイル・通信	CPU / xotira / file / aloqa
+CloudShellのユーザー	CloudShell useri
+GNUツール群	GNU vositalari
+GUI関連プログラム	GUI programlari
+HTTPクライアント	HTTP client
+HTTP要求	HTTP request
+IPアドレス + ポート	IP address + port
+Linuxカーネル	Linux kernel
+Linuxディストリビューション	Linux distributionlari
+OSの基盤を準備	OS asosini tayyorlaydi
+SSH・Web・DB	SSH / Web / DB
+UIDが一致 → 所有者 u	UID mos → owner u
+UID不一致・GID一致 → グループ g	UID mos emas; GID mos → group g
+Ubuntuサーバー	Ubuntu server
+Ubuntuディストリビューション	Ubuntu distributioni
+Unix系・Unix互換系	Unix-like tizimlar
+Webサービスのプロセス	Web service processi
+Windows NTカーネル	Windows NT kernel
+Windows NT系	Windows NT oilasi
+Windowsのシェル	Windows shelli
+cmd.exe・PowerShell	cmd.exe / PowerShell
+jduviewerグループ	jduviewer group
+jduwriterグループ	jduwriter group
+journalログ	journal log
+ops共有グループ	umumiy ops group
+r / w / xを確認	r / w / x ni tekshir
+setgidあり	setgid bor
+setgidなし	setgid yo‘q
+ssm-userグループ	ssm-user group
+systemd・APT・設定	systemd / APT / sozlamalar
+unitファイル	unit file
+あり	bor
+どちらも不一致 → その他 o	Ikkalasi ham mos emas → others o
+なし	yo‘q
+アップロード	upload
+アプリケーション	ilova
+アプリケーション・サービス	ilovalar / servicelar
+インストール済みプログラム	o‘rnatilgan program
+ウィンドウ・ボタン	oyna / tugma
+カーネル	kernel
+カーネルを読み込む	kernelni yuklaydi
+カーネル空間	kernel space
+カーネル資源	kernel resurslari
+キーボード	klaviatura
+クライアント	client
+グループ	group
+グループ jduwriter	group jduwriter
+グループ ops	group ops
+コマンド	command
+コマンドのプロセス	command processi
+コマンド体系・パス・	commandlar / pathlar /
+サーバー	server
+サーバーアプリケーション	server ilovasi
+サーバー上のファイル	serverdagi filelar
+サービス	service
+サービスプロセス	service processi
+サービス群	servicelar
+シェル	shell
+ターミナル	terminal
+ダウンロード	download
+ディスク上の実行ファイル	diskdagi bajariladigan file
+ネットワーク上の利用者	tarmoqdagi user
+ネットワーク管理	tarmoq boshqaruvi
+ネットワーク装置	tarmoq qurilmasi
+ハードウェア	apparat qismlari
+ハードウェアまたは仮想マシン	apparat yoki virtual mashina
+ハードウェアを初期化	apparatni tayyorlaydi
+パソコン	shaxsiy kompyuter
+パッケージ	package
+パッケージを導入する処理	package o‘rnatish
+ファイルの所有者UID・GID・mode	file egasi UID / GID / mode
+ファイルへ保存	filega yozish
+ファイル管理	file boshqaruvi
+ファームウェア	firmware
+ブラウザ	brauzer
+ブートローダー	bootloader
+プライマリ	primary
+プライマリグループ jduwriter	primary group jduwriter
+プログラム	program
+プロセス	process
+プロセスのUIDとGID群	process UID va GIDlari
+プロセス管理	process boshqaruvi
+ホスト公開鍵を確認	host public keyni tekshiradi
+ホスト名	hostname
+ホスト秘密鍵を保管	host private keyni saqlaydi
+ホームディレクトリ	home directory
+メモリ	xotira
+メモリ管理	xotira boshqaruvi
+ユーザー	user
+ユーザー・グループ	user / group
+ユーザー公開鍵で認証	user public key bilan tekshiradi
+ユーザー秘密鍵を保管	user private keyni saqlaydi
+ユーザー空間	user space
+ユーザー空間の主要な道具	user space vositalari
+ライブラリ・コマンド・シェル	kutubxonalar / command / shell
+リポジトリのパッケージ情報	repository package ma’lumoti
+リポジトリのパッケージ本体	repositorydagi packagelar
+リモート	remote
+ローカル	local
+ローカルのパッケージ一覧	local package index
+ローカルファイル	local filelar
+ローカルユーザー	local user
+一覧を更新する処理	indexni yangilash
+互換環境の目標	mos muhit maqsadi
+作成して待ち受け	yaratadi va kutadi
+使用するpermission classを1つ選ぶ	bitta permission class tanla
+保存された設定	saqlangan sozlama
+保存された設定とデータ	saqlangan sozlama va ma’lumot
+入力ファイル	kirish filei
+公開コンテンツ	beriladigan kontent
+公開ファイル	beriladigan file
+共有ディレクトリ	umumiy directory
+出力先	chiqish manzili
+判定結果	natija
+別のOS系統	boshqa OS oilasi
+利用者	foydalanuvchi
+利用者・入出力	foydalanuvchi / kirish-chiqish
+制御	boshqaradi
+学生PC	talaba PCsi
+実行中のプログラム	ishlayotgan program
+実行中の仕組み	ishlayotgan tizim
+待ち受けソケット	listening socket
+必要な権限あり → 許可	kerakli permission bor → ruxsat
+必要な権限なし → 拒否	kerakli permission yo‘q → rad
+所有グループ ops	egasi bo‘lgan group ops
+所有者・権限	owner / permission
+技術基盤	texnik asos
+接続を渡す	ulanishni uzatadi
+接続元	ulanish manbasi
+接続元（SSHクライアント）	local (SSH client)
+接続先	ulanish manzili
+接続先（SSHサーバー）	remote (SSH server)
+操作	amal
+文字列	matn
+新規ファイル	yangi file
+暗号化されたSSH通信	shifrlangan SSH aloqasi
+標準エラー出力 stderr	standard error stderr
+標準入力 stdin	standard input stdin
+標準出力 stdout	standard output stdout
+権限管理	permission boshqaruvi
+次のコマンド	keyingi command
+次回起動時に開始する設定	keyingi yuklanishda boshlash
+歴史上のUnix	tarixiy Unix
+比較する情報	solishtiriladigan ma’lumot
+派生	kelib chiqqan
+独立実装	mustaqil ishlanma
+現在の実行状態	hozirgi ish holati
+現在動いている状態	hozir ishlayapti
+管理方法は異なる	boshqarish usuli farq qiladi
+継続して提供する機能	davomli xizmat
+補助	supplementary
+補助から外す	supplementarydan chiqar
+観測	kuzatish
+解釈して起動	talqin qilib boshlaydi
+記憶装置	saqlash qurilmasi
+記録する	yozib boradi
+設計上の影響	tuzilishga ta’sir
+読み取る	o‘qiydi
+起動・停止・監視	boshlash / to‘xtatish / kuzatish
+起動・監視	boshlash / kuzatish
+起動方法の設定	boshlash sozlamasi
+通信	aloqa
+選ばれた欄の	tanlangan sinfdagi
+順番に比較	ketma-ket solishtir
+ディレクトリツリーの例（抜粋）	directory tree namunasi
+ファイルを開く	fileni ochish
+文字を入力	matn kiritish
+内容を編集する	mazmunni tahrirlash
+保存する	saqlash
+nanoを終了する	nanodan chiqish
+保存結果を読み直す	saqlanganini qayta o‘qish
+接続を待ち受けている状態	ulanishni kutish holati
+ローカルIPアドレスとポート番号	local IP address va port
+ソケットを所有するプログラム	socket egasi bo‘lgan program
+実行中プロセスのPID	ishlayotgan process PIDi

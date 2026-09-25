@@ -39,6 +39,16 @@ python build/build_materials.py
 
 図の生成先は`assets/figures/`である。HTMLとPDFの生成先は`output/html/`、`output/pdf/`である。出力file名には`_ja`などのlanguage codeを付ける。将来の英語、ウズベク語、ロシア語も同じ規則を使用する。
 
+ウズベク語版は次の順で確認・再生成する。翻訳そのものは自動翻訳プログラムではなく、`docs/uz/`のMarkdownで管理する。
+
+```bash
+python localization/check_uz.py
+python localization/build_uz_figures.py
+python build/build_uz_pdf.py
+```
+
+`localization/figure_labels_uz.tsv`が図中ラベルの訳語正本である。21点のウズベク語図は`assets/figures/uz/`に、4冊のA4 PDFは`output/pdf/*_uz.pdf`に生成する。原稿の言語別配置は`docs/ja/`、`docs/uz/`を使用する。`docs/en/`と`docs/ru/`は原稿作成時に追加する。
+
 現行図はSVGである。PDF生成時には、同じ生成元から作る高解像度PNGを使用し、日本語の字体と配置を固定する。旧版のPNG 21点は比較と復元のために同じ`assets/figures/`へ保持するが、現行本文からは参照しない。
 
 ## 正本と生成物
