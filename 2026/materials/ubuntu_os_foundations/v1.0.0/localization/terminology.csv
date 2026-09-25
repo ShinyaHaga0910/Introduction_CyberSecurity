@@ -1,54 +1,54 @@
 term_id,en,ja,uz,ru,translation_rule
-os,operating system,OS,OS,,Keep the abbreviation; explain its meaning in Uzbek at first use.
-kernel,kernel,カーネル,kernel,,Keep the English technical term in Uzbek.
-user_space,user space,ユーザー空間,user space,,Keep the English technical term in Uzbek.
-kernel_space,kernel space,カーネル空間,kernel space,,Keep the English technical term in Uzbek.
-system_call,system call,システムコール,system call,,Keep the English technical term in Uzbek.
-distribution,distribution,ディストリビューション,distribution,,Keep the English technical term in Uzbek; do not equate it with OS version.
-file,file,ファイル,file,,Keep the English technical term in Uzbek.
-directory,directory,ディレクトリ,directory,,Keep the English technical term in Uzbek; avoid alternating with folder.
-path,path,パス,path,,Keep the English technical term in Uzbek.
-user,user,ユーザー,user,,Keep the English technical term in Uzbek; account names stay literal.
-group,group,グループ,group,,Keep the English technical term in Uzbek; group names stay literal.
-permission,permission,アクセス権,permission,,Keep the English technical term in Uzbek; distinguish from authorization.
-process,process,プロセス,process,,Keep the English technical term in Uzbek; distinguish from program and service.
-package,package,パッケージ,package,,Keep the English technical term in Uzbek; package names stay literal.
-service,service,サービス,service,,Keep the English technical term in Uzbek; distinguish unit and process.
-socket,socket,ソケット,socket,,Keep the English technical term in Uzbek.
-port,port,ポート,port,,Keep the English technical term in Uzbek; numbers stay literal.
-log,log,ログ,log,,Keep the English technical term in Uzbek; literal log messages stay unchanged.
-shell,shell,シェル,shell,,Keep the English technical term in Uzbek; Bash stays literal.
-command,command,コマンド,command,,Keep the English technical term in Uzbek; names and options stay literal.
-interface,interface,インターフェース,interface,,Keep the English technical term in Uzbek; GUI and CLI stay literal.
-layer,layer,レイヤー,layer,,Keep the English technical term when describing system layers.
-authentication,authentication,認証,authentication,,Keep the English technical term; explain as identity verification.
-authorization,authorization,認可,authorization,,Keep the English technical term; explain as access decision.
-local,local,ローカル,local,,Keep the English technical term; define relative to the current operation.
-remote,remote,リモート,remote,,Keep the English technical term; define relative to the current operation.
-terminal,terminal,ターミナル,terminal,,Keep the English technical term in Uzbek.
-program,program,プログラム,program,,Keep the English technical term in Uzbek.
-unit,unit,ユニット,unit,,Keep the English technical term for systemd units.
-hostname,hostname,ホスト名,hostname,,Keep the English technical term in Uzbek.
-server,server,サーバー,server,,Keep the English technical term in Uzbek.
-client,client,クライアント,client,,Keep the English technical term in Uzbek.
-session,session,セッション,session,,Keep the English technical term in Uzbek.
-request,request,リクエスト,request,,Keep the English technical term in networking contexts.
-response,response,レスポンス,response,,Keep the English technical term in networking contexts.
-primary_group,primary group,主グループ,primary group,,Keep the English technical term in Uzbek.
-supplementary_group,supplementary group,補助グループ,supplementary group,,Keep the English technical term in Uzbek.
-host,host,ホスト,host,,Keep the English technical term in Uzbek; distinguish it from user.
-file_system,file system,ファイルシステム,file system,,Keep the English technical term in Uzbek.
-option,option,オプション,option,,Keep the English technical term in Uzbek; literal flags stay unchanged.
-pipe,pipe,パイプ,pipe,,Keep the English technical term in Uzbek; literal operators stay unchanged.
-instance,instance,インスタンス,instance,,Keep the English technical term for an EC2 instance.
-kernel_mode,kernel mode,カーネルモード,kernel mode,,Keep the English technical term when comparing operating systems.
-user_mode,user mode,ユーザーモード,user mode,,Keep the English technical term when comparing operating systems.
-account,account,アカウント,account,,Keep the English technical term; distinguish registration from login.
-public_key,public key,公開鍵,public key,,Keep the English technical term; distinguish it from private key.
-private_key,private key,秘密鍵,private key,,Keep the English technical term; never include an actual private key in teaching text.
-home_directory,home directory,ホームディレクトリ,home directory,,Keep the English technical term; distinguish it from root directory.
-root_directory,root directory,ルートディレクトリ,root directory,,Keep the English technical term; distinguish it from root account.
-metadata,metadata,メタデータ,metadata,,Keep the English technical term in Uzbek.
-stdin,stdin,標準入力,stdin,,Keep the English abbreviation and explain at first use.
-stdout,stdout,標準出力,stdout,,Keep the English abbreviation and explain at first use.
-stderr,stderr,標準エラー出力,stderr,,Keep the English abbreviation and explain at first use.
+os,operating system,OS,OS,ОС,Keep the abbreviation; explain its meaning in Uzbek at first use.
+kernel,kernel,カーネル,kernel,ядро,Keep the English technical term in Uzbek.
+user_space,user space,ユーザー空間,user space,пространство пользователя,Keep the English technical term in Uzbek.
+kernel_space,kernel space,カーネル空間,kernel space,пространство ядра,Keep the English technical term in Uzbek.
+system_call,system call,システムコール,system call,системный вызов,Keep the English technical term in Uzbek.
+distribution,distribution,ディストリビューション,distribution,дистрибутив,Keep the English technical term in Uzbek; do not equate it with OS version.
+file,file,ファイル,file,файл,Keep the English technical term in Uzbek.
+directory,directory,ディレクトリ,directory,каталог,Keep the English technical term in Uzbek; avoid alternating with folder.
+path,path,パス,path,путь,Keep the English technical term in Uzbek.
+user,user,ユーザー,user,пользователь,Keep the English technical term in Uzbek; account names stay literal.
+group,group,グループ,group,группа,Keep the English technical term in Uzbek; group names stay literal.
+permission,permission,アクセス権,permission,права доступа,Keep the English technical term in Uzbek; distinguish from authorization.
+process,process,プロセス,process,процесс,Keep the English technical term in Uzbek; distinguish from program and service.
+package,package,パッケージ,package,пакет,Keep the English technical term in Uzbek; package names stay literal.
+service,service,サービス,service,служба,Keep the English technical term in Uzbek; distinguish unit and process.
+socket,socket,ソケット,socket,сокет,Keep the English technical term in Uzbek.
+port,port,ポート,port,порт,Keep the English technical term in Uzbek; numbers stay literal.
+log,log,ログ,log,журнал,Keep the English technical term in Uzbek; literal log messages stay unchanged.
+shell,shell,シェル,shell,командная оболочка,Keep the English technical term in Uzbek; Bash stays literal.
+command,command,コマンド,command,команда,Keep the English technical term in Uzbek; names and options stay literal.
+interface,interface,インターフェース,interface,интерфейс,Keep the English technical term in Uzbek; GUI and CLI stay literal.
+layer,layer,レイヤー,layer,уровень,Keep the English technical term when describing system layers.
+authentication,authentication,認証,authentication,аутентификация,Keep the English technical term; explain as identity verification.
+authorization,authorization,認可,authorization,проверка прав доступа,Keep the English technical term; explain as access decision.
+local,local,ローカル,local,локальный,Keep the English technical term; define relative to the current operation.
+remote,remote,リモート,remote,удалённый,Keep the English technical term; define relative to the current operation.
+terminal,terminal,ターミナル,terminal,терминал,Keep the English technical term in Uzbek.
+program,program,プログラム,program,программа,Keep the English technical term in Uzbek.
+unit,unit,ユニット,unit,юнит,Keep the English technical term for systemd units.
+hostname,hostname,ホスト名,hostname,имя хоста,Keep the English technical term in Uzbek.
+server,server,サーバー,server,сервер,Keep the English technical term in Uzbek.
+client,client,クライアント,client,клиент,Keep the English technical term in Uzbek.
+session,session,セッション,session,сеанс,Keep the English technical term in Uzbek.
+request,request,リクエスト,request,запрос,Keep the English technical term in networking contexts.
+response,response,レスポンス,response,ответ,Keep the English technical term in networking contexts.
+primary_group,primary group,主グループ,primary group,основная группа,Keep the English technical term in Uzbek.
+supplementary_group,supplementary group,補助グループ,supplementary group,дополнительная группа,Keep the English technical term in Uzbek.
+host,host,ホスト,host,хост,Keep the English technical term in Uzbek; distinguish it from user.
+file_system,file system,ファイルシステム,file system,файловая система,Keep the English technical term in Uzbek.
+option,option,オプション,option,параметр,Keep the English technical term in Uzbek; literal flags stay unchanged.
+pipe,pipe,パイプ,pipe,конвейер,Keep the English technical term in Uzbek; literal operators stay unchanged.
+instance,instance,インスタンス,instance,инстанс EC2,Keep the English technical term for an EC2 instance.
+kernel_mode,kernel mode,カーネルモード,kernel mode,режим ядра,Keep the English technical term when comparing operating systems.
+user_mode,user mode,ユーザーモード,user mode,режим пользователя,Keep the English technical term when comparing operating systems.
+account,account,アカウント,account,учётная запись,Keep the English technical term; distinguish registration from login.
+public_key,public key,公開鍵,public key,открытый ключ,Keep the English technical term; distinguish it from private key.
+private_key,private key,秘密鍵,private key,закрытый ключ,Keep the English technical term; never include an actual private key in teaching text.
+home_directory,home directory,ホームディレクトリ,home directory,домашний каталог,Keep the English technical term; distinguish it from root directory.
+root_directory,root directory,ルートディレクトリ,root directory,корневой каталог,Keep the English technical term; distinguish it from root account.
+metadata,metadata,メタデータ,metadata,метаданные,Keep the English technical term in Uzbek.
+stdin,stdin,標準入力,stdin,стандартный ввод,Keep the English abbreviation and explain at first use.
+stdout,stdout,標準出力,stdout,стандартный вывод,Keep the English abbreviation and explain at first use.
+stderr,stderr,標準エラー出力,stderr,стандартный поток ошибок,Keep the English abbreviation and explain at first use.

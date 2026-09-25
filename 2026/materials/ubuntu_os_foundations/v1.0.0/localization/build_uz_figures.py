@@ -1,4 +1,4 @@
-"""Build Uzbek-labelled figures from reviewed Japanese diagrams and label map."""
+"""Build localized figures from reviewed Japanese diagrams and label map."""
 
 from __future__ import annotations
 
@@ -15,14 +15,16 @@ SOURCE = ROOT / "assets" / "figures"
 D2 = ROOT / "assets" / "figure-sources-v1.2" / "d2"
 TYPST = ROOT / "assets" / "figure-sources-v1.2" / "typst"
 OUT = SOURCE / "uz"
+LABELS_PATH = ROOT / "localization" / "figure_labels_uz.tsv"
+LABEL_COLUMN = "uz"
 JAPANESE = re.compile(r"[\u3040-\u30ff\u3400-\u9fff]")
 TYPST_NAMES = {"fig06-path-tree", "fig07-nano-workflow", "fig16-ss-output-anatomy"}
 
 
 def load_labels() -> dict[str, str]:
-    with (ROOT / "localization" / "figure_labels_uz.tsv").open(encoding="utf-8", newline="") as stream:
+    with LABELS_PATH.open(encoding="utf-8", newline="") as stream:
         rows = list(csv.DictReader(stream, delimiter="\t"))
-    labels = {row["ja"]: row["uz"] for row in rows}
+    labels = {row["ja"]: row[LABEL_COLUMN] for row in rows}
     if len(labels) != len(rows) or not all(labels.values()):
         raise ValueError("Figure label map contains duplicate or empty entries")
     return labels
@@ -97,7 +99,7 @@ def main() -> None:
             localize_typst(TYPST / f"{stem}.typ", labels, typst, Path(scratch))
     if len(list(OUT.glob("fig*.svg"))) != 21:
         raise ValueError("Expected 21 localized SVG figures")
-    print("Generated 21 Uzbek-labelled SVG figures")
+    print(f"Generated 21 localized SVG figures in {OUT}")
 
 
 if __name__ == "__main__":

@@ -37,7 +37,7 @@ powershell -ExecutionPolicy Bypass -File build/build_diagrams.ps1
 python build/build_materials.py
 ```
 
-図の生成先は`assets/figures/`である。HTMLとPDFの生成先は`output/html/`、`output/pdf/`である。出力file名には`_ja`などのlanguage codeを付ける。将来の英語、ウズベク語、ロシア語も同じ規則を使用する。
+図の生成先は`assets/figures/`である。HTMLとPDFの生成先は`output/html/`、`output/pdf/`である。出力file名には`_ja`、`_uz`、`_ru`などのlanguage codeを付ける。将来の英語版も同じ規則を使用する。
 
 ウズベク語版は次の順で確認・再生成する。翻訳そのものは自動翻訳プログラムではなく、`docs/uz/`のMarkdownで管理する。
 
@@ -47,7 +47,17 @@ python localization/build_uz_figures.py
 python build/build_uz_pdf.py
 ```
 
-`localization/figure_labels_uz.tsv`が図中ラベルの訳語正本である。21点のウズベク語図は`assets/figures/uz/`に、4冊のA4 PDFは`output/pdf/*_uz.pdf`に生成する。原稿の言語別配置は`docs/ja/`、`docs/uz/`を使用する。`docs/en/`と`docs/ru/`は原稿作成時に追加する。
+`localization/figure_labels_uz.tsv`が図中ラベルの訳語正本である。21点のウズベク語図は`assets/figures/uz/`に、4冊のA4 PDFは`output/pdf/*_uz.pdf`に生成する。原稿の言語別配置は`docs/ja/`、`docs/uz/`、`docs/ru/`を使用する。
+
+ロシア語版は、図中ラベルの訳語を`localization/figure_labels_ru.tsv`で管理する。訳したMarkdownを`docs/ru/`に置き、次の順で検証・再生成する。
+
+```bash
+python localization/check_ru.py
+python localization/build_ru_figures.py
+python build/build_ru_pdf.py
+```
+
+ロシア語図21点は`assets/figures/ru/`に、A4 PDF 4冊は`output/pdf/*_ru.pdf`に生成する。`docs/en/`は将来作成する。
 
 現行図はSVGである。PDF生成時には、同じ生成元から作る高解像度PNGを使用し、日本語の字体と配置を固定する。旧版のPNG 21点は比較と復元のために同じ`assets/figures/`へ保持するが、現行本文からは参照しない。
 

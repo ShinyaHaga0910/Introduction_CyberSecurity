@@ -7,7 +7,7 @@
     "en": { "role": "future_source", "status": "planned" },
     "ja": { "role": "current_source", "status": "reviewed" },
     "uz": { "role": "translation", "status": "draft_complete_pending_native_review", "method": "ChatGPT", "figures": 21, "pdfs": 4 },
-    "ru": { "role": "translation", "status": "planned" }
+    "ru": { "role": "translation", "status": "draft_complete_pending_native_review", "method": "ChatGPT", "figures": 21, "pdfs": 4 }
   },
   "chapters": [
     { "id": "ch01", "file": "textbook/01-os-and-system.md" },

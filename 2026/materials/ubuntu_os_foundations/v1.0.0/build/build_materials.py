@@ -282,14 +282,14 @@ def blocks_to_story(src: Path, pagebreak_h1=False):
             level,text = block[1],block[2]
             if level == 1 and pagebreak_h1 and not first_h1:
                 story.append(PageBreak())
-            if src.parent == TEXTBOOK and level == 2 and text in {"章末解答", "Bob yakunidagi javoblar"}:
+            if src.parent.name == "textbook" and level == 2 and text in {"章末解答", "Bob yakunidagi javoblar", "Ответы на вопросы главы"}:
                 story.append(PageBreak())
                 in_answers = True
             if level == 1: first_h1 = False
             story.append(Paragraph(inline_md(text), {1:H1,2:H2,3:H3,4:H3}.get(level,H3)))
-            question_follows = not in_answers and level == 3 and bool(re.fullmatch(r"問\d+", text))
+            question_follows = not in_answers and level == 3 and bool(re.fullmatch(r"(?:問\d+|Вопрос\s+\d+\.?)", text))
         elif kind == "p":
-            sty = CAP if block[1].startswith(("**図", "**写真")) or re.match(r"\*\*\d+-\d+-(?:rasm|foto)", block[1]) else QUESTION if question_follows else BODY
+            sty = CAP if block[1].startswith(("**図", "**写真", "**Рисунок", "**Фото")) or re.match(r"\*\*\d+-\d+-(?:rasm|foto)", block[1]) else QUESTION if question_follows else BODY
             story.append(Paragraph(inline_md(block[1]), sty))
             question_follows = False
         elif kind == "code":
@@ -307,7 +307,7 @@ def blocks_to_story(src: Path, pagebreak_h1=False):
             ip = (src.parent / block[2]).resolve()
             max_w,max_h = 170*mm,105*mm
             if ip.suffix.lower() == ".svg":
-                if ip.parent.name == "uz":
+                if ip.parent.name in {"uz", "ru"}:
                     pdf_raster = ip.with_suffix(".png")
                 else:
                     pdf_raster = ROOT / "assets" / "figure-sources-v1.2" / "generated" / f"{ip.stem}-pdf.png"
