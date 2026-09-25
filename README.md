@@ -20,7 +20,8 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 ├── v1.2.9/
 ├── ...
 ├── v1.4.3/
-└── v1.5.0/
+├── v1.5.0/
+└── v1.5.1/
     ├── README.md
     ├── install.sh
     ├── cloudformation/
@@ -36,13 +37,14 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 
 ## Release status
 
-`v1.5.0`が現在の推奨版です。完全手順付き演習P1～P6と、自力課題M0～M7を実装しています。M0には練習問題を設けません。M7は統合課題のため、対応するP7を設けません。P6とM6はUbuntu側2件とCloudShell側4件を別々に記録します。ローカル自動試験済みですが、AWS Academy Learner Lab実機での全受入試験は未完了です。
+`v1.5.1`が現在の推奨版です。完全手順付き演習P1～P6と、自力課題M0～M7を実装しています。M0には練習問題を設けません。M7は統合課題のため、対応するP7を設けません。P6とM6はUbuntu側2件とCloudShell側4件を別々に記録します。ローカル自動試験済みですが、AWS Academy Learner Lab実機での全受入試験は未完了です。
 
 ## Course materials
 
 オペレーティングシステムとLinuxの基本操作に関する教科書と生成元は、Labのversion directoryから分離して管理します。
 
-- [教材 v1.14.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.14.0/README.md)
+- [教材 v1.15.0（現在の推奨版）](./2026/materials/ubuntu_os_foundations/v1.15.0/README.md)
+- [教材 v1.14.0](./2026/materials/ubuntu_os_foundations/v1.14.0/README.md)
 - [教材 v1.13.0](./2026/materials/ubuntu_os_foundations/v1.13.0/README.md)
 - [教材 v1.12.0](./2026/materials/ubuntu_os_foundations/v1.12.0/README.md)
 - [教材 v1.11.0](./2026/materials/ubuntu_os_foundations/v1.11.0/README.md)
@@ -58,7 +60,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 - [教材 v1.1.0](./2026/materials/ubuntu_os_foundations/v1.1.0/README.md)
 - [教材 v1.0.0](./2026/materials/ubuntu_os_foundations/v1.0.0/README.md)
 
-教材には、章別Markdown、言語別directory、用語管理、図、図生成program、HTML/PDF生成program、設計・検証資料、配布用HTML/PDFを含みます。v1.14.0では、教科書の第13章を廃止し、12章と短い巻末まとめに整理しました。M7の自力課題はそのまま維持し、手順付きP7は追加していません。本文使用図20点に加え、旧fig19と旧版PNGを保持しています。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
+教材には、章別Markdown、言語別directory、用語管理、図、図生成program、設計・検証資料、配布用HTML/PDFを含みます。v1.15.0では、章末解答を問題の次ページに移し、第8章でMain PIDの読み方を説明しました。M7の自力課題はそのまま維持し、手順付きP7は追加していません。本文使用図20点に加え、旧fig19と旧版PNGを保持しています。英語を将来の翻訳原本とし、日本語、ウズベク語、ロシア語を同じ章IDで管理します。
 
 ## Version policy
 
@@ -72,7 +74,7 @@ Japan Digital Universityのサイバーセキュリティ授業で使用する�
 1. AWS Academy Learner Labへログインします。
 2. `Start Lab`を押します。
 3. AWS CloudShellを開きます。
-4. `2026/v1.5.0/install.sh`をダウンロードします。
+4. `2026/v1.5.1/install.sh`をダウンロードします。
 5. checksumを確認します。
 6. CloudFormation stackを作成します。
 7. `install.sh`がCloudShell専用SSH鍵と接続設定を作成します。

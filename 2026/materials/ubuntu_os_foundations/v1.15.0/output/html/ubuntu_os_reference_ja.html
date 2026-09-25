@@ -1,0 +1,102 @@
+<!doctype html><html lang='ja'><head><meta charset='utf-8'>
+<title>Ubuntu・OS基礎 参照資料</title><style>
+@page { size: A4; margin: 18mm; }
+body { max-width: 174mm; margin: 0 auto; font-family: 'Noto Sans JP','Yu Gothic',sans-serif; color:#172033; line-height:1.78; font-size:10.5pt; }
+h1 { color:#174E84; border-bottom:3px solid #79A9D7; padding-bottom:3mm; page-break-before:always; }
+h1:first-of-type { page-break-before:auto; }
+h2 { color:#245E9A; margin-top:9mm; border-left:4px solid #4A90C2; padding-left:3mm; }
+@media print { h2.chapter-answers { break-before: page; page-break-before: always; } }
+h3 { color:#315E79; margin-top:6mm; }
+p { text-align:justify; }
+code { font-family: Consolas,'Noto Sans Mono',monospace; background:#EEF2F7; padding:0 1mm; }
+pre { background:#172033; color:#F6F8FB; padding:4mm; border-radius:2mm; white-space:pre-wrap; overflow-wrap:anywhere; }
+img { display:block; max-width:100%; height:auto; margin:5mm auto 2mm; page-break-inside:avoid; }
+table { width:100%; border-collapse:collapse; margin:4mm 0; font-size:9pt; page-break-inside:auto; }
+th { background:#245E9A; color:white; }
+th,td { border:1px solid #CBD5E1; padding:2mm; vertical-align:top; }
+blockquote { background:#EEF4FB; border-left:4px solid #4A90C2; padding:3mm; }
+.cover { min-height:230mm; display:flex; flex-direction:column; justify-content:center; text-align:center; page-break-after:always; }
+.cover h1 { page-break-before:auto; font-size:26pt; border:0; }
+.meta { color:#526079; }
+</style></head><body>
+<section class='cover'><h1>Ubuntu・OS基礎 参照資料</h1><p class='meta'>Ubuntu Server 24.04 LTS / JDU Cyber Security<br>2026-09-25</p></section>
+<h1>Ubuntu・OS基礎 用語集・コマンド早見表</h1>
+<p>対象: Ubuntu Server 24.04 LTS / 公開Lab v1.5.1。本書は暗記表ではない。目的からコマンドを探し、必要なオプションと確認方法を本文で読み直すために使う。</p>
+<h2>用語集</h2>
+<table>
+<tr><th>日本語表記</th><th>English</th><th>意味</th></tr>
+<tr><td>OS</td><td>operating system</td><td>ハードウェアを管理し、プロセス、ファイル、アクセス制御、通信などの共通機能を提供する基本ソフトウェア（システム）</td></tr>
+<tr><td>カーネル</td><td>kernel</td><td>実行中OSの中核。CPU、メモリ、デバイス、プロセス、ファイル、ネットワークなどを管理する</td></tr>
+<tr><td>ユーザー空間</td><td>user space</td><td>シェル、コマンド、サービスなどの通常プログラムがカーネルから分離されて動作する領域</td></tr>
+<tr><td>ディストリビューション</td><td>distribution</td><td>Linuxカーネル、ツール群、パッケージ、初期設定、更新方針などを統合したOS体系。Ubuntuはその一例</td></tr>
+<tr><td>コマンドライン</td><td>command-line interface (CLI)</td><td>文字列（テキスト）で指示と結果をやり取りする操作方法（インターフェース）</td></tr>
+<tr><td>ターミナル</td><td>terminal</td><td>文字を入力し、結果を表示する画面・対話接続の環境</td></tr>
+<tr><td>シェル</td><td>shell</td><td>入力された文字列を解釈し、コマンドを実行するプログラム。本演習環境では主にBashを使用する</td></tr>
+<tr><td>ファイル</td><td>file</td><td>データ内容とメタデータを保持する、保存領域およびシステム表現の基本単位</td></tr>
+<tr><td>ディレクトリ</td><td>directory</td><td>ファイル名や他のディレクトリ名を対応付け、階層構造を構築する特殊なファイル</td></tr>
+<tr><td>パス</td><td>path</td><td>ディレクトリの階層構造を順にたどって対象の位置を指定する文字列</td></tr>
+<tr><td>所有者</td><td>owner</td><td>ファイルやディレクトリのメタデータに記録された所有ユーザー</td></tr>
+<tr><td>主グループ</td><td>primary group</td><td>ユーザーごとに基本として1件登録される主要グループ</td></tr>
+<tr><td>補助グループ</td><td>supplementary group</td><td>共有資源へのアクセス権などのため、ユーザーが追加で所属するグループ</td></tr>
+<tr><td>アクセス権（パーミッション）</td><td>permission</td><td>所有者（owner）、グループ（group）、その他（others）に対して読み取り（r）、書き込み（w）、実行（x）を許可する基本アクセス制御</td></tr>
+<tr><td>プログラム</td><td>program</td><td>ストレージ（保存領域）に保存された実行可能な命令群および関連ファイル</td></tr>
+<tr><td>プロセス</td><td>process</td><td>プログラムがメモリ上に読み込まれて実行されている状態。固有のPIDと実行資格情報を持つ</td></tr>
+<tr><td>パッケージ</td><td>package</td><td>ソフトウェアを構成するファイル群、バージョン、依存関係、導入手順をまとめた配布単位</td></tr>
+<tr><td>サービス</td><td>service</td><td>システムによって管理され、バックグラウンドで継続的に機能を提供するプログラムおよびその管理単位</td></tr>
+<tr><td>ユニット（unit）</td><td>unit</td><td>systemdがサービスなどを管理・制御するための設定単位</td></tr>
+<tr><td>ソケット</td><td>socket</td><td>プロセスがカーネルのネットワーク通信機能を利用するための出入口</td></tr>
+<tr><td>待受（listen）</td><td>listen</td><td>クライアントからの接続リクエストを受け付け可能なソケットの状態</td></tr>
+<tr><td>ループバック</td><td>loopback</td><td>同一ホスト内部へ折り返す仮想ネットワークインターフェース。IPv4の代表例は127.0.0.1</td></tr>
+<tr><td>ポート</td><td>port</td><td>同一ホスト内で動作する複数の通信窓口（プロセス）を識別するための番号</td></tr>
+<tr><td>ログ</td><td>log</td><td>プログラムやOSシステムが動作履歴、エラー、状態変化などを記録した情報</td></tr>
+<tr><td>ローカル</td><td>local</td><td>SSHやSCPの接続・転送を開始する側の環境。本演習ではAWS CloudShellを指す</td></tr>
+<tr><td>リモート</td><td>remote</td><td>SSHやSCPの接続・転送先となる遠隔サーバー環境。本演習ではUbuntu EC2を指す</td></tr>
+<tr><td>認証</td><td>authentication</td><td>接続や操作を要求している主体が本人であるかを確かめること（誰であるかの確認）</td></tr>
+<tr><td>認可</td><td>authorization</td><td>認証された主体に対して、対象リソースの操作を許可するか判断すること（何ができるかの決定）</td></tr>
+</table>
+<h2>必須コマンド</h2>
+<table>
+<tr><th>目的</th><th>コマンド・必要オプション</th><th>注意すべき点・誤解</th><th>操作後の確認</th></tr>
+<tr><td>現在位置</td><td><code>pwd</code></td><td>プロンプトの表示文字列だけで判断せず、現在位置を確認する</td><td>出力されたパスとホスト名・ユーザー名を照合する</td></tr>
+<tr><td>移動</td><td><code>cd PATH</code>、<code>cd ..</code>、<code>cd ~</code></td><td>相対パスはカレントディレクトリ（現在位置）に依存する</td><td><code>pwd</code></td></tr>
+<tr><td>一覧</td><td><code>ls -la</code>、<code>ls -ld DIR</code></td><td><code>-l DIR</code>はディレクトリ内の項目一覧を表示し、<code>-ld DIR</code>はディレクトリ自身の属性を表示する</td><td>必要に応じて<code>stat</code>や<code>tree</code>を併用する</td></tr>
+<tr><td>階層表示</td><td><code>tree PATH</code></td><td>階層構造は把握できるが、ファイル内容やアクセス権までは網羅しない</td><td><code>ls -l</code>等と併用する</td></tr>
+<tr><td>ディレクトリ作成</td><td><code>mkdir -p PATH</code></td><td>意図しない階層パスを誤作成しない</td><td><code>tree</code>、<code>ls -ld</code></td></tr>
+<tr><td>コピー</td><td><code>cp SOURCE DEST</code></td><td>コピー元とコピー先の順序間違い、意図しない上書きに注意する</td><td><code>cat</code>、<code>sha256sum</code></td></tr>
+<tr><td>移動・改名</td><td><code>mv SOURCE DEST</code></td><td>移動先への不用意な上書きに注意する</td><td><code>ls</code></td></tr>
+<tr><td>削除</td><td><code>rm FILE</code></td><td>通常のGUIのような「ごみ箱」はない。演習課題では安全のため<code>rm -rf</code>を使用しない</td><td>実行前に<code>pwd</code>と<code>ls</code>で対象を確認し、実行後に不在を確認する</td></tr>
+<tr><td>編集</td><td><code>nano FILE</code></td><td>意図したファイル名・パスで保存したか、未保存のまま終了していないか確認する</td><td>Ctrl+O、Enterで保存し、Ctrl+Xで終了後、<code>cat</code>で内容を再確認する</td></tr>
+<tr><td>内容表示</td><td><code>cat FILE</code>、<code>less FILE</code></td><td>バイナリファイルや極端に巨大なファイルを不用意に<code>cat</code>しない</td><td><code>less</code>は<code>q</code>で終了する</td></tr>
+<tr><td>検索</td><td><code>grep [-F] PATTERN FILE</code></td><td><code>-n</code>は行番号を付加する。課題の提出要件に行番号が含まれていない場合は付けない</td><td>出力された一致行と終了ステータスを確認する</td></tr>
+<tr><td>末尾</td><td><code>tail -n N FILE</code></td><td><code>-n</code>は出力行数を指定する（<code>grep -n</code>の行番号表示とは意味が異なる）</td><td>行数と順序を確認する</td></tr>
+<tr><td>標準出力を保存</td><td><code>&gt;</code>、<code>&gt;&gt;</code></td><td><code>&gt;</code>は既存内容を切り詰めて（空にして）上書きする。入力元と同じファイルを指定すると内容を失う</td><td><code>cat</code>、<code>wc -l</code></td></tr>
+<tr><td>コマンド接続</td><td><code>|</code></td><td>標準出力だけが渡され、標準エラー出力（stderr）はパイプを流れない</td><td>パイプで連結する前に、各コマンドを単独でも実行して動作を確認する</td></tr>
+<tr><td>ユーザー/グループ</td><td><code>id [USER]</code>、<code>groups [USER]</code></td><td>アカウントの登録情報と、起動済みセッションが保持する資格情報を区別する</td><td>新しいセッション（ログインシェル）を開始した上で<code>id</code>を実行する</td></tr>
+<tr><td>アカウントDB</td><td><code>getent passwd USER</code>、<code>getent group GROUP</code></td><td>グループエントリの末尾一覧には、そのグループを主グループとしているユーザーが含まれない場合がある</td><td><code>id USER</code>と併用して確認する</td></tr>
+<tr><td>ユーザー切り替え</td><td><code>sudo su - USER</code>、<code>exit</code></td><td>シェルが多重に入れ子になる点に注意する。演習用一般ユーザーにはsudo権限がない</td><td>切り替えのたびに<code>id -un</code>や<code>pwd</code>で現在状態を確認する</td></tr>
+<tr><td>1コマンドだけ別ユーザー</td><td><code>sudo -u USER -- COMMAND</code></td><td>rootでの実行成功を、対象ユーザーでも成功する証拠とみなさない</td><td>実行直後に<code>echo $?</code>で終了ステータスを確認する</td></tr>
+<tr><td>グループ追加</td><td><code>usermod -aG GROUP USER</code></td><td><code>-a</code>なしで<code>-G</code>を指定すると、記載しなかった既存の補助グループから除外される</td><td><code>id USER</code>を実行し、新しいセッションで確認する</td></tr>
+<tr><td>グループ削除</td><td><code>gpasswd -d USER GROUP</code></td><td>ユーザー名とグループ名の指定順序に注意する</td><td><code>id USER</code></td></tr>
+<tr><td>所有者/グループ変更</td><td><code>chown OWNER:GROUP PATH</code></td><td>再帰的変更（<code>-R</code>）による影響範囲に注意する</td><td><code>stat -c &#x27;%U:%G %a %n&#x27;</code></td></tr>
+<tr><td>モード変更</td><td><code>chmod MODE PATH</code></td><td>安易に<code>777</code>を設定しない。ファイルとディレクトリで実行権限（x）の意味が異なる</td><td><code>stat</code>や別ユーザーでの<code>test</code>コマンドで確認する</td></tr>
+<tr><td>プロセス一覧</td><td><code>ps -e -o ...</code>、<code>ps -p PID -o ...</code></td><td>教科書の例示PIDをそのまま入力しない</td><td>ユーザー名、コマンド名、PIDが一致していることを照合する</td></tr>
+<tr><td>シグナル送信</td><td><code>kill -TERM PID</code></td><td>PID変数が空、0、負値、1（PID 1）でないことを確認する。PIDに対して<code>pkill</code>を使わない</td><td><code>ps</code>やサービスの稼働状態で終了を確認する</td></tr>
+<tr><td>パッケージ情報・導入</td><td><code>apt show NAME</code>、<code>sudo apt update</code>、<code>sudo apt install NAME</code></td><td><code>apt update</code>（一覧更新）と<code>apt upgrade</code>（本体更新）の違いを理解する。演習環境で無関係な全体更新を行わない</td><td><code>command -v</code>、<code>dpkg-query</code></td></tr>
+<tr><td>サービス設定</td><td><code>systemctl cat UNIT</code></td><td>演習用のユニットファイルを直接編集しない</td><td><code>User</code>、<code>WorkingDirectory</code>、<code>ExecStart</code>の各項目を確認する</td></tr>
+<tr><td>サービス状態</td><td><code>systemctl status/start/stop</code></td><td>active（起動中）であることだけで、機能全体が正常に動作していると判断しない</td><td><code>is-active</code>、MainPID、curlなどで多角的に確認する</td></tr>
+<tr><td>起動時自動起動</td><td><code>systemctl enable/disable UNIT</code></td><td>即時起動（<code>start</code>/<code>stop</code>）と自動起動設定（<code>enable</code>/<code>disable</code>）は別軸である</td><td><code>is-enabled</code></td></tr>
+<tr><td>Main PID取得</td><td><code>systemctl show -p MainPID --value UNIT</code></td><td>Main PIDが0、空、または再起動前の古い値でないか注意する</td><td><code>ps -p PID</code></td></tr>
+<tr><td>ソケット状態</td><td><code>sudo ss -lntp</code></td><td>アドレス、ポート番号、プロセスPIDをすべて照合する</td><td>サービスのMain PIDと比較する</td></tr>
+<tr><td>HTTP疎通</td><td><code>curl -i URL</code>、必要時<code>--max-time</code></td><td>TCP接続の成功、HTTPステータスコード、応答本文の内容はそれぞれ個別に確認する</td><td>ステータスライン、本文、終了ステータスを確認する</td></tr>
+<tr><td>ジャーナルログ</td><td><code>sudo journalctl -u UNIT --no-pager -n N</code></td><td>過去の古い起動ログと、現在の実行ログを混同しない</td><td>指定されたリクエストパスが記録されているか確認する</td></tr>
+<tr><td>SSH接続</td><td><code>ssh HOST</code>、<code>ssh HOST &#x27;COMMAND&#x27;</code></td><td>ホストエイリアスとDNSホスト名の違い、クォートによるローカル/リモートでの変数展開の違い、秘密鍵の保護に注意する</td><td><code>id -un</code>、<code>hostname</code>、<code>pwd</code>で接続先環境を確認する</td></tr>
+<tr><td>SCPファイル転送</td><td><code>scp SOURCE DEST</code></td><td>転送元（source）と転送先（destination）の取り違え、不用意な上書きに注意する</td><td>両環境で<code>sha256sum</code>を比較し、リモート側で<code>stat</code>を確認する</td></tr>
+</table>
+<h2>授業内で使うが暗記不要</h2>
+<p><code>uname -r</code>、<code>hostname</code>、<code>find</code>、<code>touch</code>、<code>stat</code>、<code>namei -l</code>、<code>test -r/-w</code>、<code>echo $?</code>、<code>printf</code>、<code>command -v</code>、<code>dpkg-query</code>、<code>dpkg -S</code>、<code>sha256sum</code>、<code>readlink</code>、<code>tr</code>、<code>/proc/PID/</code>。</p>
+<p>目的と出力の読み方を本文で確認し、必要なときにマニュアル（<code>man</code>/<code>help</code>）や本早見表を参照する。</p>
+<h2>後続単元で扱うコマンド</h2>
+<p><code>ip</code>、<code>ping</code>、<code>dig</code>、<code>tcpdump</code>、<code>mount</code>、<code>df</code>、<code>psql</code>。本書では関連性を示すにとどめ、詳細な設定や操作はネットワーク、ストレージ、DNS、データベースの各単元で扱う。</p>
+<h2>本書の対象外</h2>
+<p>カーネルのビルドやデバッグ、CPU命令の内部処理、メモリページ置換アルゴリズム、ディスクI/Oスケジューラの操作、ファイルシステムの作成・パーティション変更、外部ホストへのポートスキャン、SSHサーバーの設定変更。</p>
+</body></html>

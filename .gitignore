@@ -4,6 +4,8 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
+__pycache__/
+*.pyc
 
 # AWS and local credentials
 .aws/

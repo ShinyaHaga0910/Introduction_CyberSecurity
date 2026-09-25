@@ -1,0 +1,25 @@
+...@theme
+
+direction: right
+
+users: ユーザー {
+  class: boundary
+  ssm: ssm-user { class: identity }
+  writer: jduwriter { class: identity }
+  viewer: jduviewer { class: identity }
+}
+
+groups: グループ {
+  class: boundary
+  ssm: ssm-userグループ { class: neutral }
+  writer: jduwriterグループ { class: neutral }
+  viewer: jduviewerグループ { class: neutral }
+  ops: ops共有グループ { class: app }
+}
+
+users.ssm -> groups.ssm: プライマリ
+users.writer -> groups.writer: プライマリ
+users.viewer -> groups.viewer: プライマリ
+users.ssm -> groups.ops: 補助
+users.writer -> groups.ops: 補助
+users.viewer -> groups.ops: 補助から外す { style.stroke-dash: 4; style.stroke: "#B33A3A" }
