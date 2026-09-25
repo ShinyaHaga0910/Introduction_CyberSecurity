@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -u
 
-STACK_NAME="jdu-intro-cybersecurity-2026-v120"
+STACK_NAME="jdu-intro-cybersecurity-2026"
 REGION="${AWS_REGION:-${AWS_DEFAULT_REGION:-}}"
 WAIT=false
 PASS_COUNT=0

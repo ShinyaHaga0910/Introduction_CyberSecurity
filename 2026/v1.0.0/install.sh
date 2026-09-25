@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 VERSION="v1.0.0"
-STACK_NAME="jdu-intro-cybersecurity-2026-v150"
+STACK_NAME="jdu-intro-cybersecurity-2026"
 INSTANCE_TYPE="t3.micro"
 INSTANCE_PROFILE_NAME="LabInstanceProfile"
 REGION="${AWS_REGION:-${AWS_DEFAULT_REGION:-}}"
